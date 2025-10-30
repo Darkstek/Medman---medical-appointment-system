@@ -1,0 +1,13 @@
+{
+  "uuSubAppDataStore": {
+    "primary": {
+      "type": "uuAppObjectStore",
+      "realization": "MongoDB",
+      "schemaMap": {
+        "medmanMain": {
+          "realization": "dao/MedmanMainMongo"
+        }
+      }
+    }
+  }
+}
