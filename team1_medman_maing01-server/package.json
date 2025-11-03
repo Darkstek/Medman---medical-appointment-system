@@ -6,10 +6,7 @@
   "spec": "nodejs-app; uu_appg01_devkit@6.8.0",
   "dependencies": {
     "uu_appg01_server": "^6.0.0",
-    "uu_apprepresentationg01": "^3.0.0",
-    "uu_consoleg02-uulib": "^1.0.0",
-    "uu_i18ng01": "^1.0.0",
-    "uu_territory_clientg01": "^2.0.0"
+    "uu_apprepresentationg01": "^3.0.0"
   },
   "devDependencies": {
     "uu_appg01_devkit": "^6.8.0",
@@ -41,6 +38,7 @@
     "uuCmdCreate": "uu_appg01_devkit uuCmdCreate",
     "uuAppDevKitUpgrade": "uu_appg01_devkit uuAppDevKitUpgrade",
     "createUuCommandLineApiClient": "uu_appg01_devkit createUuCommandLineApiClient",
+    "uu-safe-install": "npx uu-safe-install",
     "uuCloudg02AppBoxCopy": "uu_cloudg02-devkit appBoxCopy",
     "uuCloudg02AppBoxExport": "uu_cloudg02-devkit appBoxExport",
     "uuCloudg02AppBoxImport": "uu_cloudg02-devkit appBoxImport",
@@ -51,8 +49,7 @@
     "uuCloudg02LogExport": "uu_cloudg02-devkit logExport",
     "uuCloudg02Swap": "uu_cloudg02-devkit swap",
     "uuCloudg02Undeploy": "uu_cloudg02-devkit undeploy",
-    "uuCloudg02VulnerabilityScan": "uu_cloudg02-devkit vulnerabilityScan",
-    "uu-safe-install": "npx uu-safe-install"
+    "uuCloudg02VulnerabilityScan": "uu_cloudg02-devkit vulnerabilityScan"
   },
   "main": "app.js",
   "files": [

@@ -1,50 +1,17 @@
 "use strict";
-const InitAbl = require("../../abl/medman-main/init-abl.js");
-const InitRollbackAbl = require("../../abl/medman-main/init-rollback-abl.js");
-const LoadAbl = require("../../abl/medman-main/load-abl.js");
-const SetStateClosedAbl = require("../../abl/medman-main/set-state-closed-abl.js");
-const ClearAbl = require("../../abl/medman-main/clear-abl.js");
-const CommenceAbl = require("../../abl/medman-main/commence-abl.js");
+const MedmanMainAbl = require("../../abl/medman-main-abl.js");
 
 class MedmanMainController {
   init(ucEnv) {
-    return InitAbl.init(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  _initFinalize(ucEnv) {
-    return InitAbl._initFinalize(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  _initFinalizeRollback(ucEnv) {
-    return InitRollbackAbl._initFinalizeRollback(ucEnv.getUri(), ucEnv.getDtoIn());
+    return MedmanMainAbl.init(ucEnv.getUri(), ucEnv.getDtoIn(), ucEnv.getSession());
   }
 
   load(ucEnv) {
-    return LoadAbl.load(ucEnv.getUri(), ucEnv.getSession(), ucEnv.getAuthorizationResult());
+    return MedmanMainAbl.load(ucEnv.getUri(), ucEnv.getSession());
   }
 
   loadBasicData(ucEnv) {
-    return LoadAbl.loadBasicData(ucEnv.getUri(), ucEnv.getSession());
-  }
-
-  setStateClosed(ucEnv) {
-    return SetStateClosedAbl.setStateClosed(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  _setStateClosedFinalize(ucEnv) {
-    return SetStateClosedAbl._setStateClosedFinalize(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  clear(ucEnv) {
-    return ClearAbl.clear(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  _clearFinalize(ucEnv) {
-    return ClearAbl._clearFinalize(ucEnv.getUri(), ucEnv.getDtoIn());
-  }
-
-  commence(ucEnv) {
-    return CommenceAbl.commence(ucEnv.getUri(), ucEnv.getDtoIn());
+    return MedmanMainAbl.loadBasicData(ucEnv.getUri(), ucEnv.getSession());
   }
 }
 

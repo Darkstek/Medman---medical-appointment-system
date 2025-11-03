@@ -47,7 +47,7 @@
     }
   },
   "uuAppPackRuntimeStackMap": {
-    "uuAppPack01": "docker://uuapp-dev-repo.plus4u.net/runtimestacks/uu_appruntimestackg02-nodejs:2"
+    "uuAppPack01": "docker://uuapp-dev-repo.plus4u.net/runtimestacks/uu_appruntimestackg02-nodejs:1.0"
   },
   "uuSubAppDeploymentConfig": {
     "uuAppResourcePoolOid": "----- VALUE REQUIRED -----",
@@ -60,9 +60,9 @@
   "uuAppServerEnvironment": {
     "uu_app_secretstore_enable_encryption": true,
     "uu_app_secretstore_master_key_active_slot": "slot1",
-    "uu_app_secretstore_master_key1_slot1": "-[V/F)|LKXd$8J^;yPDji71YAQxh3VG{*p>cdQvIBM0[<Cd!Ajg;O]{A2W+CsJm&",
+    "uu_app_secretstore_master_key1_slot1": "-^X}ks^:}}SbK?2Tl?[^QMU>;(}Ccbk[!+G5q8J6t#S|Rs0kxS+GE^/tGG@UOQ2t",
     "asid_license_owner_list": [
-      "11-3519-1"
+      "8967-497-2614-0000"
     ],
     "uu_app_oidc_providers_oidcg02_uri": "https://uuapp-dev.plus4u.net/uu-oidc-maing02/eca71064ecce44b0a25ce940eb8f053d/oidc",
     "uu5g05_libraryRegistryBaseUri": "https://uuapp-dev.plus4u.net/uu-applibraryregistry-maing01/000008ad5570455e83857a394f9a21c9",
@@ -72,5 +72,6 @@
     "uu_plus4u5g02_peopleBaseUri": "https://uuapp-dev.plus4u.net/uu-plus4upeople-maing01/0000004723544d1ab0b74000d9f7671c",
     "uu_plus4u5g02_organizationBaseUri": "https://uuapp-dev.plus4u.net/uu-plus4uorganization-maing01/00000e17cfda49f49db73ed53ac8e4cf",
     "uu_app_objectstore_insert_oid": "all"
-  }
+  },
+  "secretListMap": {}
 }

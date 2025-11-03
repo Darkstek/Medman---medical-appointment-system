@@ -11,35 +11,14 @@
     "serverSide": "<uu5string/>Pro spuštení serverové části je potřeba provést inicializaci workspace podle návodu viz <Uu5Elements.Link href=\"https://uuapp.plus4u.net/uu-bookkit-maing01/e884539c8511447a977c7ff070e7f2cf/book/page?code=stepByStepApp\" target=\"_blank\">uuApp Template Developer Guide</Uu5Elements.Link>"
   },
   "InitAppWorkspace": {
-    "missedInitFields": "Pole „mode“ , „data.locationId“, „data.locationId“ a „data.uuTerritoryBaseUri jsou povinná!",
-    "retryFormHeaderInfo": "<uu5string/>Vaše uuApp běží, ale vyžaduje inicializaci. Pokud potřebujete pomoc s vyplněním tohoto formuláře, viz  <Uu5Elements.Link target=\"_blank\" href=\"https://uuapp.plus4u.net/uu-bookkit-maing01/48f350f7c3a9450bb3941c4d9ecbd874/book/page?code=99067457\">Documentation</Uu5Elements.Link>.",
-    "rollback": "Inicializace vrácení zpět",
+    "notAuthorized": "Nemáte dostatečná práva k použití aplikace.",
+    "notAuthorizedForInit": "Aplikace běží, ale ještě nebyla inicializována a nemáte práva ji inicializovat.",
     "formHeader": "Inicializovat aplikaci",
-    "infoHeader": "Info o uuAppWorkspace",
     "formHeaderInfo": "<uu5string/>Vaše uuApp běží, ale vyžaduje inicializaci. Pokud potřebujete pomoci s vyplněním tohoto formuláře, podívejte se do\n<Uu5Elements.Link target=\"_blank\" href=\"#\">Dokumentace</Uu5Elements.Link>.",
-    "waitForConsoleInfo": "Console bude vytvořena v některém z dalších kroků...",
-    "notInitializedHeader": "uuAppWorkspace nebyl inicializován",
-    "authorizedInfo": "Jste oprávněni inicializovat %s. Inicializaci zahájíte kliknutím na tlačítko \"Inicializovat\". Chcete-li získat další informace, klikněte na \"Podrobnější info\".",
-    "beingInitializedHeader": "uuAppWorkspace je právě inicializován",
-    "beingInitializedAuthorizedInfo": "Jste oprávněni inicializovat %s. Chcete-li inicializaci změnit, klikněte na tlačítko \"Opakujte inicializaci\" nebo \"Inicializace vrácení zpět\". Chcete-li získat další informace, klikněte na \"Podrobnější info\".",
-    "notAuthorizedInfo": "Nemáte oprávnění k inicializaci uuAppWorkspace.",
-    "initialize": "Inicializovat",
-    "retryInitialization": "Opakovat inicializaci",
-    "rollbackInitialization": "Rollbacknout inicializaci",
-    "openInitialize": "Otevřít inicializaci",
-    "getInfo": "Podrobnější info",
-    "close": "Zavřít",
-    "wrongDtoInFormat": "Nesprávné DtoIn",
-    "wrongRollbackMode": "Pouze rollback mode je podporován.",
-    "initCmdFailed": "Init uuCmd neproběhl",
-    "uuCmdSuccess": "Init uuCmd skončil",
-    "uuCmdSuccessMessage": "Inicializace byla dokončena, stránka se přenačte za 3 sekundy.",
-    "uuCmdSuccessRollback": "Init uuCmd s rollback mode skončil.",
-    "uuCmdSuccessRollbackMessage": "Inicializace s rollbackem byla dokončena, stránka se přenačte za 3 sekundy."
-  },
-  "RetryInitForm": {
-    "beingInitializedHeader": "uuAppWorkspace je právě inicializován",
-    "beingInitializedAuthorizedInfo": "You are authorized to initialize #mtpo. To change initialization, click \"Retry\" or \"Rollback\". To get more info, click \"Get Info\"."
+    "uuBtLocationUriLabel": "Umístění uuBusinessTerritory",
+    "uuBtLocationUriInfo": "Uri uuBt umístění kam bude založen AWSC",
+    "nameLabel": "Název",
+    "initialize": "Inicializovat"
   },
   "Menu": {
     "home": "Vítejte",

@@ -1,23 +1,8 @@
 {
   "{vendor}-{uuApp}-{uuSubApp}": {
     "useCaseMap": {
-      "sys/uuSubAppInstance/commence": {
-        "realization": "api/controllers/MedmanMainController.commence",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
       "sys/uuAppWorkspace/init": {
         "realization": "api/controllers/MedmanMainController.init",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/_initFinalize": {
-        "realization": "api/controllers/MedmanMainController._initFinalize",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/_initFinalizeRollback": {
-        "realization": "api/controllers/MedmanMainController._initFinalizeRollback",
         "httpMethod": "POST",
         "type": "CMD"
       },
@@ -29,26 +14,6 @@
       "sys/uuAppWorkspace/loadBasicData": {
         "realization": "api/controllers/MedmanMainController.loadBasicData",
         "httpMethod": "GET",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/setStateClosed": {
-        "realization": "api/controllers/MedmanMainController.setStateClosed",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/_setStateClosedFinalize": {
-        "realization": "api/controllers/MedmanMainController._setStateClosedFinalize",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/clear": {
-        "realization": "api/controllers/MedmanMainController.clear",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
-      "sys/uuAppWorkspace/_clearFinalize": {
-        "realization": "api/controllers/MedmanMainController._clearFinalize",
-        "httpMethod": "POST",
         "type": "CMD"
       },
       "defaultUve": {

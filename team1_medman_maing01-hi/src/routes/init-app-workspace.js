@@ -1,29 +1,49 @@
 //@@viewOn:imports
-import { createVisualComponent, useDataObject } from "uu5g05";
-import { useSubAppData } from "uu_plus4u5g02";
+import { createVisualComponent, Utils, Lsi, useDataObject, Environment } from "uu5g05";
+import Uu5Elements from "uu5g05-elements";
+import Uu5Forms from "uu5g05-forms";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Calls from "calls";
 
 import Config from "./config/config.js";
-import InitAuthorized from "../core/init-components/init-authorized.js";
-import NotAuthorized from "../core/init-components/not-authorized.js";
-import BeingInitializedAuthorized from "../core/init-components/being-initialized-authorized.js";
+import RouteBar from "../core/route-bar.js";
+import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const RELATIVE_URI_REGEXP = new RegExp(/^\/[^/]/);
 //@@viewOff:constants
 
 //@@viewOn:css
 const Css = {
   main: () =>
     Config.Css.css({
-      maxWidth: 1024,
+      maxWidth: 512,
       margin: "auto",
+    }),
+  formControls: () =>
+    Config.Css.css({
+      marginTop: 24,
+      textAlign: "right",
     }),
 };
 //@@viewOff:css
 
 //@@viewOn:helpers
+async function save(values) {
+  let originalUrl = new URLSearchParams(window.location.search).get("originalUrl");
+  let workspace = await Calls.initAndGetWorkspace(values);
+  let redirectPath;
+  if (workspace && workspace.artifactUri) {
+    redirectPath = Environment.appBaseUri + "controlPanel";
+  } else if (originalUrl && RELATIVE_URI_REGEXP.test(originalUrl)) {
+    redirectPath = originalUrl;
+  } else {
+    redirectPath = Environment.appBaseUri;
+  }
+  window.location.replace(redirectPath);
+  return new Promise(() => {}); // don't resolve - we'll keep form disabled until reload happens
+}
 //@@viewOff:helpers
 
 let InitAppWorkspace = createVisualComponent({
@@ -39,32 +59,73 @@ let InitAppWorkspace = createVisualComponent({
   defaultProps: {},
   //@@viewOff:defaultProps
 
-  render() {
+  render(props) {
     //@@viewOn:private
-    const { data: subAppData } = useSubAppData();
-    const { data, state } = useDataObject({
+    const { state, data, errorData } = useDataObject({
       handlerMap: { load: Calls.loadIdentityProfiles },
     });
     //@@viewOff:private
 
     //@@viewOn:render
     let child;
-    if (state === "pending" || state === "pendingNoData") {
+
+    if (state === "error" || state === "errorNoData") {
+      child = (
+        <Plus4U5App.Error error={errorData?.error}>
+          <Lsi import={importLsi} path={["InitAppWorkspace", "notAuthorized"]} />
+        </Plus4U5App.Error>
+      );
+    } else if (state === "pending" || state === "pendingNoData") {
       child = <Plus4U5App.SpaPending />;
-    } else if (!Array.isArray(data.authorizedProfileList) || !data.authorizedProfileList.length) {
-      // user is not authorized to init / retry init
-      child = <NotAuthorized />;
     } else {
-      if (!subAppData?.state) {
-        // uuApp being initialized for the first time
-        child = <InitAuthorized />;
+      if (Array.isArray(data.authorizedProfileList) && data.authorizedProfileList.length > 0) {
+        const attrs = Utils.VisualComponent.getAttrs(props, Css.main());
+        child = (
+          <div {...attrs}>
+            <Uu5Elements.Block
+              header={
+                <Uu5Elements.Text category="story" segment="heading" type="h2">
+                  <Lsi import={importLsi} path={["InitAppWorkspace", "formHeader"]} />
+                </Uu5Elements.Text>
+              }
+              info={<Lsi import={importLsi} path={["InitAppWorkspace", "formHeaderInfo"]} />}
+              collapsible={false}
+            >
+              <Uu5Forms.Form onSubmit={async (e) => save(e.data.value)}>
+                <Uu5Forms.FormText
+                  required
+                  name="uuBtLocationUri"
+                  label={<Lsi import={importLsi} path={["InitAppWorkspace", "uuBtLocationUriLabel"]} />}
+                  info={<Lsi import={importLsi} path={["InitAppWorkspace", "uuBtLocationUriInfo"]} />}
+                />
+                <Uu5Forms.FormText
+                  name="name"
+                  label={<Lsi import={importLsi} path={["InitAppWorkspace", "nameLabel"]} />}
+                />
+
+                <div className={Css.formControls()}>
+                  <Uu5Forms.SubmitButton colorScheme="primary">
+                    <Lsi import={importLsi} path={["InitAppWorkspace", "initialize"]} />
+                  </Uu5Forms.SubmitButton>
+                </div>
+              </Uu5Forms.Form>
+            </Uu5Elements.Block>
+          </div>
+        );
       } else {
-        // uuApp being initialized before (there is uuApp state)
-        child = <BeingInitializedAuthorized />;
+        child = (
+          <Plus4U5App.Error>
+            <Lsi import={importLsi} path={["InitAppWorkspace", "notAuthorizedForInit"]} />
+          </Plus4U5App.Error>
+        );
       }
     }
-
-    return <div className={Css.main()}>{child}</div>;
+    return (
+      <>
+        <RouteBar />
+        {child}
+      </>
+    );
   },
   //@@viewOff:render
 });
