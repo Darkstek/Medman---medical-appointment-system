@@ -6,6 +6,9 @@
       "schemaMap": {
         "medmanMain": {
           "realization": "dao/MedmanMainMongo"
+        },
+        "doctor": {
+          "realization": "dao/DoctorMongo"
         }
       }
     }

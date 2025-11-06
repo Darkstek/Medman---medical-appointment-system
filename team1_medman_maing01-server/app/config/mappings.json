@@ -35,6 +35,11 @@
         "realization": "api/controllers/TelemetryDataController.sysLogTelemetryData",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "sys/uuAppWorkspace/initDemo": {
+        "realization": "api/controllers/DemoController.sysUuAppWorkspaceInitDemo",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

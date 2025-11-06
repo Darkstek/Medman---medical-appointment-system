@@ -1,6 +1,6 @@
 {
   "{asid}": {
-    "profileList": ["AsidAuthorities", "AsidExecutives", "AsidLicenseOwner", "Public"],
+    "profileList": ["AsidAuthorities", "AsidExecutives", "AsidLicenseOwner", "Public", "AwidLicenseOwner", "AwidInitiator"],
     "useCaseMap": {
       "sys/logTelemetryData": {
         "sysStateList": ["active"],
@@ -9,10 +9,34 @@
     }
   },
   "*": {
-    "profileList": ["Authorities", "Executives", "AwidLicenseOwner", "Public", "Authenticated", "AwidInitiator"],
+    "profileList": ["Authorities", "Executives", "AwidLicenseOwner", "Public", "Authenticated", "AwidInitiator", "Patient", "Doctor"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
         "sysStateList": ["created", "assigned"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/permission/create": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/permission/list": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/profile/get": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/profile/set": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/profile/update": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner", "AwidInitiator"]
+      },
+      "sys/uuAppWorkspace/profile/list": {
+        "sysStateList": ["active"],
         "profileList": ["AwidLicenseOwner", "AwidInitiator"]
       },
       "sys/uuAppWorkspace/load": {
@@ -37,6 +61,10 @@
       "sys/logTelemetryData": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
+      },
+      "sys/uuAppWorkspace/initDemo": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidLicenseOwner","AwidInitiator"]
       }
     }
   }

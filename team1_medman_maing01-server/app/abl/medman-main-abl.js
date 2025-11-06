@@ -1,6 +1,6 @@
 "use strict";
 const { Validator } = require("uu_appg01_server").Validation;
-const { DaoFactory, ObjectStoreError } = require("uu_appg01_server").ObjectStore;
+const { DaoFactory } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
 const { Profile, AppClientTokenService, UuAppWorkspace, UuAppWorkspaceError } = require("uu_appg01_server").Workspace;
 const { UriBuilder } = require("uu_appg01_server").Uri;
@@ -34,7 +34,7 @@ class MedmanMainAbl {
     );
 
     // HDS 2
-    const schemas = ["medmanMain"];
+    const schemas = ["medmanMain", "doctor"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
