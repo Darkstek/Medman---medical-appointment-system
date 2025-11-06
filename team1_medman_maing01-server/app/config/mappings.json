@@ -30,6 +30,11 @@
         "realization": "api-console.html",
         "httpMethod": "GET",
         "type": "UVE"
+      },
+      "sys/logTelemetryData": {
+        "realization": "api/controllers/TelemetryDataController.sysLogTelemetryData",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }
