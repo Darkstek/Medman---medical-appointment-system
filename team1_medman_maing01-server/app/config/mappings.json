@@ -40,6 +40,16 @@
         "realization": "api/controllers/DemoController.sysUuAppWorkspaceInitDemo",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "doctor/create": {
+        "realization": "api/controllers/DoctorController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "doctor/get": {
+        "realization": "api/controllers/DoctorController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
