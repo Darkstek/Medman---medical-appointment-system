@@ -99,6 +99,9 @@ class DoctorAbl {
           slot.start >= dtoIn.availableBetween.start && slot.end <= dtoIn.availableBetween.end)
       });
     }
+    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing doctors with any status
+      doctorList.itemList = doctorList.itemList.filter(doctor => doctor.status === dtoIn.status);
+    }
 
     // reorder pageInfo and itemList
     return {pageInfo: doctorList.pageInfo, itemList: doctorList.itemList, uuAppErrorMap};
@@ -123,36 +126,38 @@ class DoctorAbl {
    * @return {Object} The constructed filter object.
    * @*/
   _createFilterFrom(dtoIn) {
-    let filter = {};
+    let filter = [];
     if (dtoIn.firstName) {
-      filter.firstName = {$regex: dtoIn.firstName, $options: "i"};
+      filter.push({firstName: {$regex: dtoIn.firstName, $options: "i"}});
     }
     if (dtoIn.lastName) {
-      filter.lastName = {$regex: dtoIn.lastName, $options: "i"};
+      filter.push({lastName: {$regex: dtoIn.lastName, $options: "i"}});
     }
     if (dtoIn.specialization) {
-      filter.specialization = {$regex: dtoIn.specialization, $options: "i"};
+      filter.push({specialization: {$regex: dtoIn.specialization, $options: "i"}});
     }
     if (dtoIn.phoneNumber) {
-      filter.phoneNumber = {$regex: dtoIn.phoneNumber, $options: "i"};
+      filter.push({phoneNumber: {$regex: dtoIn.phoneNumber, $options: "i"}});
     }
     if (dtoIn.emailAddress) {
-      filter.emailAddress = {$regex: dtoIn.emailAddress, $options: "i"};
+      filter.push({emailAddress: {$regex: dtoIn.emailAddress, $options: "i"}});
     }
     if (dtoIn.clinicId) {
-      filter.clinicId = dtoIn.clinicId;
+      filter.push({clinicId: dtoIn.clinicId});
     }
-    filter.status = dtoIn.status ?? "active";
+    if (dtoIn.searchMode === "and") {
+      filter.push({status: dtoIn.status ?? "active"});
+    }
     if (dtoIn.ratingCountGreaterThan) {
-      filter.ratingCount = {$gt: dtoIn.ratingCountGreaterThan};
+      filter.push({ratingCount: {$gt: dtoIn.ratingCountGreaterThan}});
     }
     if (dtoIn.averageRatingAbove) {
-      filter.averageRating = {$gt: dtoIn.averageRatingAbove};
+      filter.push({averageRating: {$gt: dtoIn.averageRatingAbove}});
     }
     if (dtoIn.description) {
-      filter.description = {$regex: dtoIn.description, $options: "i"};
+      filter.push({description: {$regex: dtoIn.description, $options: "i"}});
     }
-    return filter;
+    return dtoIn.searchMode === "and" ? { $and: filter} : { $or: filter};
   }
 
   /**
