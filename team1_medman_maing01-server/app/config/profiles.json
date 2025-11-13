@@ -68,11 +68,15 @@
       },
       "doctor/create": {
         "sysStateList": ["active"],
-        "profileList": ["Public"] 
+        "profileList": ["Public"]
       },
       "doctor/get": {
         "sysStateList": ["active"],
-        "profileList": ["Public"] 
+        "profileList": ["Public"]
+      },
+      "doctor/find": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

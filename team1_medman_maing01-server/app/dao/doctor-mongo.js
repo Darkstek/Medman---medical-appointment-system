@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedReference
+
 "use strict";
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 
@@ -12,6 +14,10 @@ class DoctorMongo extends UuObjectDao {
 
   async get(awid, id) {
     return await super.findOne({id, awid});
+  }
+
+  async find(awid, filter, pageInfo, sort, projection) {
+    return await super.find(filter, pageInfo, sort, projection);
   }
 
 }

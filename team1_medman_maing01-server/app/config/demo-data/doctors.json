@@ -1,6 +1,5 @@
 [
   {
-    "doctorId": "DOC-001",
     "firstName": "Sarah",
     "lastName": "Mitchell",
     "specialization": "Cardiology",
@@ -28,7 +27,6 @@
     "ratingCount": 856
   },
   {
-    "doctorId": "DOC-002",
     "firstName": "James",
     "lastName": "Chen",
     "specialization": "Pediatrics",
@@ -58,7 +56,6 @@
     "ratingCount": 1203
   },
   {
-    "doctorId": "DOC-003",
     "firstName": "Emily",
     "lastName": "Rodriguez",
     "specialization": "Dermatology",
@@ -84,7 +81,6 @@
     "ratingCount": 674
   },
   {
-    "doctorId": "DOC-004",
     "firstName": "Michael",
     "lastName": "Thompson",
     "specialization": "Orthopedic Surgery",
@@ -111,7 +107,6 @@
     "ratingCount": 982
   },
   {
-    "doctorId": "DOC-005",
     "firstName": "Priya",
     "lastName": "Patel",
     "specialization": "Cardiology",
@@ -140,7 +135,6 @@
     "ratingCount": 1145
   },
   {
-    "doctorId": "DOC-006",
     "firstName": "David",
     "lastName": "Anderson",
     "specialization": "Neurology",
@@ -155,7 +149,6 @@
     "ratingCount": 743
   },
   {
-    "doctorId": "DOC-007",
     "firstName": "Amanda",
     "lastName": "Williams",
     "specialization": "Obstetrics & Gynecology",
@@ -185,7 +178,6 @@
     "ratingCount": 1087
   },
   {
-    "doctorId": "DOC-008",
     "firstName": "Robert",
     "lastName": "Kim",
     "specialization": "Psychiatry",
@@ -213,7 +205,6 @@
     "ratingCount": 529
   },
   {
-    "doctorId": "DOC-009",
     "firstName": "Lisa",
     "lastName": "Martinez",
     "specialization": "Ophthalmology",
@@ -240,7 +231,6 @@
     "ratingCount": 791
   },
   {
-    "doctorId": "DOC-010",
     "firstName": "Thomas",
     "lastName": "Johnson",
     "specialization": "Emergency Medicine",

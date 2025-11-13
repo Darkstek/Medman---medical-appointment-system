@@ -1,8 +1,9 @@
+// noinspection JSUnresolvedReference
+
 "use strict";
-const Path = require("path");
-const { Validator } = require("uu_appg01_server").Validation;
-const { DaoFactory } = require("uu_appg01_server").ObjectStore;
-const { ValidationHelper } = require("uu_appg01_server").AppServer;
+const {Validator} = require("uu_appg01_server").Validation;
+const {DaoFactory} = require("uu_appg01_server").ObjectStore;
+const {ValidationHelper} = require("uu_appg01_server").AppServer;
 const Errors = require("../api/errors/doctor-error.js");
 
 const WARNINGS = {
@@ -10,6 +11,9 @@ const WARNINGS = {
     code: '${Errors.Create.UC_CODE}unsupportedKeys'
   },
   doctorGetDtoInType: {
+    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+  },
+  doctorFindDtoInType: {
     code: '${Errors.Get.UC_CODE}unsupportedKeys'
   }
 };
@@ -42,11 +46,12 @@ class DoctorAbl {
   }
 
   async get(awid, dtoIn) {
-    let uuAppErrorMap = {};
+    let uuAppErrorMap;
     const validationResult = this.validator.validate("doctorGetDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
+      {},
       WARNINGS.doctorGetDtoInType?.code,
       Errors.Get.InvalidDtoIn
     );
@@ -59,6 +64,111 @@ class DoctorAbl {
     return {...doctor, uuAppErrorMap};
   }
 
+
+  /**
+   * Finds a list of doctors based on provided criteria and retrieves it from the data source.
+   *
+   * @param {string} awid - The application workspace ID.
+   * @param {Object} dtoIn - Data transfer object containing the search criteria and paging information.
+   * @param {Object} dtoIn.availableBetween - Time range for filtering available doctors (optional).
+   * @param {Object} dtoIn.sortBy - Criteria for sorting the results (optional).
+   * @param {Object} dtoIn.pageInfo - Paging information for the query (optional).
+   * @return {Promise<Object>} A promise resolving to an object containing the resulting list of doctors.
+   * @return {Object} Result object consisting of:
+   * pageInfo - Paging information for the result set.
+   * itemList - List of doctors meeting the specified criteria.
+   * uuAppErrorMap - Map of validation errors and warnings that occurred during processing.
+   */
+  async find(awid, dtoIn) {
+    const validationResult = this.validator.validate("doctorFindDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      {},
+      WARNINGS.doctorFindDtoInType?.code,
+      Errors.Find.InvalidDtoIn
+    );
+    let filter = this._createFilterFrom(dtoIn);
+    let sortBy = this._transformSortBy(dtoIn.sortBy) ?? {averageRating: -1};
+    let doctorList = await this.dao.find(awid, filter, dtoIn.pageInfo, sortBy, {});
+
+    if (dtoIn.availableBetween) {
+      // keep only doctors with available time slots in the specified range
+      doctorList.itemList = doctorList.itemList.filter(doctor => {
+        return doctor.availableTimeSlots.some(slot =>
+          slot.start >= dtoIn.availableBetween.start && slot.end <= dtoIn.availableBetween.end)
+      });
+    }
+
+    // reorder pageInfo and itemList
+    return {pageInfo: doctorList.pageInfo, itemList: doctorList.itemList, uuAppErrorMap};
+  }
+
+
+  /**
+   * Creates a filter object based on the input data transfer object (dtoIn).
+   * The filter is constructed with conditions for various fields using regex and comparison operators.
+   *
+   * @param {Object} dtoIn - The input object containing filtering criteria.
+   * @param {string} [dtoIn.firstName] - Filter condition for the first name, using case-insensitive partial match.
+   * @param {string} [dtoIn.lastName] - Filter condition for the last name, using case-insensitive partial match.
+   * @param {string} [dtoIn.specialization] - Filter condition for the specialization, using case-insensitive partial match.
+   * @param {string} [dtoIn.phoneNumber] - Filter condition for the phone number, using case-insensitive partial match.
+   * @param {string} [dtoIn.emailAddress] - Filter condition for the email address, using case-insensitive partial match.
+   * @param {string} [dtoIn.clinicId] - Filter condition for the clinic ID.
+   * @param {string} [dtoIn.status] - Filter condition for the doctor status (active or inactive).
+   * @param {number} [dtoIn.ratingCountGreaterThan] - Filter condition for the number of ratings greater than the specified value.
+   * @param {number} [dtoIn.averageRatingAbove] - Filter condition for the average rating above the specified value.
+   * @param {string} [dtoIn.description] - Filter condition for the doctor description, using case-insensitive partial match.
+   * @return {Object} The constructed filter object.
+   * @*/
+  _createFilterFrom(dtoIn) {
+    let filter = {};
+    if (dtoIn.firstName) {
+      filter.firstName = {$regex: dtoIn.firstName, $options: "i"};
+    }
+    if (dtoIn.lastName) {
+      filter.lastName = {$regex: dtoIn.lastName, $options: "i"};
+    }
+    if (dtoIn.specialization) {
+      filter.specialization = {$regex: dtoIn.specialization, $options: "i"};
+    }
+    if (dtoIn.phoneNumber) {
+      filter.phoneNumber = {$regex: dtoIn.phoneNumber, $options: "i"};
+    }
+    if (dtoIn.emailAddress) {
+      filter.emailAddress = {$regex: dtoIn.emailAddress, $options: "i"};
+    }
+    if (dtoIn.clinicId) {
+      filter.clinicId = dtoIn.clinicId;
+    }
+    filter.status = dtoIn.status ?? "active";
+    if (dtoIn.ratingCountGreaterThan) {
+      filter.ratingCount = {$gt: dtoIn.ratingCountGreaterThan};
+    }
+    if (dtoIn.averageRatingAbove) {
+      filter.averageRating = {$gt: dtoIn.averageRatingAbove};
+    }
+    if (dtoIn.description) {
+      filter.description = {$regex: dtoIn.description, $options: "i"};
+    }
+    return filter;
+  }
+
+  /**
+   * Transforms the sorting parameter map by converting sorting directions from "asc"/"desc"
+   * to 1 and -1 respectively.
+   *
+   * @param {Map} sortBy - A map representing fields and their corresponding sorting directions.
+   *                          Keys are field names, and values are either "asc" or "desc".
+   * @return {Object} A transformed object where sorting directions are represented by 1 (for "asc")
+   *                  and -1 (for "desc").
+   */
+  _transformSortBy(sortBy = {}) {
+    return Object.fromEntries(
+      Object.entries(sortBy).map(([field, direction]) => [field, direction === "asc" ? 1 : -1])
+    );
+  }
 }
 
 module.exports = new DoctorAbl();

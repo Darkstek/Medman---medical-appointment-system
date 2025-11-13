@@ -50,6 +50,11 @@
         "realization": "api/controllers/DoctorController.get",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "doctor/find": {
+        "realization": "api/controllers/DoctorController.find",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
