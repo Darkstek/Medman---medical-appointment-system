@@ -1,3 +1,5 @@
+// noinspection JSUnresolvedReference
+
 "use strict";
 const Path = require("path");
 const fs = require("fs").promises;
@@ -20,7 +22,9 @@ class DemoAbl {
     let convertedExistingIds = existingIds.itemList.map(value => {
       return {_id: value}
     });
-    await this.dao.deleteMany({$or: convertedExistingIds});
+    if (convertedExistingIds?.length > 0) {
+      await this.dao.deleteMany({$or: convertedExistingIds});
+    }
     await this.dao.insertMany(doctors);
 
     return doctors;
