@@ -17,7 +17,7 @@ const DoctorsList = createVisualComponent({
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const matchesSearch = !search || data.some((doctor) => doctor.specialization?.toLowerCase().includes(search));
     useEffect(() => {
       setLoading(true);
       mockFetchDoctors() // replace with fetch (API) endpoint
@@ -32,6 +32,14 @@ const DoctorsList = createVisualComponent({
 
     if (loading) return <Uu5Elements.Text>Fetching doctors...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
+    if (search && !matchesSearch) {
+      return (
+        <Uu5Elements.HighlightedBox>
+          No doctors were found. Please check the spelling, or note that there may not be any doctors with this
+          specialization registered in the database yet.
+        </Uu5Elements.HighlightedBox>
+      );
+    }
 
     return (
       <Uu5Tiles.ControllerProvider

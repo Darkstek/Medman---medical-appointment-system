@@ -27,6 +27,11 @@ const Css = {
       objectFit: "cover",
       marginBottom: "12px",
     }),
+  statusBox: () =>
+    Config.Css.css({
+      padding: "10px",
+      marginTop: "10px",
+    }),
 };
 //@@viewOff:css
 
@@ -43,11 +48,13 @@ const DoctorTile = createVisualComponent({
       lastName: PropTypes.string.isRequired,
       specialization: PropTypes.string.isRequired,
       rating: PropTypes.number.isRequired,
+      status: PropTypes.string.isRequired,
     }).isRequired,
   },
   //@@viewOff:propTypes
 
-  render({ doctor }) {
+  render: function (props) {
+    const { doctor } = props;
     return (
       <Uu5Elements.Box className={Css.main()}>
         <img
@@ -61,6 +68,16 @@ const DoctorTile = createVisualComponent({
         <Uu5Elements.Text>{doctor.specialization}</Uu5Elements.Text>
 
         <Uu5Elements.Text>{doctor.averageRating}</Uu5Elements.Text>
+
+        {doctor.status === "active" ? (
+          <Uu5Elements.HighlightedBox colorScheme="positive" className={Css.statusBox()}>
+            Available for appointments
+          </Uu5Elements.HighlightedBox>
+        ) : (
+          <Uu5Elements.HighlightedBox colorScheme="negative" className={Css.statusBox()}>
+            Not available for appointments at the moment
+          </Uu5Elements.HighlightedBox>
+        )}
       </Uu5Elements.Box>
     );
   },
