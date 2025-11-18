@@ -5,7 +5,7 @@ const DOCTOR_ERROR_PREFIX = `${MedmanMainUseCaseError.ERROR_PREFIX}doctor/`;
 
 const Create = {
   UC_CODE: `${DOCTOR_ERROR_PREFIX}get/`,
-  InvalidDto: class extends MedmanMainUseCaseError {
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Get.UC_CODE}invalidDtoIn`;
@@ -16,7 +16,7 @@ const Create = {
 
 const Get = {
   UC_CODE: `${DOCTOR_ERROR_PREFIX}get/`,
-  InvalidDto: class extends MedmanMainUseCaseError {
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Get.UC_CODE}invalidDtoIn`;
