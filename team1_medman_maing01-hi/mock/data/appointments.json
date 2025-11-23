@@ -1,0 +1,31 @@
+[
+  {
+    "id": "a1",
+    "status": "realised",
+    "date": "2025-11-10T08:00:00.000Z",
+    "time": "10:30",
+    "note": "First consultation with Dr. Smith"
+
+  },
+  {
+    "id": "a2",
+    "status": "realised",
+    "date": "2025-11-15",
+    "time": "09:00",
+    "note": "Follow-up check-up"
+  },
+  {
+    "id": "a3",
+    "status": "cancelled",
+    "date": "2025-11-20",
+    "time": "14:00",
+    "note": "Cancelled due to patient request"
+  },
+  {
+    "id": "a4",
+    "status": "upcoming",
+    "date": "2025-12-05",
+    "time": "11:15",
+    "note": "Dental cleaning"
+  }
+]

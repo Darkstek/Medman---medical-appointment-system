@@ -3,8 +3,10 @@ import * as Uu5Elements from "uu5g05-elements";
 import Uu5Tiles from "uu5tilesg02";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
-import { mockFetchDoctors } from "../../mock/mockFetch";
+
 import DoctorTile from "../core/doctor-tile.js";
+import { mockFetchDoctors } from "../../mock/mockFetch";
+import Calls from "../calls.js";
 
 const Css = {};
 
@@ -17,49 +19,51 @@ const DoctorsList = createVisualComponent({
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const matchesSearch = !search || data.some((doctor) => doctor.specialization?.toLowerCase().includes(search));
+
     useEffect(() => {
       setLoading(true);
       mockFetchDoctors() // replace with fetch (API) endpoint
-        /*.then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch doctors");
-          return res.json();
-        */
         .then((json) => setData(json))
         .catch((err) => setError(err.message))
         .finally(() => setLoading(false));
     }, []);
 
+
+    //Backend call to fetch doctors based on specialization, need to delete _ in development.json/callsBaseUri for this to work and uncoment call.js.
+    /*
+      setError(null);
+
+
+
+      const dtoIn = search ? { specialization: search } : {};
+
+      Calls.findDoctors(dtoIn)
+        .then((dtoOut) => {
+
+          setData(dtoOut.itemList ?? []);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(err.message);
+        })
+        .finally(() => setLoading(false));
+    }, [search]);
+    */
+
     if (loading) return <Uu5Elements.Text>Fetching doctors...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
-    if (search && !matchesSearch) {
+
+    if (!data.length) {
       return (
         <Uu5Elements.HighlightedBox>
-          No doctors were found. Please check the spelling, or note that there may not be any doctors with this
+          No doctors were found for {search}. Please check the spelling, or note that there may not be any doctors with this
           specialization registered in the database yet.
         </Uu5Elements.HighlightedBox>
       );
     }
 
     return (
-      <Uu5Tiles.ControllerProvider
-        data={data} // fetch from backend
-        filterDefinitionList={[
-          {
-            key: "specialization",
-            label: "Specialization",
-            filter: (item, value) => {
-              return item.specialization?.toLowerCase().includes(value?.toLowerCase() || "");
-            },
-          },
-        ]}
-        filterList={[
-          {
-            key: "specialization",
-            value: search, // prefill from route param
-          },
-        ]}
-      >
+      <Uu5Tiles.ControllerProvider data={data}>
         <Uu5TilesElements.Grid tileMinWidth={100} tileMaxWidth={400}>
           {({ data }) => <DoctorTile key={data.id} doctor={data} />}
         </Uu5TilesElements.Grid>

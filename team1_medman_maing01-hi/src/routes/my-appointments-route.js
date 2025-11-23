@@ -1,16 +1,21 @@
 //@@viewOn:imports
-import { createVisualComponent, Utils } from "uu5g05";
-import * as Uu5Elements from "uu5g05-elements";
+import { Utils, createVisualComponent } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
-
+import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
-import DoctorsList from "../core/doctors-list.js";
+import SearchBar from "../core/search-bar.js";
 import RouteBar from "../core/route-bar.js";
+import importLsi from "../lsi/import-lsi.js";
+import AppointmentsList from "../core/appointments-list.js";
+
 //@@viewOff:imports
+
+//@@viewOn:constants
+//@@viewOff:constants
 
 //@@viewOn:css
 const Css = {
-  list: () =>
+  headerWrapper: () =>
     Config.Css.css({
       paddingLeft: "30px",
       paddingRight: "30px",
@@ -18,12 +23,26 @@ const Css = {
 };
 //@@viewOff:css
 
-let DoctorsListRoute = createVisualComponent({
+//@@viewOn:helpers
+//@@viewOff:helpers
+
+let MyAppointments = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "DoctorsListRoute",
+  uu5Tag: Config.TAG + "MyAppointments",
   //@@viewOff:statics
 
+  //@@viewOn:propTypes
+  propTypes: {},
+  //@@viewOff:propTypes
+
+  //@@viewOn:defaultProps
+  defaultProps: {},
+  //@@viewOff:defaultProps
+
   render(props) {
+    //@@viewOff:private`
+
+    //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props);
 
     return (
@@ -31,22 +50,10 @@ let DoctorsListRoute = createVisualComponent({
         <Uu5Elements.GridTemplate
           contentMap={{
             header: <RouteBar />,
-            content: (
-              <Uu5Elements.Block
-                className={Css.list()}
-                header={
-                  <Uu5Elements.Text category="story" segment="heading" type="h4">
-                    Available doctors
-                  </Uu5Elements.Text>
-                }
-                headerSeparator={true}
-              >
-                <DoctorsList />
-              </Uu5Elements.Block>
-            ),
+            content: <div className={Css.headerWrapper()}><AppointmentsList />  </div>,  
           }}
           templateAreas={{
-            xs: `header, content, footer`,
+            xs: `header, content, sidebar, footer`,
             m: `
         header header header header,
         content content content content,
@@ -56,15 +63,17 @@ let DoctorsListRoute = createVisualComponent({
           templateColumns={{ xs: "100%", m: "repeat(4, 1fr)" }}
           rowGap={8}
           columnGap={8}
+        
         />
       </div>
     );
+    //@@viewOff:render
   },
 });
 
-DoctorsListRoute = withRoute(DoctorsListRoute, { authenticated: false });
+MyAppointments = withRoute(MyAppointments, { authenticated: false });
 
 //@@viewOn:exports
-export { DoctorsListRoute };
-export default DoctorsListRoute;
+export { MyAppointments };
+export default MyAppointments;
 //@@viewOff:exports

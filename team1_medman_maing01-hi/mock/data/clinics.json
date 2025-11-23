@@ -1,0 +1,29 @@
+[
+  {
+    "id": "4501325",
+    "name": "Central Health Clinic",
+    "street": "Main Street",
+    "building": "12A",
+    "city": "Prague",
+    "phone": "+420 123 456 789",
+    "email": "info@centralhealth.cz"
+  },
+  {
+    "id": "4501326",
+    "name": "Green Valley Clinic",
+    "street": "Green Avenue",
+    "building": "7B",
+    "city": "Brno",
+    "phone": "+420 987 654 321",
+    "email": "contact@greenvalley.cz"
+  },
+  {
+    "id": "4501327",
+    "name": "Sunrise Medical Center",
+    "street": "Sun Street",
+    "building": "5",
+    "city": "Ostrava",
+    "phone": "+420 555 123 456",
+    "email": "office@sunrisemedical.cz"
+  }
+]

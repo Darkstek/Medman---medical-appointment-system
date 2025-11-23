@@ -15,7 +15,6 @@ const Css = {
       border: "1px solid #ddd",
       borderRadius: "8px",
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-      backgroundColor: "#fff",
       width: "100%",
     }),
 
@@ -47,7 +46,7 @@ const DoctorTile = createVisualComponent({
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       specialization: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
+      averageRating: PropTypes.number.isRequired,
       status: PropTypes.string.isRequired,
     }).isRequired,
   },

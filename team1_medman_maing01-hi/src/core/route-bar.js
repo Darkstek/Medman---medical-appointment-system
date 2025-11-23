@@ -1,8 +1,9 @@
 //@@viewOn:imports
-import { createVisualComponent, Lsi, useRoute } from "uu5g05";
+import { createVisualComponent, Lsi, useRoute, uu5Route } from "uu5g05";
 import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
+import SearchBar from "./search-bar.js";
 import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -10,6 +11,18 @@ import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:constants
 
 //@@viewOn:css
+const Css = {
+  main: () =>
+    Config.Css.css({
+      margin: "0px",
+    }),
+
+  searchForm: () => Config.Css.css({}),
+
+  textInput: () => Config.Css.css({}),
+
+  button: () => Config.Css.css({}),
+};
 //@@viewOff:css
 
 //@@viewOn:helpers
@@ -32,27 +45,21 @@ const RouteBar = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
-    const [, setRoute] = useRoute();
 
     const actionList = [
       {
-        children: <Lsi import={importLsi} path={["Menu", "home"]} />,
-        onClick: () => setRoute("home"),
-      },
-      {
-        children: <Lsi import={importLsi} path={["Menu", "doctorsList"]} />,
-        onClick: () => setRoute("doctorsList"),
-      },
-      {
-        children: <Lsi import={importLsi} path={["Menu", "about"]} />,
-        onClick: () => setRoute("about"),
-        collapsed: true,
+        children: <SearchBar />,
       },
     ];
+    const ITEM_LIST = [
+      { code: "main", label: "My Appointments", href: "myAppointments" },
+      { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
+    ];
+
     //@@viewOff:private
 
     //@@viewOn:render
-    return <Plus4U5App.PositionBar actionList={actionList} {...props} />;
+    return <Plus4U5App.PositionBar actionList={actionList} itemList={ITEM_LIST} activeItem={null} />;
     //@@viewOff:render
   },
 });
