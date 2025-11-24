@@ -9,6 +9,12 @@
         },
         "doctor": {
           "realization": "dao/DoctorMongo"
+        },
+        "appointment": {
+          "realization": "dao/AppointmentMongo"
+        },
+        "patient": {
+          "realization": "dao/PatientMongo"
         }
       }
     }

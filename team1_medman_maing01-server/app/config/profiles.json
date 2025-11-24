@@ -77,6 +77,10 @@
       "doctor/find": {
         "sysStateList": ["active"],
         "profileList": ["Public"]
+      },
+      "appointment/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       }
     }
   }

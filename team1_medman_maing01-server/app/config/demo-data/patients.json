@@ -1,0 +1,162 @@
+[
+  {
+    "patientId": "550e8400-e29b-41d4-a716-446655440000",
+    "firstName": "James",
+    "lastName": "Smith",
+    "phoneNumber": "+1-555-0102",
+    "emailAddress": "james.smith@example.com",
+    "dateOfBirth": "1982-03-15",
+    "gender": "male",
+    "medicalRecord": {
+      "previousAppointments": ["2023-10-10", "2024-01-05"],
+      "medications": ["Lisinopril"],
+      "illnesses": ["Hypertension"]
+    },
+    "allergies": ["Penicillin"],
+    "insuranceProvider": "HealthCare Global"
+  },
+  {
+    "patientId": "661f9500-d38c-52e5-b827-557766551111",
+    "firstName": "Emily",
+    "lastName": "Johnson",
+    "phoneNumber": "+1-555-0299",
+    "emailAddress": "emily.j@testmail.com",
+    "dateOfBirth": "1995-07-22",
+    "gender": "female",
+    "medicalRecord": {
+      "previousAppointments": ["2023-12-12"],
+      "medications": [],
+      "illnesses": []
+    },
+    "allergies": ["Peanuts", "Shellfish"],
+    "insuranceProvider": "United Insure"
+  },
+  {
+    "patientId": "772a0611-e49d-63f6-c938-668877662222",
+    "firstName": "Alex",
+    "lastName": "Rivera",
+    "phoneNumber": "+1-555-0388",
+    "emailAddress": "arivera@domain.org",
+    "dateOfBirth": "1990-11-05",
+    "gender": "other",
+    "medicalRecord": {
+      "previousAppointments": [],
+      "medications": ["Albuterol"],
+      "illnesses": ["Asthma"]
+    },
+    "allergies": [],
+    "insuranceProvider": "Blue Cross"
+  },
+  {
+    "patientId": "883b1722-f50e-74a7-d049-779988773333",
+    "firstName": "Sarah",
+    "lastName": "Connor",
+    "phoneNumber": "+1-555-0477",
+    "emailAddress": "s.connor@future.net",
+    "dateOfBirth": "1975-05-18",
+    "gender": "female",
+    "medicalRecord": {
+      "previousAppointments": ["2023-09-20", "2023-11-15", "2024-02-01"],
+      "medications": ["Metformin"],
+      "illnesses": ["Type 2 Diabetes"]
+    },
+    "allergies": ["Latex"],
+    "insuranceProvider": "General Life"
+  },
+  {
+    "patientId": "994c2833-a61f-85b8-e150-880099884444",
+    "firstName": "Michael",
+    "lastName": "Brown",
+    "phoneNumber": "+1-555-0566",
+    "emailAddress": "mike.brown88@webmail.com",
+    "dateOfBirth": "1988-01-30",
+    "gender": "male",
+    "medicalRecord": {
+      "previousAppointments": ["2024-03-10"],
+      "medications": [],
+      "illnesses": ["Seasonal Flu"]
+    },
+    "allergies": [],
+    "insuranceProvider": "State Farm Medical"
+  },
+  {
+    "patientId": "005d3944-b72a-96c9-f261-991100995555",
+    "firstName": "Taylor",
+    "lastName": "Morgan",
+    "phoneNumber": "+1-555-0655",
+    "emailAddress": "t.morgan@privacy.com",
+    "dateOfBirth": "1992-09-12",
+    "gender": "preferred not to say",
+    "medicalRecord": {
+      "previousAppointments": [],
+      "medications": [],
+      "illnesses": []
+    },
+    "allergies": ["Dust Mites"],
+    "insuranceProvider": "Private Pay"
+  },
+  {
+    "patientId": "116e4055-c83b-07da-0372-002211006666",
+    "firstName": "David",
+    "lastName": "Lee",
+    "phoneNumber": "+1-555-0744",
+    "emailAddress": "david.lee.work@corp.com",
+    "dateOfBirth": "1960-12-25",
+    "gender": "male",
+    "medicalRecord": {
+      "previousAppointments": ["2023-06-14", "2023-12-20"],
+      "medications": ["Atorvastatin", "Aspirin"],
+      "illnesses": ["Hyperlipidemia", "Heart Disease"]
+    },
+    "allergies": ["Sulfa drugs"],
+    "insuranceProvider": "Medicare"
+  },
+  {
+    "patientId": "227f5166-d94c-18eb-1483-113322117777",
+    "firstName": "Jessica",
+    "lastName": "Davis",
+    "phoneNumber": "+1-555-0833",
+    "emailAddress": "jess.davis@college.edu",
+    "dateOfBirth": "2001-04-02",
+    "gender": "female",
+    "medicalRecord": {
+      "previousAppointments": ["2023-08-30"],
+      "medications": ["Contraceptives"],
+      "illnesses": []
+    },
+    "allergies": ["Cats", "Pollen"],
+    "insuranceProvider": "Aetna"
+  },
+  {
+    "patientId": "338a6277-e05d-29fc-2594-224433228888",
+    "firstName": "Robert",
+    "lastName": "Wilson",
+    "phoneNumber": "+1-555-0922",
+    "emailAddress": "bob.wilson@construct.net",
+    "dateOfBirth": "1979-08-19",
+    "gender": "male",
+    "medicalRecord": {
+      "previousAppointments": ["2022-11-05", "2024-01-18"],
+      "medications": [],
+      "illnesses": ["Broken Arm (healed)"]
+    },
+    "allergies": [],
+    "insuranceProvider": "Cigna"
+  },
+  {
+    "patientId": "449b7388-f16e-30gd-3605-335544339999",
+    "firstName": "Linda",
+    "lastName": "Martinez",
+    "phoneNumber": "+1-555-1011",
+    "emailAddress": "linda.m@family.com",
+    "dateOfBirth": "1955-02-14",
+    "gender": "female",
+    "medicalRecord": {
+      "previousAppointments": ["2023-05-10", "2023-11-22"],
+      "medications": ["Levothyroxine"],
+      "illnesses": ["Hypothyroidism"]
+    },
+    "allergies": ["Gluten"],
+    "insuranceProvider": "BlueCross"
+  }
+]

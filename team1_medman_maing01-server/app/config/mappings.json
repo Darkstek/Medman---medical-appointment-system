@@ -55,6 +55,11 @@
         "realization": "api/controllers/DoctorController.find",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "appointment/create": {
+        "realization": "api/controllers/AppointmentController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

@@ -34,7 +34,7 @@ class MedmanMainAbl {
     );
 
     // HDS 2
-    const schemas = ["medmanMain", "doctor"];
+    const schemas = ["medmanMain", "doctor", "appointment", "patient"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
@@ -75,6 +75,7 @@ class MedmanMainAbl {
         }
       }
 
+      // noinspection JSUnresolvedReference,JSVoidFunctionReturnValueUsed
       const artifactUri = uuBtUriBuilder.setUseCase(null).clearParameters().setParameter("id", awscId).toUri();
 
       await UuAppWorkspace.connectArtifact(
@@ -111,37 +112,12 @@ class MedmanMainAbl {
 
   async load(uri, session, uuAppErrorMap = {}) {
     // HDS 1
-    const dtoOut = await UuAppWorkspace.load(uri, session, uuAppErrorMap);
-
-    // TODO Implement according to application needs...
-    // if (dtoOut.sysData.awidData.sysState !== UuAppWorkspace.SYS_STATES.CREATED &&
-    //    dtoOut.sysData.awidData.sysState !== UuAppWorkspace.SYS_STATES.ASSIGNED
-    // ) {
-    //   const awid = uri.getAwid();
-    //   const appData = await this.dao.get(awid);
-    //   dtoOut.data = { ...appData, relatedObjectsMap: {} };
-    // }
-
-    // HDS 2
-    return dtoOut;
+    return await UuAppWorkspace.load(uri, session, uuAppErrorMap);
   }
 
   async loadBasicData(uri, session, uuAppErrorMap = {}) {
     // HDS 1
-    const dtoOut = await UuAppWorkspace.loadBasicData(uri, session, uuAppErrorMap);
-
-    // TODO Implement according to application needs...
-    // const awid = uri.getAwid();
-    // const workspace = await UuAppWorkspace.get(awid);
-    // if (workspace.sysState !== UuAppWorkspace.SYS_STATES.CREATED &&
-    //    workspace.sysState !== UuAppWorkspace.SYS_STATES.ASSIGNED
-    // ) {
-    //   const appData = await this.dao.get(awid);
-    //   dtoOut.data = { ...appData, relatedObjectsMap: {} };
-    // }
-
-    // HDS 2
-    return dtoOut;
+    return await UuAppWorkspace.loadBasicData(uri, session, uuAppErrorMap);
   }
 }
 
