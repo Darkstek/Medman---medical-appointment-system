@@ -23,6 +23,7 @@
   "Menu": {
     "home": "Vítejte",
     "about": "O aplikaci",
-    "doctorsList" : "Seznam lékářů"
+    "doctorsList": "Seznam lékářů",
+    "bookAppointment": "Naplánovat schůzku"
   }
 }

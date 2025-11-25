@@ -6,7 +6,9 @@ import Calls from "calls";
 
 import Config from "./config/config.js";
 import RouteBar from "../core/route-bar.js";
+import BookAppointmentButton from "../core/book-appointment-button.js";
 import importLsi from "../lsi/import-lsi.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -75,6 +77,7 @@ let ControlPanel = createVisualComponent({
       <>
         <RouteBar />
         {child}
+        <BookAppointmentButton />
       </>
     );
     //@@viewOff:render

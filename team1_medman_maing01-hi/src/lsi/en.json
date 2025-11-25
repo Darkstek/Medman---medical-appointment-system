@@ -23,6 +23,7 @@
   "Menu": {
     "home": "Welcome",
     "about": "About Application",
-    "doctorsList" : "Doctors List"
+    "doctorsList": "Doctors List",
+    "bookAppointment": "Create an Appointment"
   }
 }
