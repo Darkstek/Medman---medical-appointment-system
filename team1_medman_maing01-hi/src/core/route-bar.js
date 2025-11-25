@@ -4,6 +4,7 @@ import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import SearchBar from "./search-bar.js";
+import BookAppointmentButton from "../core/book-appointment-button.js";
 import importLsi from "../lsi/import-lsi.js";
 //@@viewOff:imports
 
@@ -48,12 +49,18 @@ const RouteBar = createVisualComponent({
 
     const actionList = [
       {
-        children: <SearchBar />,
+        children: <BookAppointmentButton />
+
       },
+      {
+        children: <SearchBar />
+
+      }
     ];
     const ITEM_LIST = [
       { code: "main", label: "My Appointments", href: "myAppointments" },
-      { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
+      { code: "doctorsList", label: "Doctors List", href: "doctorsList" }
+      // { code: "bookAppointment", label: "Create an Appointment", href: "bookAppointment" },
     ];
 
     //@@viewOff:private
