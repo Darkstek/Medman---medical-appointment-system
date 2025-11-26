@@ -6,7 +6,8 @@
   "spec": "nodejs-app; uu_appg01_devkit@6.8.0",
   "dependencies": {
     "uu_appg01_server": "^6.0.0",
-    "uu_apprepresentationg01": "^3.0.0"
+    "uu_apprepresentationg01": "^3.0.0",
+    "mongodb": "6.6.1"
   },
   "devDependencies": {
     "uu_appg01_devkit": "^6.8.0",

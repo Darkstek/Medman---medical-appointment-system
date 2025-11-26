@@ -5,18 +5,39 @@ const APPOINTMENT_ERROR_PREFIX = `${MedmanMainUseCaseError.ERROR_PREFIX}appointm
 
 const Create = {
   UC_CODE: `${APPOINTMENT_ERROR_PREFIX}create/`,
-  InvalidDto: class extends MedmanMainUseCaseError {
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Create.UC_CODE}invalidDtoIn`;
       this.message = "DtoIn is not valid."
     }
   },
-  TimeOverlap: class extends MedmanMainUseCaseError {
+  AppointmentCollision: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
-      this.code = `${Create.UC_CODE}timeOverlap`;
-      this.message = "Time of the appointment overlaps existing one."
+      this.code = `${Create.UC_CODE}appointmentCollision`;
+      this.message = "Time of the appointment collides with existing one(s)."
+    }
+  },
+  AppointmentInThePast: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}appointmentInThePast`;
+      this.message = "Appointment time must be in the future."
+    }
+  },
+  TimeSlotNotAvailable: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}timeSlotNotAvailable`;
+      this.message = "Time slot is not available."
+    }
+  },
+  AppointmentDoesNotFit: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}appointmentDoesNotFit`;
+      this.message = "Appointment does not fit selected time slot."
     }
   },
   DoctorNotFound: class extends MedmanMainUseCaseError {
