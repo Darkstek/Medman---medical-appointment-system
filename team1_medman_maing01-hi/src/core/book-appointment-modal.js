@@ -63,11 +63,6 @@ const BookAppointmentModal = createVisualComponent({
       //TODO: Handle BE endpoint call to create appointment
       // const formData = event.data.value; // Get form data
       alert("Appointment created successfully!"); // Show a success message
-
-      // setSelectedSpecialization(""); // Reset specialization
-      // setFilteredDoctors([]); // Reset filtered doctors
-      // setSelectedDoctor(""); // Reset selected doctor
-      // setAvailableTimeSlots([]); // Reset available time slots
       onClose();
     };
 

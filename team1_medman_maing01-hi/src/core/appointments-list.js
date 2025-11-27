@@ -27,6 +27,15 @@ const AppointmentsList = createVisualComponent({
         .finally(() => setLoading(false));
     }, []);
 
+    //TODO: Implement cancel appointment functionality BE
+    const handleCancelAppointment = (appointmentId) => {
+      setAppointments((prevAppointments) =>
+        prevAppointments.map((appointment) =>
+          appointment.id === appointmentId ? { ...appointment, status: "cancelled" } : appointment,
+        )
+      );
+    };
+
     if (loading) return <Uu5Elements.Text>Fetching appointments...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
 
@@ -34,24 +43,37 @@ const AppointmentsList = createVisualComponent({
     const pastAppointments = appointments.filter((a) => a.status === "cancelled" || a.status === "realised");
 
     return (
-      <Uu5Elements.Grid>  
-        <Uu5Elements.Block header={( <Uu5Elements.Text category="story" segment="heading" type="h4">Upcoming Appointments</Uu5Elements.Text> )} headerSeparator={true} >
-
+      <Uu5Elements.Grid>
+        <Uu5Elements.Block
+          header={
+            <Uu5Elements.Text category="story" segment="heading" type="h4">
+              Upcoming Appointments
+            </Uu5Elements.Text>
+          }
+          headerSeparator={true}
+        >
           <Uu5Tiles.ControllerProvider data={upcomingAppointments}>
             <Uu5TilesElements.Grid tileMinWidth={100}>
-              {(tile) => <AppointmentTile appointment={tile.data} />}
+              {(tile) => <AppointmentTile appointment={tile.data} onCancel={handleCancelAppointment} />}
             </Uu5TilesElements.Grid>
           </Uu5Tiles.ControllerProvider>
         </Uu5Elements.Block>
 
-        <Uu5Elements.Block header={( <Uu5Elements.Text category="story" segment="heading" type="h4">My appointment history</Uu5Elements.Text> )} headerSeparator={true}>
+        <Uu5Elements.Block
+          header={
+            <Uu5Elements.Text category="story" segment="heading" type="h4">
+              My appointment history
+            </Uu5Elements.Text>
+          }
+          headerSeparator={true}
+        >
           <Uu5Tiles.ControllerProvider data={pastAppointments}>
             <Uu5TilesElements.Grid tileMinWidth={100}>
               {(tile) => <AppointmentTile appointment={tile.data} />}
             </Uu5TilesElements.Grid>
           </Uu5Tiles.ControllerProvider>
         </Uu5Elements.Block>
-    </Uu5Elements.Grid>
+      </Uu5Elements.Grid>
     );
   },
 });
