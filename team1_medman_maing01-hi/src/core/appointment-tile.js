@@ -3,6 +3,7 @@ import * as Uu5Elements from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import AppointmentDetailModal from "./appointment-detail-modal.js";
+import CancelAppointmentModal from "./cancel-appointment-modal.js";
 
 const AppointmentTile = createVisualComponent({
   uu5Tag: Config.TAG + "AppointmentTile",
@@ -20,10 +21,18 @@ const AppointmentTile = createVisualComponent({
         name: PropTypes.string,
       }),
     }).isRequired,
+    onCancel: PropTypes.func,
   },
 
-  render({ appointment }) {
+  render({ appointment, onCancel }) {
     const [appointmentDetailModalOpen, setAppointmentDetailModalOpen] = useState(false);
+    const [cancelAppointmentModalOpen, setCancelAppointmentModalOpen] = useState(false);
+
+    //TODO: Implement cancel appointment functionality BE
+    const handleCancel = () => {
+      onCancel(appointment.id); // Call the onCancel handler with the appointment ID
+      setCancelAppointmentModalOpen(false); // Close the modal
+    };
 
     return (
       <Uu5TilesElements.Tile
@@ -40,7 +49,8 @@ const AppointmentTile = createVisualComponent({
               appointment.status === "upcoming" && {
                 children: "Cancel",
                 colorScheme: "red",
-                onClick: () => alert("Cancel appointment functionality to be implemented"),
+                // onClick: () => alert("Cancel appointment functionality to be implemented"),
+                onClick: () => setCancelAppointmentModalOpen(true),
               },
             ].filter(Boolean)}
           ></Uu5Elements.ButtonGroup>
@@ -65,6 +75,12 @@ const AppointmentTile = createVisualComponent({
           open={appointmentDetailModalOpen}
           appointment={appointment}
           onClose={() => setAppointmentDetailModalOpen(false)}
+        />
+
+        <CancelAppointmentModal
+          open={cancelAppointmentModalOpen}
+          onClose={() => setCancelAppointmentModalOpen(false)}
+          onConfirm={handleCancel}
         />
       </Uu5TilesElements.Tile>
     );
