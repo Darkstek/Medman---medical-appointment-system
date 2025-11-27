@@ -3,6 +3,7 @@ import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
 import { mockFetchDoctors } from "../../mock/mockFetch.js";
+import Calls from "../calls.js";
 
 const Css = {};
 
@@ -12,6 +13,7 @@ const BookAppointmentModal = createVisualComponent({
   propTypes: {
     onClose: PropTypes.func.isRequired, // Add onClose prop to handle modal close
     open: PropTypes.bool.isRequired, // Add isOpen prop to control modal visibility
+  //  onCreate: PropTypes.func.isRequired, // TODO: Callback to add mock - to remove
   },
 
   render({ open, onClose }) {
@@ -58,10 +60,48 @@ const BookAppointmentModal = createVisualComponent({
     // Extract unique specializations
     const uniqueSpecializations = [...new Set(data.map((doctor) => doctor.specialization))];
 
-    const handleSubmit = (e) => {
-      // e.preventDefault();
-      //TODO: Handle BE endpoint call to create appointment
-      // const formData = event.data.value; // Get form data
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const formData = e.data.value; // Get form data from the form
+
+      // Find the selected doctor object
+      const doctor = filteredDoctors.find((doc) => `${doc.lastName} ${doc.firstName}` === formData.doctor);
+
+      const appointmentData = {
+        //  specialization: formData.specialization,
+        doctorId: doctor?.doctorId,
+        dateTime: new Date(
+          availableTimeSlots.find(
+            (slot) =>
+              `${new Date(slot.start).toLocaleString()} - ${new Date(slot.end).toLocaleString()}` ===
+              formData.appointmentTimeSlot,
+          )?.start,
+        ).toISOString(), // Use start time of the selected time slot
+      };
+
+      console.log("Creating appointment with data:", appointmentData); // Log appointment data
+
+      // try {
+      //   console.log("Sending request to create appointment..."); // Log before API call
+
+      //   //    await Calls.call("POST", "appointments", {
+      //   await Calls.call("cmdPost", Calls.getCommandUri("appointments"), {
+      //     data: appointmentData,
+      //     done: (response) => {
+      //       console.log("Appointment created successfully. Response:", response); // Log success response
+      //       alert("Appointment created successfully!"); // Show success message
+      //       onClose(); // Close the modal
+      //     },
+      //     fail: (error) => {
+      //       console.error("Error creating appointment:", error);
+      //       alert("Failed to create appointment. Please try again."); // Show error message
+      //     },
+      //   });
+      // } catch (error) {
+      //   console.error("Unexpected error during appointment creation:", error); // Log unexpected error
+      //   alert("An unexpected error occurred. Please try again."); // Show error message
+      // }
+
       alert("Appointment created successfully!"); // Show a success message
       onClose();
     };
@@ -86,7 +126,7 @@ const BookAppointmentModal = createVisualComponent({
             }
             name="specialization"
             required
-            onChange={(event) => setSelectedSpecialization(event.data.value)} // Update selected specialization
+            onChange={(e) => setSelectedSpecialization(e.data.value)} // Update selected specialization
           />
           <Uu5Forms.FormSelect
             label="Doctor"
@@ -98,7 +138,7 @@ const BookAppointmentModal = createVisualComponent({
             name="doctor"
             required
             disabled={!selectedSpecialization} // Disable if no specialization is selected
-            onChange={(event) => setSelectedDoctor(event.data.value)} // Update selected doctor
+            onChange={(e) => setSelectedDoctor(e.data.value)} // Update selected doctor
           />
           <Uu5Forms.FormSelect
             label="Available Time Slots"
@@ -118,8 +158,9 @@ const BookAppointmentModal = createVisualComponent({
           >
             Create an Appointment
           </Uu5Forms.SubmitButton>
-          {/* <Uu5Forms.ResetButton>
-        Start Over</Uu5Forms.ResetButton> */}
+          {/* 
+          <Uu5Forms.ResetButton>
+        Start Over</Uu5Forms.ResetButton>  */}
         </Uu5Forms.Form>
       </Uu5Elements.Modal>
     );

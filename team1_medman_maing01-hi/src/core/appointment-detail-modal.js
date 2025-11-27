@@ -27,11 +27,11 @@ const AppointmentDetailModal = createVisualComponent({
         open={open}
         onClose={onClose}
         header={
-          appointment.status === "realised" ? (
+          appointment.status === "Completed" ? (
             <Uu5Elements.HighlightedBox colorScheme="positive" significance="distinct" className={Css.statusBox()}>
               Realised Appointment
             </Uu5Elements.HighlightedBox>
-          ) : appointment.status === "cancelled" ? (
+          ) : appointment.status === "Cancelled" ? (
             <Uu5Elements.HighlightedBox colorScheme="negative" significance="distinct" className={Css.statusBox()}>
               Appointment Cancelled
             </Uu5Elements.HighlightedBox>
@@ -45,7 +45,7 @@ const AppointmentDetailModal = createVisualComponent({
         <Uu5Elements.ListLayout
           itemList={[
             { label : <Uu5Elements.Icon icon="uugds-calendar" />,
-              children: <Uu5Elements.DateTime value={appointment.date} />,
+              children: <Uu5Elements.DateTime value={appointment.dateTime} />,
             },
             {
               label: "About",
