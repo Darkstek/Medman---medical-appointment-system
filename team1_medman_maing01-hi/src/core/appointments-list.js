@@ -31,7 +31,7 @@ const AppointmentsList = createVisualComponent({
     const handleCancelAppointment = (appointmentId) => {
       setAppointments((prevAppointments) =>
         prevAppointments.map((appointment) =>
-          appointment.id === appointmentId ? { ...appointment, status: "cancelled" } : appointment,
+          appointment.appointmentId === appointmentId ? { ...appointment, status: "Cancelled" } : appointment,
         )
       );
     };
@@ -39,8 +39,8 @@ const AppointmentsList = createVisualComponent({
     if (loading) return <Uu5Elements.Text>Fetching appointments...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
 
-    const upcomingAppointments = appointments.filter((a) => a.status === "upcoming");
-    const pastAppointments = appointments.filter((a) => a.status === "cancelled" || a.status === "realised");
+    const upcomingAppointments = appointments.filter((a) => a.status === "Confirmed");
+    const pastAppointments = appointments.filter((a) => a.status === "Cancelled" || a.status === "Completed");
 
     return (
       <Uu5Elements.Grid>

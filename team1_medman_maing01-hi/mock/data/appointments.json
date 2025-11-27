@@ -2,30 +2,33 @@
   {
     "id": "a1",
     "status": "realised",
-    "date": "2025-11-10T08:00:00.000Z",
+    "date": "2025-11-10T10:30:00.000Z",
     "time": "10:30",
-    "note": "First consultation with Dr. Smith"
-
+    "note": "First consultation with Dr. Mitchell",
+    "doctorId": "DOC-001"
   },
   {
     "id": "a2",
     "status": "realised",
-    "date": "2025-11-15",
+    "date": "2025-11-15T09:00:00.000Z",
     "time": "09:00",
-    "note": "Follow-up check-up"
+    "note": "Follow-up check-up",
+    "doctorId": "DOC-002"
   },
   {
     "id": "a3",
     "status": "cancelled",
-    "date": "2025-11-20",
+    "date": "2025-11-20T14:00:00.000Z",
     "time": "14:00",
-    "note": "Cancelled due to patient request"
+    "note": "Cancelled due to patient request",
+    "doctorId": "DOC-003"
   },
   {
     "id": "a4",
     "status": "upcoming",
-    "date": "2025-12-05",
+    "date": "2025-12-05T11:15:00.000Z",
     "time": "11:15",
-    "note": "Dental cleaning"
+    "note": "Skin resurfacing",
+    "doctorId": "DOC-004"
   }
 ]

@@ -11,11 +11,11 @@ export async function getAppointmentsWithDetails() {
     ]);
 
     // Převod doctors a clinics na mapy pro rychlé hledání
-    const doctorsMap = Object.fromEntries(doctors.map(d => [d.id, d]));
+    const doctorsMap = Object.fromEntries(doctors.map(d => [d.doctorId, d]));
     const clinicsMap = Object.fromEntries(clinics.map(c => [c.id, c]));
 
     const appointmentsWithDetails = appointments.map(app => {
-      const doctor = doctorsMap[app.doctorId] || { id: app.doctorId, name: "Unknown Doctor", clinicId: null };
+      const doctor = doctorsMap[app.doctorId] || { doctorId: app.doctorId, name: "Unknown Doctor", clinicId: null };
       const clinic = doctor.clinicId ? clinicsMap[doctor.clinicId] : { id: null, name: "Unknown Clinic" };
 
       return {
@@ -26,6 +26,9 @@ export async function getAppointmentsWithDetails() {
       };    
     });
 
+    console.log('DoctorsMap', doctorsMap);
+    console.log('Data', appointmentsWithDetails);
+    
     return appointmentsWithDetails;
   } catch (err) {
     console.error('Chyba při spojování dat:', err);
