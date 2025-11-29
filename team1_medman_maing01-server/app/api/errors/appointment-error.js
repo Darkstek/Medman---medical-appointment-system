@@ -64,6 +64,37 @@ const Create = {
   }
 };
 
+const Get = {
+  UC_CODE: `${APPOINTMENT_ERROR_PREFIX}get/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid."
+    }
+  },
+  AppointmentDoesNotExist: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}doctorDoesNotExist`;
+      this.message = "Appointment does not exist."
+    }
+  }
+}
+
+const Find = {
+  UC_CODE: `${APPOINTMENT_ERROR_PREFIX}find/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid."
+    }
+  }
+};
+
 module.exports = {
-  Create
+  Create,
+  Get,
+  Find
 };

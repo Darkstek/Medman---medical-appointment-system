@@ -13,6 +13,12 @@ const WARNINGS = {
   appointmentCreateDtoInType: {
     code: `${Errors.Create.UC_CODE}unsupportedKeys`
   },
+  appointmentGetDtoInType: {
+    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+  },
+  appointmentFindDtoInType: {
+    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+  }
 };
 
 /**
@@ -53,7 +59,99 @@ class AppointmentAbl {
 
     return {...appointment, uuAppErrorMap};
   }
+  
+  async get(awid, dtoIn) {
+    const validationResult = this.validator.validate("appointmentGetDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      {},
+      WARNINGS.appointmentGetDtoInType?.code,
+      Errors.Get.InvalidDtoIn
+    );
 
+    let appointment = await this.appointmentDao.get(awid, dtoIn.id);
+    if (!appointment) {
+      throw new Errors.Get.AppointmentDoesNotExist({id: dtoIn.id});
+    }
+
+    return {...appointment, uuAppErrorMap};
+  }
+
+  /**
+   * Finds a list of appointments based on provided criteria and retrieves it from the data source.
+   *
+   * @param {string} awid - The application workspace ID.
+   * @param {Object} dtoIn - Data transfer object containing the search criteria and paging information.
+   * @param {Object} dtoIn.sortBy - Criteria for sorting the results (optional).
+   * @param {Object} dtoIn.pageInfo - Paging information for the query (optional).
+   * @return {Promise<Object>} A promise resolving to an object containing the resulting list of appointments.
+   * @return {Object} Result object consisting of:
+   * pageInfo - Paging information for the result set.
+   * itemList - List of appointments meeting the specified criteria.
+   * uuAppErrorMap - Map of validation errors and warnings that occurred during processing.
+   */
+  async find(awid, dtoIn) {
+    const validationResult = this.validator.validate("appointmentFindDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      {},
+      WARNINGS.appointmentFindDtoInType?.code,
+      Errors.Find.InvalidDtoIn
+    );
+
+    let filter = this._createFilterFrom(dtoIn);
+    let sortBy = this._transformSortBy(dtoIn.sortBy) ?? {_id: -1};
+    let appointmentList = await this.appointmentDao.find(awid, filter, dtoIn.pageInfo, sortBy, {});
+
+    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
+    }
+
+    // reorder pageInfo and itemList
+    return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
+  }
+
+  /**
+   * Creates a filter object based on the input data transfer object (dtoIn).
+   * The filter is constructed with conditions for various fields using regex and comparison operators.
+   *
+   * @param {Object} dtoIn - The input object containing filtering criteria.
+   * @param {string} [dtoIn.patientId] - Filter condition for the clinic ID.
+   * @param {string} [dtoIn.doctorId] - Filter condition for the last name, using case-insensitive partial match.
+   * @param {string} [dtoIn.status] - Filter condition for the appointment status (confirmed/cancelled/completed).
+   * @return {Object} The constructed filter object.
+   * @*/
+  _createFilterFrom(dtoIn) {
+    let filter = [];
+    if (dtoIn.patientId) {
+      filter.push({patientId: dtoIn.patientId});
+    }
+    if (dtoIn.doctorId) {
+      filter.push({doctorId: dtoIn.doctorId});
+    }
+    if (dtoIn.searchMode === "and") {
+      filter.push({status: dtoIn.status ?? AppointmentStatus.CONFIRMED});
+    }
+
+    return dtoIn.searchMode === "and" ? { $and: filter} : { $or: filter};
+  }
+
+  /**
+   * Transforms the sorting parameter map by converting sorting directions from "asc"/"desc"
+   * to 1 and -1 respectively.
+   *
+   * @param {Map} sortBy - A map representing fields and their corresponding sorting directions.
+   *                          Keys are field names, and values are either "asc" or "desc".
+   * @return {Object} A transformed object where sorting directions are represented by 1 (for "asc")
+   *                  and -1 (for "desc").
+   */
+  _transformSortBy(sortBy = {}) {
+    return Object.fromEntries(
+      Object.entries(sortBy).map(([field, direction]) => [field, direction === "asc" ? 1 : -1])
+    );
+  }
 
   /**
    * Verifies if the time slot for the given appointment is valid and doesn't conflict with any existing appointments.

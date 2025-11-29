@@ -81,6 +81,14 @@
       "appointment/create": {
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "appointment/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "appointment/find": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       }
     }
   }

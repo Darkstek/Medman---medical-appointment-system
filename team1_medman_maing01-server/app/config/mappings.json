@@ -60,6 +60,16 @@
         "realization": "api/controllers/AppointmentController.create",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "appointment/get": {
+        "realization": "api/controllers/AppointmentController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "appointment/find": {
+        "realization": "api/controllers/AppointmentController.find",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }

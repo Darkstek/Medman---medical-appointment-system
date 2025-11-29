@@ -13,7 +13,7 @@ class DoctorMongo extends UuObjectDao {
   }
 
   async get(awid, id) {
-    return await super.findOne({id, awid});
+    return await super.findOne({id});
   }
 
   async find(awid, filter, pageInfo, sort, projection) {
