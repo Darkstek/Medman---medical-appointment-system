@@ -17,6 +17,11 @@ class AppointmentMongo extends UuObjectDao {
   async find(awid, filter, pageInfo, sort, projection) {
     return await super.find(filter, pageInfo, sort, projection);
   }
+
+  async delete(awid, id) {
+    return await super.deleteOne({ id });
+  }
+
 }
 
 module.exports = AppointmentMongo;

@@ -14,6 +14,10 @@ class AppointmentController {
   find(ucEnv) {
     return AppointmentAbl.find(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }
+
+  cancel(ucEnv) {
+    return AppointmentAbl.cancel(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
 }
 
 module.exports = new AppointmentController();

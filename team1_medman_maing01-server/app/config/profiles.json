@@ -80,7 +80,7 @@
       },
       "appointment/create": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner","Public"]
       },
       "appointment/get": {
         "sysStateList": ["active"],
@@ -89,7 +89,13 @@
       "appointment/find": {
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+
+      "appointment/cancel": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       }
+
     }
   }
 }

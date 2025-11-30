@@ -93,8 +93,27 @@ const Find = {
   }
 };
 
+const Cancel = {
+  UC_CODE: `${APPOINTMENT_ERROR_PREFIX}cancel/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Cancel.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+  AppointmentDoesNotExist: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Cancel.UC_CODE}appointmentDoesNotExist`;
+      this.message = "Appointment does not exist.";
+    }
+  }
+};
+
 module.exports = {
   Create,
   Get,
-  Find
+  Find,
+  Cancel
 };

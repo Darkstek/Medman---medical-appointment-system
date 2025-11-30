@@ -24,3 +24,7 @@ const appointmentFindDtoInType = shape({
     oneOf(["asc", "desc"]).isRequired()
   )
 });
+
+const appointmentCancelDtoInType = shape({
+  id: id().isRequired()
+});

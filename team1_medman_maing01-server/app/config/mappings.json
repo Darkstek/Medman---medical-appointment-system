@@ -70,7 +70,14 @@
         "realization": "api/controllers/AppointmentController.find",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+
+      "appointment/cancel": {
+        "realization": "api/controllers/AppointmentController.cancel",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
+
     }
   }
 }

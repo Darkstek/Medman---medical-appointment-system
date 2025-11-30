@@ -14,10 +14,13 @@ const WARNINGS = {
     code: `${Errors.Create.UC_CODE}unsupportedKeys`
   },
   appointmentGetDtoInType: {
-    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+    code: `${Errors.Get.UC_CODE}unsupportedKeys`
   },
   appointmentFindDtoInType: {
-    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+    code: `${Errors.Get.UC_CODE}unsupportedKeys`
+  },
+  appointmentCancelDtoInType: {
+    code: `${Errors.Cancel.UC_CODE}unsupportedKeys`
   }
 };
 
@@ -59,7 +62,7 @@ class AppointmentAbl {
 
     return {...appointment, uuAppErrorMap};
   }
-  
+
   async get(awid, dtoIn) {
     const validationResult = this.validator.validate("appointmentGetDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
@@ -241,6 +244,37 @@ class AppointmentAbl {
 
     return patient;
   }
+
+  async cancel(awid, dtoIn) {
+    // Validace vstupu
+    const validationResult = this.validator.validate("appointmentCancelDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      {},
+      WARNINGS.appointmentCancelDtoInType?.code,
+      Errors.Cancel.InvalidDtoIn
+    );
+
+    // Ověřit appointment existuje
+    let appointment = await this.appointmentDao.get(awid, dtoIn.id);
+    if (!appointment) {
+      throw new Errors.Cancel.AppointmentDoesNotExist(
+        { uuAppErrorMap },
+        { id: dtoIn.id }
+      );
+    }
+
+    // Smazat appointment z databáze
+    await this.appointmentDao.delete(awid, dtoIn.id);
+
+    // Vrátit jednoduché potvrzení
+    return {
+      id: dtoIn.id,
+      uuAppErrorMap
+    };
+  }
+
 }
 
 module.exports = new AppointmentAbl();
