@@ -10,6 +10,10 @@ class AppointmentMongo extends UuObjectDao {
     return await super.insertOne(UuObject);
   }
 
+  async update(id, UuObject) {
+    return await super.findOneAndUpdate({_id: id}, UuObject, "NONE");
+  }
+
   async get(awid, id) {
     return await super.findOne({id});
   }

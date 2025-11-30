@@ -7,6 +7,11 @@ const appointmentCreateDtoInType = shape({
   note: string(5000)
 });
 
+const appointmentUpdateStatusDtoInType = shape({
+  id: string(2,50).isRequired(),
+  status: oneOf(["Created", "Confirmed", "Cancelled", "Completed"]).isRequired()
+});
+
 const appointmentGetDtoInType = shape({
   id: id().isRequired()
 });

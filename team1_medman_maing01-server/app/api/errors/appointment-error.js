@@ -64,6 +64,24 @@ const Create = {
   }
 };
 
+const UpdateStatus = {
+  UC_CODE: `${APPOINTMENT_ERROR_PREFIX}update-status/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${UpdateStatus.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid."
+    }
+  },
+  AppointmentDoesNotExist: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${UpdateStatus.UC_CODE}appointmentDoesNotExist`;
+      this.message = "Appointment does not exist.";
+    }
+  }
+};
+
 const Get = {
   UC_CODE: `${APPOINTMENT_ERROR_PREFIX}get/`,
   InvalidDtoIn: class extends MedmanMainUseCaseError {
@@ -113,6 +131,7 @@ const Cancel = {
 
 module.exports = {
   Create,
+  UpdateStatus,
   Get,
   Find,
   Cancel

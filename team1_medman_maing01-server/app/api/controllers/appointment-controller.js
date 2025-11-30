@@ -7,6 +7,10 @@ class AppointmentController {
     return AppointmentAbl.create(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }
 
+  updateStatus(ucEnv) {
+    return AppointmentAbl.updateStatus(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
   get(ucEnv) {
     return AppointmentAbl.get(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }
