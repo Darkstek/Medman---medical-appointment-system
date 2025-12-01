@@ -82,7 +82,7 @@ class AppointmentAbl {
 
     return {...appointment, uuAppErrorMap};
   }
-  
+
   async get(awid, dtoIn) {
     const validationResult = this.validator.validate("appointmentGetDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
@@ -191,14 +191,19 @@ class AppointmentAbl {
       throw new Errors.Create.AppointmentInThePast({uuAppErrorMap}, {dateTime: dtoIn.dateTime})
     }
     // check for existing appointments either for the same doctor or patient
-    let existingAppointments = await this.appointmentDao.find({
-      awid: awid,
-      $or: [
-        {$or: [{doctorId: dtoIn.doctorId}, {_id: ObjectId.isValid(dtoIn.doctorId) ? new ObjectId(dtoIn.doctorId) : dtoIn.doctorId}]},
-        {$or: [{patientId: dtoIn.patientId}, {_id: ObjectId.isValid(dtoIn.patientId) ? new ObjectId(dtoIn.patientId) : dtoIn.patientId}]},
-      ],
-      status: {$in: [AppointmentStatus.CREATED, AppointmentStatus.CONFIRMED]}
-    })
+    let existingAppointments = await this.appointmentDao.find(
+      awid,
+      {
+        $or: [
+          {$or: [{doctorId: dtoIn.doctorId}, {_id: ObjectId.isValid(dtoIn.doctorId) ? new ObjectId(dtoIn.doctorId) : dtoIn.doctorId}]},
+          {$or: [{patientId: dtoIn.patientId}, {_id: ObjectId.isValid(dtoIn.patientId) ? new ObjectId(dtoIn.patientId) : dtoIn.patientId}]},
+        ],
+        status: {$in: [AppointmentStatus.CREATED, AppointmentStatus.CONFIRMED]}
+      },
+      dtoIn.pageInfo,
+      {_id: -1},
+      {}
+    )
 
     if (existingAppointments?.itemList) {
       existingAppointments = existingAppointments.itemList.filter(item => {
