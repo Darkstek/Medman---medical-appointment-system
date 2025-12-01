@@ -157,7 +157,11 @@ class DoctorAbl {
     if (dtoIn.description) {
       filter.push({description: {$regex: dtoIn.description, $options: "i"}});
     }
-    return dtoIn.searchMode === "and" ? { $and: filter} : { $or: filter};
+    if (filter.length === 0) {
+      return {};
+    } else {
+      return dtoIn.searchMode === "and" ? {$and: filter} : {$or: filter};
+    }
   }
 
   /**

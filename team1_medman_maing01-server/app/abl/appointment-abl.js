@@ -158,7 +158,11 @@ class AppointmentAbl {
       filter.push({status: dtoIn.status ?? AppointmentStatus.CONFIRMED});
     }
 
-    return dtoIn.searchMode === "and" ? { $and: filter} : { $or: filter};
+    if (filter.length === 0) {
+      return {};
+    } else {
+      return dtoIn.searchMode === "and" ? {$and: filter} : {$or: filter};
+    }
   }
 
   /**
@@ -195,17 +199,22 @@ class AppointmentAbl {
       awid,
       {
         $or: [
+          // dtoIn.doctorId can be actually doctor._id or doctor.doctorId from a mongodb collection
+          // ternary operator is used to avoid error when doctorId is not a valid ObjectId
           {$or: [{doctorId: dtoIn.doctorId}, {_id: ObjectId.isValid(dtoIn.doctorId) ? new ObjectId(dtoIn.doctorId) : dtoIn.doctorId}]},
+          // dtoIn.patientId can be actually patient._id or patient.patientId from a mongodb collection
+          // ternary operator is used to avoid error when patientId is not a valid ObjectId
           {$or: [{patientId: dtoIn.patientId}, {_id: ObjectId.isValid(dtoIn.patientId) ? new ObjectId(dtoIn.patientId) : dtoIn.patientId}]},
         ],
         status: {$in: [AppointmentStatus.CREATED, AppointmentStatus.CONFIRMED]}
       },
       dtoIn.pageInfo,
-      {_id: -1},
-      {}
+      {_id: -1}, // sort by id descending
+      {} // projection
     )
 
     if (existingAppointments?.itemList) {
+      // find appointments within 15 minutes of the appointment we are creating
       existingAppointments = existingAppointments.itemList.filter(item => {
         let timeDiff = Math.abs(new Date(item.dateTime) - dtoInDateTime);
         return timeDiff < 15 * 60 * 1000; // 15 minutes
@@ -217,10 +226,12 @@ class AppointmentAbl {
 
     let timeSlot = doctor.availableTimeSlots.find(slot => new Date(slot.start) <= dtoInDateTime && new Date(slot.end) >= dtoInDateTime);
     if (!timeSlot) {
+      // the appointment is outside the doctor's available time slots, so it can't be scheduled
       throw new Errors.Create.TimeSlotNotAvailable({uuAppErrorMap}, {dateTime: dtoIn.dateTime, availableTimeSlots: doctor.availableTimeSlots})
     }
 
     if (new Date(timeSlot.end) - dtoInDateTime < 15 * 60 * 1000) {
+      // appointment is less than 15 minutes away from the end of the time slot, so it can't fit in the slot
       throw new Errors.Create.AppointmentDoesNotFit({uuAppErrorMap}, {dateTime: dtoIn.dateTime, timeSlot: timeSlot})
     }
 
