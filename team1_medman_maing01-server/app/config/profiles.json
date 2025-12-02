@@ -94,12 +94,26 @@
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       },
-
       "appointment/cancel": {
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "patient/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "patient/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "patient/find": {
+        "sysStateList": ["active"],
+        "profileList": ["Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "patient/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       }
-
     }
   }
 }

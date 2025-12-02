@@ -105,7 +105,7 @@ const Find = {
   InvalidDtoIn: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}invalidDtoIn`;
+      this.code = `${Find.UC_CODE}invalidDtoIn`;
       this.message = "DtoIn is not valid."
     }
   }

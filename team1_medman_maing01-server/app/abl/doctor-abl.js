@@ -8,13 +8,13 @@ const Errors = require("../api/errors/doctor-error.js");
 
 const WARNINGS = {
   doctorCreateDtoInType: {
-    code: '${Errors.Create.UC_CODE}unsupportedKeys'
+    code: `${Errors.Create.UC_CODE}unsupportedKeys`
   },
   doctorGetDtoInType: {
-    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+    code: `${Errors.Get.UC_CODE}unsupportedKeys`
   },
   doctorFindDtoInType: {
-    code: '${Errors.Get.UC_CODE}unsupportedKeys'
+    code: `${Errors.Find.UC_CODE}unsupportedKeys`
   }
 };
 

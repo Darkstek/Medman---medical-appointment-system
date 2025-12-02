@@ -76,13 +76,31 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-
       "appointment/cancel": {
         "realization": "api/controllers/AppointmentController.cancel",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "patient/create": {
+        "realization": "api/controllers/PatientController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "patient/update": {
+        "realization": "api/controllers/PatientController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "patient/get": {
+        "realization": "api/controllers/PatientController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "patient/find": {
+        "realization": "api/controllers/PatientController.find",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
-
     }
   }
 }
