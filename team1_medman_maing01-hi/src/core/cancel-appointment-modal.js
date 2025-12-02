@@ -1,4 +1,4 @@
-import { createVisualComponent, useState, useEffect, PropTypes } from "uu5g05";
+import { createVisualComponent, useState, useEffect, PropTypes, setLoading, setError } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
@@ -19,29 +19,25 @@ const CancelAppointmentModal = createVisualComponent({
       e.preventDefault();
       console.log("Cancel appointment triggered for ID:", appointmentId); // Log appointment ID
 
-      //TODO: BE call to cancel appointment - once update/delete available
-      // try {
-      //   console.log("Sending request to cancel appointment..."); // Log before API call
-
-      //   //    await Calls.call("PUT", `appointments/${appointmentId}`, {
-      //   await Calls.call("cmdUpdate", Calls.getCommandUri(`appointments/${appointmentId}`), {
-      //     done: (response) => {
-      //       console.log("Cancellation successful. Response:", response); // Log success response
-
-      //       alert("Appointment has been cancelled successfully!"); // Show success message
-      //       onConfirm(); // Trigger the onConfirm callback
-      //       onClose(); // Close the modal
-      //     },
-      //     fail: (error) => {
-      //       console.error("Error cancelling appointment:", error);
-      //       alert("Failed to cancel the appointment. Please try again."); // Show error message
-      //     },
-      //   });
-      // } catch (error) {
-      //   console.error("Unexpected error during cancellation:", error); // Log unexpected error
-      //   alert("An unexpected error occurred. Please try again."); // Show error message
-      // }
+      const dtoIn = { id: appointmentId };
+      console.log("dtoIn:", dtoIn);
+      //BE call - uncomment section and comment out alert
+      /*
+      setLoading(true);
+      Calls.cancelAppointment(dtoIn)
+        .then((dtoOut) => {
+          // dtoOut === { id, message, uuAppErrorMap }
+          alert(dtoOut.message || "Appointment has been cancelled!");
+          console.log(dtoOut);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(err.message || "Failed to cancel appointment.");
+        })
+        .finally(() => setLoading(false));
+*/
       alert("Appointment has been cancelled!"); // Show a success message
+
       onConfirm();
       onClose();
     };

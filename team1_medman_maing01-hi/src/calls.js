@@ -37,12 +37,23 @@ const Calls = {
     await Calls.initWorkspace(dtoInData);
     return await Calls.getWorkspace();
   },
-/*
+  /*
   findDoctors(dtoIn) {
     const commandUri = Calls.getCommandUri("doctor/find");
     return Calls.call("cmdGet", commandUri, dtoIn);
   },
 */
+
+  cancelAppointment(dtoIn) {
+    const commandUri = Calls.getCommandUri("appointment/cancel");
+    return Calls.call("cmdPut", commandUri, dtoIn);
+  },
+
+  bookAppointment(dtoIn) {
+    const commandUri = Calls.getCommandUri("appointment/create");
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
     return (!baseUri.endsWith("/") ? baseUri + "/" : baseUri) + (useCase.startsWith("/") ? useCase.slice(1) : useCase);
   },
