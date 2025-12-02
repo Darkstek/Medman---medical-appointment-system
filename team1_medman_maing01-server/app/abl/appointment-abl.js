@@ -281,8 +281,21 @@ class AppointmentAbl {
     return patient;
   }
 
+  /**
+   * Cancels an existing appointment based on the provided input.
+   * The method validates the input, checks whether the appointment exists,
+   * removes it from the database, and returns a confirmation response.
+   *
+   * @param {string} awid - The identifier of the application workspace.
+   * @param {Object} dtoIn - The input DTO containing the appointment ID to be cancelled.
+   * @param {string} dtoIn.id - The unique identifier of the appointment.
+   * @return {Promise<Object>} A promise resolving to an object containing the cancelled appointment ID and the uuAppErrorMap.
+   * @throws {Errors.Cancel.InvalidDtoIn} If the input DTO fails validation.
+   * @throws {Errors.Cancel.AppointmentDoesNotExist} If the appointment with the provided ID does not exist.
+   */
+
   async cancel(awid, dtoIn) {
-    // Validace vstupu
+    // Validate input
     const validationResult = this.validator.validate("appointmentCancelDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -292,7 +305,7 @@ class AppointmentAbl {
       Errors.Cancel.InvalidDtoIn
     );
 
-    // Ověřit appointment existuje
+    // Verify that the appointment exists
     let appointment = await this.appointmentDao.get(awid, dtoIn.id);
     if (!appointment) {
       throw new Errors.Cancel.AppointmentDoesNotExist(
@@ -301,12 +314,13 @@ class AppointmentAbl {
       );
     }
 
-    // Smazat appointment z databáze
+    // Delete the appointment from the database
     await this.appointmentDao.delete(awid, dtoIn.id);
 
-    // Vrátit jednoduché potvrzení
+    // Return a simple confirmation response
     return {
       id: dtoIn.id,
+      message: "Appointment has been canceled",
       uuAppErrorMap
     };
   }
