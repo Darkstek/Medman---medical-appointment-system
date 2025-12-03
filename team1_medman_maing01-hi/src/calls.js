@@ -61,6 +61,11 @@ const Calls = {
     return Calls.call("cmdGet", commandUri, dtoIn);
   },
 
+  findAllDoctors() {
+    const commandUri = Calls.getCommandUri("doctor/find");
+    return Calls.call("cmdGet", commandUri);
+  },
+
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
     return (!baseUri.endsWith("/") ? baseUri + "/" : baseUri) + (useCase.startsWith("/") ? useCase.slice(1) : useCase);
   },
