@@ -49,7 +49,7 @@ const Calls = {
     return Calls.call("cmdPut", commandUri, dtoIn);
   },
 
-  bookAppointment(dtoIn) {
+  createAppointment(dtoIn) {
     const commandUri = Calls.getCommandUri("appointment/create");
     return Calls.call("cmdPost", commandUri, dtoIn);
   },
