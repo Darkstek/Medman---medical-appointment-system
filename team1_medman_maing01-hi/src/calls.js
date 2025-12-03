@@ -9,6 +9,8 @@ import Plus4U5 from "uu_plus4u5g02";
 
 const Calls = {
   call(method, url, dtoIn, clientOptions) {
+    // console.log("Method:", method);
+    // console.log("Available methods:", Object.keys(Plus4U5.Utils.AppClient));
     return Plus4U5.Utils.AppClient[method](url, dtoIn, clientOptions);
   },
 
@@ -46,7 +48,7 @@ const Calls = {
 
   cancelAppointment(dtoIn) {
     const commandUri = Calls.getCommandUri("appointment/cancel");
-    return Calls.call("cmdPut", commandUri, dtoIn);
+    return Calls.call("cmdPost", commandUri, dtoIn);
   },
 
   createAppointment(dtoIn) {
