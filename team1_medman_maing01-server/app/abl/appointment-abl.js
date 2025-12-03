@@ -75,9 +75,12 @@ class AppointmentAbl {
       Errors.UpdateStatus.InvalidDtoIn
     );
 
-    let appointment = this.get(awid, { id: dtoIn.id })
-    appointment.status = dtoIn.status
+    let appointment = await this.appointmentDao.get(awid, dtoIn.id);
+    if (!appointment) {
+      throw new Errors.UpdateStatus.AppointmentDoesNotExist({id: dtoIn.id});
+    }
 
+    appointment.status = dtoIn.status
     appointment = await this.appointmentDao.update(dtoIn.id, appointment);
 
     return {...appointment, uuAppErrorMap};
@@ -95,7 +98,7 @@ class AppointmentAbl {
 
     let appointment = await this.appointmentDao.get(awid, dtoIn.id);
     if (!appointment) {
-      throw new Errors.UpdateStatus.AppointmentDoesNotExist({id: dtoIn.id});
+      throw new Errors.Get.AppointmentDoesNotExist({id: dtoIn.id});
     }
 
     return {...appointment, uuAppErrorMap};
