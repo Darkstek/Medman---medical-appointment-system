@@ -1,4 +1,4 @@
-import { createVisualComponent, useState, useEffect, PropTypes } from "uu5g05";
+import { createVisualComponent, useState, useEffect, PropTypes, setError } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
@@ -13,7 +13,7 @@ const BookAppointmentModal = createVisualComponent({
   propTypes: {
     onClose: PropTypes.func.isRequired, // Add onClose prop to handle modal close
     open: PropTypes.bool.isRequired, // Add isOpen prop to control modal visibility
-  //  onCreate: PropTypes.func.isRequired, // TODO: Callback to add mock - to remove
+    //  onCreate: PropTypes.func.isRequired, // TODO: Callback to add mock - to remove
   },
 
   render({ open, onClose }) {
@@ -101,6 +101,34 @@ const BookAppointmentModal = createVisualComponent({
       //   console.error("Unexpected error during appointment creation:", error); // Log unexpected error
       //   alert("An unexpected error occurred. Please try again."); // Show error message
       // }
+
+      //BE call - uncomment section and comment out alert
+
+      // dtoIn = {
+      //   patientId,
+      //   doctorId,
+      //   dateTime,
+      //   note
+      // }
+
+      setLoading(true);
+
+      Calls.createAppointment(formData)
+        .then((dtoOut) => {
+          alert(dtoOut.message || "An appointment created successfully!");
+
+          // Optional: update list
+          // setAppointments(prev => [...prev, dtoOut]);
+
+          console.log("Created:", dtoOut);
+        })
+        .catch((err) => {
+          console.error(err);
+          setError(err.message || "Failed to create an appointment.");
+
+          setError(err.message);
+        })
+        .finally(() => setLoading(false));
 
       alert("Appointment created successfully!"); // Show a success message
       onClose();

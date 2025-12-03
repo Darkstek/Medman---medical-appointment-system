@@ -14,7 +14,7 @@ const AppointmentTile = createVisualComponent({
       doctorId: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
       dateTime: PropTypes.string.isRequired,
-    //  time: PropTypes.string.isRequired,
+      //  time: PropTypes.string.isRequired,
       note: PropTypes.string,
       doctor: PropTypes.shape({
         firstName: PropTypes.string.isRequired,
@@ -30,12 +30,6 @@ const AppointmentTile = createVisualComponent({
 
   render({ appointment, onCancel }) {
     const [appointmentDetailModalOpen, setAppointmentDetailModalOpen] = useState(false);
-    const [cancelAppointmentModalOpen, setCancelAppointmentModalOpen] = useState(false);
-
-    const handleCancel = () => {
-      onCancel(appointment.appointmentId); // Call the onCancel handler with the appointment ID
-      setCancelAppointmentModalOpen(false); // Close the modal
-    };
 
     return (
       <Uu5TilesElements.Tile
@@ -53,7 +47,7 @@ const AppointmentTile = createVisualComponent({
                 children: "Cancel",
                 colorScheme: "red",
                 // onClick: () => alert("Cancel appointment functionality to be implemented"),
-                onClick: () => setCancelAppointmentModalOpen(true),
+                onClick: () => onCancel(appointment.appointmentId), // Trigger the onCancel callback
               },
             ].filter(Boolean)}
           ></Uu5Elements.ButtonGroup>
@@ -66,15 +60,11 @@ const AppointmentTile = createVisualComponent({
           </Uu5Elements.Text>
           <div>
             <Uu5Elements.Icon icon="uugds-mapmarker" />
-            <Uu5Elements.Text> 
-              {appointment.clinic?.name}
-              </Uu5Elements.Text>
+            <Uu5Elements.Text>{appointment.clinic?.name}</Uu5Elements.Text>
           </div>
           <div>
             <Uu5Elements.Icon icon="uugdsstencil-education-student" />
-            <Uu5Elements.Text> 
-              {appointment.doctor?.specialization}
-              </Uu5Elements.Text>
+            <Uu5Elements.Text>{appointment.doctor?.specialization}</Uu5Elements.Text>
           </div>
         </Uu5Elements.Grid>
 
@@ -82,13 +72,6 @@ const AppointmentTile = createVisualComponent({
           open={appointmentDetailModalOpen}
           appointment={appointment}
           onClose={() => setAppointmentDetailModalOpen(false)}
-        />
-
-        <CancelAppointmentModal
-          open={cancelAppointmentModalOpen}
-          onClose={() => setCancelAppointmentModalOpen(false)}
-          onConfirm={handleCancel}
-          appointmentId={appointment.appointmentId}
         />
       </Uu5TilesElements.Tile>
     );

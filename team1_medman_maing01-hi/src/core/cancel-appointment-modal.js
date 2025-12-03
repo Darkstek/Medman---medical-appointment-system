@@ -1,4 +1,5 @@
-import { createVisualComponent, useState, useEffect, PropTypes, setLoading, setError } from "uu5g05";
+import { createVisualComponent, useState, useEffect, PropTypes } from "uu5g05";
+import { useAlertBus } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
@@ -12,34 +13,74 @@ const CancelAppointmentModal = createVisualComponent({
     onClose: PropTypes.func.isRequired, // Add onClose prop to handle modal close
     open: PropTypes.bool.isRequired, // Add isOpen prop to control modal visibility
     onConfirm: PropTypes.func.isRequired, // Callback for confirming cancellation
-    appointmentId: PropTypes.string.isRequired, // ID of the appointment to cancel
+    // appointmentId: PropTypes.string.isRequired, // ID of the appointment to cancel
+    appointmentId: PropTypes.string.isRequired, // ID of the appointment to cancel for testing -> can be null
   },
   render({ open, onClose, onConfirm, appointmentId }) {
+    const [loading, setLoading] = useState(false);
+    //const [message, setMessage] = useState(null); // State for success message
+    const [error, setError] = useState(null);
+    const { addAlert } = useAlertBus();
+
+    function showError(error, header = "") {
+      addAlert({
+        header,
+        message: error.message,
+        priority: "error",
+        durationMs: 2000,
+      });
+    }
+
     const handleSubmit = async (e) => {
       e.preventDefault();
-      console.log("Cancel appointment triggered for ID:", appointmentId); // Log appointment ID
+
+      //-> for testing - this is coming from props
+      // appointmentId = null;
+      if (!appointmentId) {
+        // setError("Appointment ID is missing.");
+        addAlert({
+          message: `Appointment ID is missing.`,
+          priority: "error",
+          durationMs: 2000,
+        });
+        return;
+      }
+
+      setLoading(true);
+      // setError(null);
+
+      // -> for testing Mocked success response
+      const mockCancelAppointment = () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ message: "Appointment has been cancelled!" });
+          }, 1000); // Simulate a 1-second delay
+        });
 
       const dtoIn = { id: appointmentId };
       console.log("dtoIn:", dtoIn);
-      //BE call - uncomment section and comment out alert
-      /*
-      setLoading(true);
-      Calls.cancelAppointment(dtoIn)
-        .then((dtoOut) => {
-          // dtoOut === { id, message, uuAppErrorMap }
-          alert(dtoOut.message || "Appointment has been cancelled!");
-          console.log(dtoOut);
-        })
-        .catch((err) => {
-          console.error(err);
-          setError(err.message || "Failed to cancel appointment.");
-        })
-        .finally(() => setLoading(false));
-*/
-      alert("Appointment has been cancelled!"); // Show a success message
 
-      onConfirm();
-      onClose();
+      try {
+        //for testing -> call mocked function insttead of BE call
+        // const dtoOut = await mockCancelAppointment(); // Use the mocked function
+        const dtoOut = await Calls.cancelAppointment(dtoIn);
+        //    alert(dtoOut.message || "Appointment has been cancelled!"); // Show success message
+        // setMessage(dtoOut.message || "Appointment has been cancelled!"); // Set success message
+        addAlert({
+          message: `Appointment has been cancelled!`,
+          priority: "success",
+          durationMs: 2000,
+        });
+        onConfirm(); // Notify parent component
+        onClose(); // Close the modal
+      } catch (err) {
+        console.error(err);
+        //  setError(err.message || "Failed to cancel the appointment.");
+        showError(err, "Failed to cancel the appointment.");
+      } finally {
+        setLoading(false);
+      }
+      //BE call - uncomment section and comment out alert
     };
     return (
       <Uu5Elements.Modal
@@ -51,8 +92,21 @@ const CancelAppointmentModal = createVisualComponent({
           </Uu5Elements.Text>
         }
       >
-        <Uu5Forms.SubmitButton onClick={handleSubmit} colorScheme="red">
-          Confirm
+        {/* Display success message */}
+        {/* {message && (
+          <Uu5Elements.HighlightedBox category="interface" colorScheme="positive" style={{ marginBottom: "16px" }}>
+            {message}
+          </Uu5Elements.HighlightedBox>
+        )} */}
+        {/* Display error message if it exists -> for testing */}
+        {/* {error && (
+          <Uu5Elements.HighlightedBox category="interface" colorScheme="negative" style={{ marginBottom: "16px" }}>
+            {error}
+          </Uu5Elements.HighlightedBox>
+        )} */}
+        <Uu5Forms.SubmitButton onClick={handleSubmit} colorScheme="red" disabled={loading}>
+          {/* Confirm */}
+          {loading ? "Cancelling..." : "Confirm"}
         </Uu5Forms.SubmitButton>
       </Uu5Elements.Modal>
     );
