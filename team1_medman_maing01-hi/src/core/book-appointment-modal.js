@@ -125,7 +125,7 @@ const BookAppointmentModal = createVisualComponent({
 
       try {
         //for testing Mocked success response - enriched with status and appointmentId, comment out/uncomment as needed
-        //const dtoOut = await mockCreateAppointment();
+        // const dtoOut = await mockCreateAppointment();
         const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
         addAlert({
           message: dtoOut.message || "Appointment has been created successfully!",
