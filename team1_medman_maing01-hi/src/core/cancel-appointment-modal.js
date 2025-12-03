@@ -3,6 +3,7 @@ import { useAlertBus } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
+import { mockFetchAppointments } from "../../mock/mockFetch.js";
 import Calls from "../calls.js";
 
 const Css = {};
@@ -18,7 +19,6 @@ const CancelAppointmentModal = createVisualComponent({
   },
   render({ open, onClose, onConfirm, appointmentId }) {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
     const { addAlert } = useAlertBus();
 
     function showError(error, header = "") {
@@ -35,6 +35,7 @@ const CancelAppointmentModal = createVisualComponent({
 
       //for testing - this is coming from props, if uncommented, failure on missing appointmentId can be tested
       // appointmentId = null;
+
       if (!appointmentId) {
         addAlert({
           message: `Appointment ID is missing.`,
@@ -45,26 +46,67 @@ const CancelAppointmentModal = createVisualComponent({
       }
 
       setLoading(true);
-      // setError(null);
-
-      //for testing Mocked success response
-      const mockCancelAppointment = (dtoIn) =>
-        new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              message: "Appointment has been cancelled!",
-              id: dtoIn.id, // Include the appointment ID in the response
-            });
-          }, 1000); // Simulate a 1-second delay
-        });
-
-      const dtoIn = { id: appointmentId };
-      console.log("dtoIn:", dtoIn);
+      console.log("AppointmentId: ", appointmentId);
 
       try {
+        // Define the dtoIn for findAppointments
+        const findAppointments = {
+          sortBy: {
+            id: "desc",
+          },
+          pageInfo: {
+            pageIndex: 0,
+            pageSize: 100,
+          },
+        };
+
+        // testing -> comment out whole section and user dToIn and mockCancelAppoitment for testing without server
+        // Fetch appointments using findAppointments
+        const appointmentsResponse = await Calls.findAppointments(findAppointments);
+        function matchAppointmentId(payload, targetAppointmentId) {
+          if (!payload || !Array.isArray(payload.itemList)) return null;
+
+          for (const item of payload.itemList) {
+            if (item.appointmentId === targetAppointmentId) {
+              return item.id;
+            }
+          }
+          return null; // not found
+        }
+
+        const matchedId = matchAppointmentId(appointmentsResponse, appointmentId);
+        console.log("MatchedIdApi: ", matchedId);
+
+        if (!matchedId) {
+          addAlert({
+            message: `Appointment with ID ${appointmentId} not found.`,
+            priority: "error",
+            durationMs: 2000,
+          });
+          return;
+        }
+
+        //Set dtoIn using the fetched appointment data
+        const cancelDtoIn = { id: matchedId };
+        console.log("cancelDtoIn: ", cancelDtoIn);
+
+        //for testing Mocked success response - in demo data we fetch appointmentId-> comment out code above
+        const dtoIn = { id: appointmentId };
+        console.log("dtoInMock:", dtoIn);
+        const mockCancelAppointment = (dtoIn) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve({
+                message: "Appointment has been cancelled!",
+                id: dtoIn.id, // Include the appointment ID in the response
+              });
+            }, 1000); // Simulate a 1-second delay
+          });
+
+        // try {
         //for testing -> call mocked function instead of BE call + onConfirm to uncomment - please check comments in appointment-list for mock usage
         // const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
-        const dtoOut = await Calls.cancelAppointment(dtoIn);
+        const dtoOut = await Calls.cancelAppointment(cancelDtoIn);
         addAlert({
           message: /*dtoOut.message ||*/ `Appointment has been cancelled!`,
           priority: "success",
