@@ -22,37 +22,55 @@ const AppointmentsList = createVisualComponent({
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
     const [selectedAppointmentId, setSelectedAppointmentId] = useState(null); // State for selected appointment ID
 
-    useEffect(() => {
-      setLoading(true);
+    // useEffect(() => {
+    //   setLoading(true);
 
-      getAppointmentsWithDetails() // replace with fetch (API) endpoint
-        .then((json) => setAppointments(json))
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
+    //   getAppointmentsWithDetails() // replace with fetch (API) endpoint
+    //     .then((json) => setAppointments(json))
+    //     .catch((err) => setError(err.message))
+    //     .finally(() => setLoading(false));
+    // }, []);
+
+    //modified to refresh after appointment cancellation or creation based on demo-data - appointments.json -> if without server, comment out and uncomment the above useEffect
+    useEffect(() => {
+      fetchAppointments();
     }, []);
 
-    //TODO: Implement cancel appointment functionality BE
+    useEffect(() => {
+      function updateHandler() {
+        fetchAppointments();
+      }
+
+      window.addEventListener("appointmentsUpdated", updateHandler);
+
+      return () => window.removeEventListener("appointmentsUpdated", updateHandler);
+    }, []);
+
+    async function fetchAppointments() {
+      setLoading(true);
+      try {
+        const json = await getAppointmentsWithDetails();
+        setAppointments(json);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
 
     const openCancelModal = (appointmentId) => {
       setSelectedAppointmentId(appointmentId);
       setIsModalOpen(true);
     };
 
-    const handleConfirmCancel = () => {
-      setAppointments((prevAppointments) =>
-        prevAppointments.map((appointment) =>
-          appointment.appointmentId === selectedAppointmentId ? { ...appointment, status: "Cancelled" } : appointment,
-        ),
-      );
-      setIsModalOpen(false);
-    };
-
-    // const handleCancelAppointment = (appointmentId) => {
+    //for testing -> if uncommented, it can be used with mockCancelAppointment without running server, otherwise fetch appointments refreshes based on demo-data - appointments.js
+    // const handleConfirmCancel = () => {
     //   setAppointments((prevAppointments) =>
     //     prevAppointments.map((appointment) =>
-    //       appointment.appointmentId === appointmentId ? { ...appointment, status: "Cancelled" } : appointment,
+    //       appointment.appointmentId === selectedAppointmentId ? { ...appointment, status: "Cancelled" } : appointment,
     //     ),
     //   );
+    //   setIsModalOpen(false);
     // };
 
     if (loading) return <Uu5Elements.Text>Fetching appointments...</Uu5Elements.Text>;
@@ -101,7 +119,8 @@ const AppointmentsList = createVisualComponent({
         <CancelAppointmentModal
           open={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onConfirm={handleConfirmCancel}
+          //for testing without server - uncomment onConfirm and the handleConfirmCancel function above
+          // onConfirm={handleConfirmCancel}
           appointmentId={selectedAppointmentId}
         />
       </>

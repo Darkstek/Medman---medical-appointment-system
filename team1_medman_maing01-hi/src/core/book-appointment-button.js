@@ -26,6 +26,12 @@ const BookAppointmentButton = createVisualComponent({
       setBookAppointmentModalOpen(false);
     };
 
+    // const handleCreateAppointment = (newAppointment) => {
+    //   console.log("Book appointment button:", newAppointment);
+    //   //Update parent state or perform additional actions
+    // };
+    // console.log("onCreate prop in BookAppointmentModal:", onCreate);
+
     return (
       <>
         <Uu5Elements.Button onClick={handleButtonClick} className={Css.button()} size="m" significance="highlighted">
