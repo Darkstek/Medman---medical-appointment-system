@@ -1,8 +1,10 @@
 import { createVisualComponent, useState, useEffect, PropTypes, setError } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
+import { useAlertBus } from "uu5g05-elements";
 import Config from "./config/config.js";
-import { mockFetchDoctors } from "../../mock/mockFetch.js";
+import { mockFetchDoctors, mockFetchPatients } from "../../mock/mockFetch.js";
+
 import Calls from "../calls.js";
 
 const Css = {};
@@ -13,7 +15,6 @@ const BookAppointmentModal = createVisualComponent({
   propTypes: {
     onClose: PropTypes.func.isRequired, // Add onClose prop to handle modal close
     open: PropTypes.bool.isRequired, // Add isOpen prop to control modal visibility
-    //  onCreate: PropTypes.func.isRequired, // TODO: Callback to add mock - to remove
   },
 
   render({ open, onClose }) {
@@ -23,7 +24,32 @@ const BookAppointmentModal = createVisualComponent({
     const [filteredDoctors, setFilteredDoctors] = useState([]); // State to store filtered doctors
     const [selectedDoctor, setSelectedDoctor] = useState(""); // State to store selected doctor
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]); // State to store available time slots
+    const [patientId, setPatientId] = useState(null); // State to store the logged-in user's patientId
 
+    const { addAlert } = useAlertBus();
+
+    function showError(error, header = "") {
+      addAlert({
+        header,
+        message: error.message,
+        priority: "error",
+        durationMs: 2000,
+      });
+    }
+
+    // Replace with actual logic to identify the logged-in user
+    useEffect(() => {
+      async function fetchPatientId() {
+        try {
+          const patients = await mockFetchPatients(); // Fetch mock data
+          const loggedInPatient = patients.find((patient) => patient.emailAddress === "jess.davis@college.edu");
+          setPatientId(loggedInPatient?.patientId || "Unknown");
+        } catch (error) {
+          console.error("Error fetching patient ID:", error);
+        }
+      }
+      fetchPatientId();
+    }, []);
     // Fetch mock data
     useEffect(() => {
       async function fetchDoctors() {
@@ -67,8 +93,8 @@ const BookAppointmentModal = createVisualComponent({
       // Find the selected doctor object
       const doctor = filteredDoctors.find((doc) => `${doc.lastName} ${doc.firstName}` === formData.doctor);
 
-      const appointmentData = {
-        //  specialization: formData.specialization,
+      const dtoIn = {
+        patientId, // Add the logged-in user's patientId
         doctorId: doctor?.doctorId,
         dateTime: new Date(
           availableTimeSlots.find(
@@ -77,61 +103,46 @@ const BookAppointmentModal = createVisualComponent({
               formData.appointmentTimeSlot,
           )?.start,
         ).toISOString(), // Use start time of the selected time slot
+        note: null,
       };
 
-      console.log("Creating appointment with data:", appointmentData); // Log appointment data
-
-      // try {
-      //   console.log("Sending request to create appointment..."); // Log before API call
-
-      //   //    await Calls.call("POST", "appointments", {
-      //   await Calls.call("cmdPost", Calls.getCommandUri("appointments"), {
-      //     data: appointmentData,
-      //     done: (response) => {
-      //       console.log("Appointment created successfully. Response:", response); // Log success response
-      //       alert("Appointment created successfully!"); // Show success message
-      //       onClose(); // Close the modal
-      //     },
-      //     fail: (error) => {
-      //       console.error("Error creating appointment:", error);
-      //       alert("Failed to create appointment. Please try again."); // Show error message
-      //     },
-      //   });
-      // } catch (error) {
-      //   console.error("Unexpected error during appointment creation:", error); // Log unexpected error
-      //   alert("An unexpected error occurred. Please try again."); // Show error message
-      // }
-
-      //BE call - uncomment section and comment out alert
-
-      // dtoIn = {
-      //   patientId,
-      //   doctorId,
-      //   dateTime,
-      //   note
-      // }
-
+      console.log("Creating appointment with data:", dtoIn); // Log appointment data
       setLoading(true);
 
-      Calls.createAppointment(formData)
-        .then((dtoOut) => {
-          alert(dtoOut.message || "An appointment created successfully!");
+      // -> for testing Mocked success response - enriched with status and appointmentId
+      const mockCreateAppointment = () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              // message: "Appointment has been created successfully!",
+              patientId: dtoIn.patientId,
+              doctorId: dtoIn.doctorId,
+              dateTime: dtoIn.dateTime,
+              note: dtoIn.note,
+            });
+          }, 1000); // Simulate a 1-second delay
+        });
 
-          // Optional: update list
-          // setAppointments(prev => [...prev, dtoOut]);
+      try {
+        //for testing Mocked success response - enriched with status and appointmentId, comment out/uncomment as needed
+        //const dtoOut = await mockCreateAppointment();
+        const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
+        addAlert({
+          message: dtoOut.message || "Appointment has been created successfully!",
+          priority: "success",
+          durationMs: 2000,
+        });
 
-          console.log("Created:", dtoOut);
-        })
-        .catch((err) => {
-          console.error(err);
-          setError(err.message || "Failed to create an appointment.");
+        window.dispatchEvent(new Event("appointmentsUpdated"));
+        console.log("Creating appointment with data:", dtoOut);
 
-          setError(err.message);
-        })
-        .finally(() => setLoading(false));
-
-      alert("Appointment created successfully!"); // Show a success message
-      onClose();
+        onClose(); // Close the modal
+      } catch (err) {
+        console.error(err);
+        showError(err, "Failed to create an appointment.");
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -181,10 +192,9 @@ const BookAppointmentModal = createVisualComponent({
             required
             disabled={!selectedDoctor}
           />
-          <Uu5Forms.SubmitButton
-            disabled={availableTimeSlots.length === 0} // Disable the button if no time slots are available
-          >
-            Create an Appointment
+          <Uu5Forms.SubmitButton disabled={loading || availableTimeSlots.length === 0}>
+            {/* Create an Appointment */}
+            {loading ? "Booking..." : "Create an Appointment"}
           </Uu5Forms.SubmitButton>
           {/* 
           <Uu5Forms.ResetButton>
