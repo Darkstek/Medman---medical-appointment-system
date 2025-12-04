@@ -21,6 +21,7 @@ const AppointmentsList = createVisualComponent({
 
     const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
     const [selectedAppointmentId, setSelectedAppointmentId] = useState(null); // State for selected appointment ID
+    const [selectedId, setSelectedId] = useState(null); // State for selected appointment ID
 
     // useEffect(() => {
     //   setLoading(true);
@@ -58,20 +59,11 @@ const AppointmentsList = createVisualComponent({
       }
     }
 
-    const openCancelModal = (appointmentId) => {
-      setSelectedAppointmentId(appointmentId);
+    const openCancelModal = (data) => {
+      setSelectedAppointmentId(data.appointmentId);
+      setSelectedId(data.id);
       setIsModalOpen(true);
     };
-
-    //for testing -> if uncommented, it can be used with mockCancelAppointment without running server, otherwise fetch appointments refreshes based on demo-data - appointments.js
-    // const handleConfirmCancel = () => {
-    //   setAppointments((prevAppointments) =>
-    //     prevAppointments.map((appointment) =>
-    //       appointment.appointmentId === selectedAppointmentId ? { ...appointment, status: "Cancelled" } : appointment,
-    //     ),
-    //   );
-    //   setIsModalOpen(false);
-    // };
 
     if (loading) return <Uu5Elements.Text>Fetching appointments...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
@@ -92,9 +84,7 @@ const AppointmentsList = createVisualComponent({
           >
             <Uu5Tiles.ControllerProvider data={upcomingAppointments}>
               <Uu5TilesElements.Grid tileMinWidth={100}>
-                {(tile) => (
-                  <AppointmentTile appointment={tile.data} onCancel={() => openCancelModal(tile.data.appointmentId)} />
-                )}
+                {(tile) => <AppointmentTile appointment={tile.data} onCancel={() => openCancelModal(tile.data)} />}
               </Uu5TilesElements.Grid>
             </Uu5Tiles.ControllerProvider>
           </Uu5Elements.Block>
@@ -122,6 +112,7 @@ const AppointmentsList = createVisualComponent({
           //for testing without server - uncomment onConfirm and the handleConfirmCancel function above
           // onConfirm={handleConfirmCancel}
           appointmentId={selectedAppointmentId}
+          id={selectedId}
         />
       </>
     );
