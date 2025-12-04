@@ -17,7 +17,7 @@ const CancelAppointmentModal = createVisualComponent({
     //appointmentId: PropTypes.string.isRequired, // ID of the appointment to cancel
     appointmentId: PropTypes.string, // ID of the appointment to cancel for testing -> can be null
   },
-  render({ open, onClose, onConfirm, appointmentId }) {
+  render({ open, onClose, appointmentId }) {
     const [loading, setLoading] = useState(false);
     const { addAlert } = useAlertBus();
 
@@ -35,6 +35,7 @@ const CancelAppointmentModal = createVisualComponent({
 
       //for testing - this is coming from props, if uncommented, failure on missing appointmentId can be tested
       // appointmentId = null;
+      console.log("AppointmentId: ", appointmentId);
 
       if (!appointmentId) {
         addAlert({
@@ -46,7 +47,6 @@ const CancelAppointmentModal = createVisualComponent({
       }
 
       setLoading(true);
-      console.log("AppointmentId: ", appointmentId);
 
       try {
         // Define the dtoIn for findAppointments
@@ -105,7 +105,7 @@ const CancelAppointmentModal = createVisualComponent({
 
         // try {
         //for testing -> call mocked function instead of BE call + onConfirm to uncomment - please check comments in appointment-list for mock usage
-        // const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
+        //const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
         const dtoOut = await Calls.cancelAppointment(cancelDtoIn);
         addAlert({
           message: /*dtoOut.message ||*/ `Appointment has been cancelled!`,
