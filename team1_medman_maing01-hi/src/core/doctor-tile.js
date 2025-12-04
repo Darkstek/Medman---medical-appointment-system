@@ -1,7 +1,8 @@
 //@@viewOn:imports
-import { createVisualComponent, PropTypes } from "uu5g05";
+import { createVisualComponent, PropTypes, useState } from "uu5g05";
 import * as Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
+import DoctorAvailabilityModal from "./doctor-availability-modal.js";
 //@@viewOff:imports
 
 //@@viewOn:css
@@ -48,36 +49,61 @@ const DoctorTile = createVisualComponent({
       specialization: PropTypes.string.isRequired,
       averageRating: PropTypes.number.isRequired,
       status: PropTypes.string.isRequired,
+      availableTimeSlots: PropTypes.array,
+      clinicId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
+    clinic: PropTypes.shape({
+      name: PropTypes.string,
+    }),
   },
   //@@viewOff:propTypes
 
   render: function (props) {
-    const { doctor } = props;
+    const { doctor, clinic } = props;
+    const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
+
     return (
-      <Uu5Elements.Box className={Css.main()}>
-        <img
-          src={doctor.profilePhoto || "https://via.placeholder.com/120"}
-          alt={`${doctor.firstName} ${doctor.lastName}`}
-          className={Css.photo()}
+      <>
+        <Uu5Elements.Box className={Css.main()}>
+          <img
+            src={doctor.profilePhoto || "https://via.placeholder.com/120"}
+            alt={`${doctor.firstName} ${doctor.lastName}`}
+            className={Css.photo()}
+          />
+          <Uu5Elements.Text category="interface" segment="title" type="common">
+            {doctor.firstName} {doctor.lastName}
+          </Uu5Elements.Text>
+          <Uu5Elements.Text>{doctor.specialization}</Uu5Elements.Text>
+
+          <Uu5Elements.Text>{doctor.averageRating}</Uu5Elements.Text>
+
+          {doctor.status === "active" ? (
+            <Uu5Elements.HighlightedBox colorScheme="positive" className={Css.statusBox()}>
+              Available for appointments
+            </Uu5Elements.HighlightedBox>
+          ) : (
+            <Uu5Elements.HighlightedBox colorScheme="negative" className={Css.statusBox()}>
+              Not available for appointments at the moment
+            </Uu5Elements.HighlightedBox>
+          )}
+
+          <Uu5Elements.Button
+            colorScheme="blue"
+            significance="highlighted"
+            onClick={() => setAvailabilityModalOpen(true)}
+            style={{ marginTop: "12px", width: "100%" }}
+          >
+            View Availability
+          </Uu5Elements.Button>
+        </Uu5Elements.Box>
+
+        <DoctorAvailabilityModal
+          open={availabilityModalOpen}
+          onClose={() => setAvailabilityModalOpen(false)}
+          doctor={doctor}
+          clinic={clinic}
         />
-        <Uu5Elements.Text category="interface" segment="title" type="common">
-          {doctor.firstName} {doctor.lastName}
-        </Uu5Elements.Text>
-        <Uu5Elements.Text>{doctor.specialization}</Uu5Elements.Text>
-
-        <Uu5Elements.Text>{doctor.averageRating}</Uu5Elements.Text>
-
-        {doctor.status === "active" ? (
-          <Uu5Elements.HighlightedBox colorScheme="positive" className={Css.statusBox()}>
-            Available for appointments
-          </Uu5Elements.HighlightedBox>
-        ) : (
-          <Uu5Elements.HighlightedBox colorScheme="negative" className={Css.statusBox()}>
-            Not available for appointments at the moment
-          </Uu5Elements.HighlightedBox>
-        )}
-      </Uu5Elements.Box>
+      </>
     );
   },
 });
