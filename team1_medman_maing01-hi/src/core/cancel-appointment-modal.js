@@ -13,11 +13,10 @@ const CancelAppointmentModal = createVisualComponent({
   propTypes: {
     onClose: PropTypes.func.isRequired, // Add onClose prop to handle modal close
     open: PropTypes.bool.isRequired, // Add isOpen prop to control modal visibility
-    // onConfirm: PropTypes.func, // Callback for confirming cancellation
-    //appointmentId: PropTypes.string.isRequired, // ID of the appointment to cancel
     appointmentId: PropTypes.string, // ID of the appointment to cancel for testing -> can be null
+    id: PropTypes.string,
   },
-  render({ open, onClose, appointmentId }) {
+  render({ open, onClose, appointmentId, id }) {
     const [loading, setLoading] = useState(false);
     const { addAlert } = useAlertBus();
 
@@ -36,10 +35,11 @@ const CancelAppointmentModal = createVisualComponent({
       //for testing - this is coming from props, if uncommented, failure on missing appointmentId can be tested
       // appointmentId = null;
       console.log("AppointmentId: ", appointmentId);
+      console.log("id: ", id);
 
-      if (!appointmentId) {
+      if (!appointmentId && !id) {
         addAlert({
-          message: `Appointment ID is missing.`,
+          message: `Appointment identifiers are missing.`,
           priority: "error",
           durationMs: 2000,
         });
@@ -48,65 +48,23 @@ const CancelAppointmentModal = createVisualComponent({
 
       setLoading(true);
 
+      const dtoIn = { id: id };
+      console.log("cancelDtoIn: ", dtoIn);
+
+      const mockCancelAppointment = (dtoIn) =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              message: "Appointment has been cancelled!",
+              id: dtoIn.id, // Include the appointment ID in the response
+            });
+          }, 1000); // Simulate a 1-second delay
+        });
+
       try {
-        // Define the dtoIn for findAppointments
-        const findAppointments = {
-          sortBy: {
-            id: "desc",
-          },
-          pageInfo: {
-            pageIndex: 0,
-            pageSize: 100,
-          },
-        };
-
-        // testing -> comment out whole section and user dToIn and mockCancelAppoitment for testing without server
-        // Fetch appointments using findAppointments
-        const appointmentsResponse = await Calls.findAppointments(findAppointments);
-        function matchAppointmentId(payload, targetAppointmentId) {
-          if (!payload || !Array.isArray(payload.itemList)) return null;
-
-          for (const item of payload.itemList) {
-            if (item.appointmentId === targetAppointmentId) {
-              return item.id;
-            }
-          }
-          return null; // not found
-        }
-
-        const matchedId = matchAppointmentId(appointmentsResponse, appointmentId);
-        console.log("MatchedIdApi: ", matchedId);
-
-        if (!matchedId) {
-          addAlert({
-            message: `Appointment with ID ${appointmentId} not found.`,
-            priority: "error",
-            durationMs: 2000,
-          });
-          return;
-        }
-
-        //Set dtoIn using the fetched appointment data
-        const cancelDtoIn = { id: matchedId };
-        console.log("cancelDtoIn: ", cancelDtoIn);
-
-        //for testing Mocked success response - in demo data we fetch appointmentId-> comment out code above
-        const dtoIn = { id: appointmentId };
-        console.log("dtoInMock:", dtoIn);
-        const mockCancelAppointment = (dtoIn) =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              resolve({
-                message: "Appointment has been cancelled!",
-                id: dtoIn.id, // Include the appointment ID in the response
-              });
-            }, 1000); // Simulate a 1-second delay
-          });
-
-        // try {
-        //for testing -> call mocked function instead of BE call + onConfirm to uncomment - please check comments in appointment-list for mock usage
-        //const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
-        const dtoOut = await Calls.cancelAppointment(cancelDtoIn);
+        //for testing -> call mocked function instead of BE call -> for BE comment out first line and use second
+        const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
+        //const dtoOut = await Calls.cancelAppointment(dtoIn);
         addAlert({
           message: /*dtoOut.message ||*/ `Appointment has been cancelled!`,
           priority: "success",
@@ -114,7 +72,6 @@ const CancelAppointmentModal = createVisualComponent({
         });
         window.dispatchEvent(new Event("appointmentsUpdated"));
 
-        // onConfirm(); // Notify parent component
         onClose(); // Close the modal
       } catch (err) {
         console.error(err);
