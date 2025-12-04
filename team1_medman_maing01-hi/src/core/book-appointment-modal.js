@@ -51,41 +51,42 @@ const BookAppointmentModal = createVisualComponent({
       fetchPatientId();
     }, []);
     // Fetch mock data
-    // useEffect(() => {
-    //   async function fetchDoctors() {
-    //     try {
-    //       const doctors = await mockFetchDoctors(); // Fetch mock data
-    //       setData(doctors); // Set fetched data to state
-    //     } catch (error) {
-    //       console.error("Error fetching doctors:", error);
-    //     } finally {
-    //       setLoading(false); // Set loading to false after fetching
-    //     }
-    //   }
-    //   fetchDoctors();
-    // }, []);
+    useEffect(() => {
+      async function fetchDoctors() {
+        try {
+          const doctors = await mockFetchDoctors(); // Fetch mock data
+          setData(doctors); // Set fetched data to state
+        } catch (error) {
+          console.error("Error fetching doctors:", error);
+        } finally {
+          setLoading(false); // Set loading to false after fetching
+        }
+      }
+      fetchDoctors();
+    }, []);
 
     // Fetch doctors from the backend
-    const fetchDoctors = async () => {
-      setLoading(true);
-      try {
-        const response = await Calls.findAllDoctors(); // Call the backend API
-        const doctors = response?.itemList || []; // Extract the itemList from the response
-        setData(doctors); // Set the refined data to state
-      } catch (error) {
-        console.error("Error fetching doctors:", error);
-        showError(error, "Failed to fetch doctors.");
-      } finally {
-        setLoading(false); // Set loading to false after fetching
-      }
-    };
+    // const fetchDoctors = async () => {
+    //   setLoading(true);
+    //   try {
+    //     const response = await Calls.findAllDoctors(); // Call the backend API
+    //     const doctors = response?.itemList || []; // Extract the itemList from the response
+    //     setData(doctors); // Set the refined data to state
+    //   } catch (error) {
+    //     console.error("Error fetching doctors:", error);
+    //     showError(error, "Failed to fetch doctors.");
+    //   } finally {
+    //     setLoading(false); // Set loading to false after fetching
+    //   }
+    // };
 
-    // Fetch doctors when the modal opens
-    useEffect(() => {
-      if (open) {
-        fetchDoctors();
-      }
-    }, [open]);
+    // // Fetch doctors when the modal opens
+    // useEffect(() => {
+    //   if (open) {
+    //     fetchDoctors();
+    //   }
+    // }, [open]);
+
     // Update filtered doctors when specialization changes
     useEffect(() => {
       if (selectedSpecialization) {
@@ -147,8 +148,8 @@ const BookAppointmentModal = createVisualComponent({
 
       try {
         //for testing Mocked success response - enriched with status and appointmentId, comment out/uncomment as needed
-        // const dtoOut = await mockCreateAppointment();
-        const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
+        const dtoOut = await mockCreateAppointment();
+        // const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
         addAlert({
           message: dtoOut.message || "Appointment has been created successfully!",
           priority: "success",
