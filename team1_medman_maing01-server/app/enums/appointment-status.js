@@ -1,7 +1,7 @@
 const AppointmentStatus = Object.freeze({
   CREATED: "Created",
   CONFIRMED: "Confirmed",
-  CANCELED: "Cancelled",
+  CANCELLED: "Cancelled",
   COMPLETED: "Completed",
 });
 

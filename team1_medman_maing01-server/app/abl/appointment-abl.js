@@ -317,12 +317,15 @@ class AppointmentAbl {
       );
     }
 
-    // Delete the appointment from the database
-    await this.appointmentDao.delete(awid, dtoIn.id);
+    // Setting the status to Cancelled
+    const updatedAppointment = await this.appointmentDao.update(
+      dtoIn.id,
+      { status: AppointmentStatus.CANCELLED }
+    );
 
     // Return a simple confirmation response
     return {
-      id: dtoIn.id,
+      ...updatedAppointment,
       message: "Appointment has been canceled",
       uuAppErrorMap
     };
