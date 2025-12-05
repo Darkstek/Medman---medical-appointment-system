@@ -8,7 +8,7 @@ const Css = {
 
   button: () =>
     Config.Css.css({
-      margin: "2px",
+
     }),
 };
 

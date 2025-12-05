@@ -129,7 +129,7 @@
     "gender": "female",
     "medicalRecord": {
       "previousAppointments": ["2023-08-30"],
-      "medications": ["Contraceptives"],
+      "medications": ["Contraceptives", "Ibuprofen"],
       "illnesses": []
     },
     "allergies": ["Cats", "Pollen"],

@@ -12,7 +12,7 @@ export async function getAppointmentsWithDetails() {
       mockFetchPatients(),
     ]);
 
-    // Převod doctors, clinics a patients na mapy pro rychlé hledání
+
     const doctorsMap = Object.fromEntries(doctors.map((d) => [d.doctorId, d]));
     const clinicsMap = Object.fromEntries(clinics.map((c) => [c.id, c]));
     const patientsMap = Object.fromEntries(patients.map((p) => [p.patientId, p]));
@@ -35,7 +35,7 @@ export async function getAppointmentsWithDetails() {
 
     return appointmentsWithDetails;
   } catch (err) {
-    console.error("Chyba při spojování dat:", err);
+    console.error("Failed loading data:", err);
     return [];
   }
 }

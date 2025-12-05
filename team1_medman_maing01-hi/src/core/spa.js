@@ -3,15 +3,16 @@ import { createVisualComponent, Utils } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5 from "uu_plus4u5g02";
 import Plus4U5App from "uu_plus4u5g02-app";
-
 import Config from "./config/config.js";
 import Home from "../routes/home.js";
-import MyAppointments from "../routes/my-appointments-route.js";
-import DoctorsListRoute from "../routes/doctors-list-route";
+
 import DoctorAppointmentsRoute from "../routes/doctor-appointments-route.js";
 
 const InitAppWorkspace = Utils.Component.lazy(() => import("../routes/init-app-workspace.js"));
 const ControlPanel = Utils.Component.lazy(() => import("../routes/control-panel.js"));
+const MyAppointmentsRoute = Utils.Component.lazy(() => import("../routes/my-appointments-route.js"));
+const DoctorsListRoute = Utils.Component.lazy(() => import("../routes/doctors-list-route.js"));
+const MyMedicalRecordRoute = Utils.Component.lazy(() => import("../routes/my-medical-record-route.js"));
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -19,8 +20,9 @@ const ROUTE_MAP = {
   "": { redirect: "myAppointments" },
   home: (props) => <Home {...props} />,
   "sys/uuAppWorkspace/initUve": (props) => <InitAppWorkspace {...props} />,
-  myAppointments: (props) => < MyAppointments {...props} />,
+  myAppointments: (props) => <MyAppointmentsRoute {...props} />,
   doctorsList: (props) => <DoctorsListRoute {...props} />,
+  myMedicalRecord: (props) => <MyMedicalRecordRoute {...props} />,
   doctorAppointments: (props) => <DoctorAppointmentsRoute {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,
   "*": () => (
