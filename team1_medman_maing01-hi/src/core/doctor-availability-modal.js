@@ -2,7 +2,7 @@
 import { createVisualComponent, PropTypes, useState } from "uu5g05";
 import * as Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
-import BookAppointmentModal from "./book-appointment-modal.js";
+import BookAppointmentConfirmModal from "./book-appointment-confirm-modal.js";
 //@@viewOff:imports
 
 //@@viewOn:css
@@ -53,7 +53,7 @@ const DoctorAvailabilityModal = createVisualComponent({
         PropTypes.shape({
           start: PropTypes.string.isRequired,
           end: PropTypes.string.isRequired,
-        })
+        }),
       ),
       clinicId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     }).isRequired,
@@ -76,22 +76,22 @@ const DoctorAvailabilityModal = createVisualComponent({
     const formatTimeSlot = (start, end) => {
       const startDate = new Date(start);
       const endDate = new Date(end);
-      
-      const options = { 
-        month: 'short', 
-        day: 'numeric', 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false 
+
+      const options = {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
       };
-      
-      const startStr = startDate.toLocaleString('en-US', options);
-      const endTime = endDate.toLocaleTimeString('en-US', { 
-        hour: '2-digit', 
-        minute: '2-digit',
-        hour12: false 
+
+      const startStr = startDate.toLocaleString("en-US", options);
+      const endTime = endDate.toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
       });
-      
+
       return `${startStr} - ${endTime}`;
     };
 
@@ -137,9 +137,11 @@ const DoctorAvailabilityModal = createVisualComponent({
           </div>
         </Uu5Elements.Modal>
 
-        <BookAppointmentModal 
-          open={bookAppointmentModalOpen} 
+        <BookAppointmentConfirmModal
+          open={bookAppointmentModalOpen}
           onClose={() => setBookAppointmentModalOpen(false)}
+          doctorId={doctor.doctorId}
+          timeSlot={selectedTimeSlot}
         />
       </>
     );
