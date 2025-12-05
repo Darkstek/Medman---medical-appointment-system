@@ -8,6 +8,7 @@ import Config from "./config/config.js";
 import Home from "../routes/home.js";
 import MyAppointments from "../routes/my-appointments-route.js";
 import DoctorsListRoute from "../routes/doctors-list-route";
+import DoctorAppointmentsRoute from "../routes/doctor-appointments-route.js";
 
 const InitAppWorkspace = Utils.Component.lazy(() => import("../routes/init-app-workspace.js"));
 const ControlPanel = Utils.Component.lazy(() => import("../routes/control-panel.js"));
@@ -20,6 +21,7 @@ const ROUTE_MAP = {
   "sys/uuAppWorkspace/initUve": (props) => <InitAppWorkspace {...props} />,
   myAppointments: (props) => < MyAppointments {...props} />,
   doctorsList: (props) => <DoctorsListRoute {...props} />,
+  doctorAppointments: (props) => <DoctorAppointmentsRoute {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,
   "*": () => (
     <Uu5Elements.Text category="story" segment="heading" type="h1">

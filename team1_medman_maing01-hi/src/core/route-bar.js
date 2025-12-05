@@ -46,6 +46,7 @@ const RouteBar = createVisualComponent({
 
   render(props) {
     //@@viewOn:private
+    const [route] = useRoute();
 
     const actionList = [
       {
@@ -58,15 +59,20 @@ const RouteBar = createVisualComponent({
       }
     ];
     const ITEM_LIST = [
-      { code: "main", label: "My Appointments", href: "myAppointments" },
-      { code: "doctorsList", label: "Doctors List", href: "doctorsList" }
+      { code: "myAppointments", label: "My Appointments", href: "myAppointments" },
+      { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
+      { code: "doctorAppointments", label: "Doctor Schedule", href: "doctorAppointments" }
       // { code: "bookAppointment", label: "Create an Appointment", href: "bookAppointment" },
     ];
+
+    // Determine active item based on current route
+    const currentRouteName = route?.name || "";
+    const activeItemCode = ITEM_LIST.find(item => item.href === currentRouteName)?.code;
 
     //@@viewOff:private
 
     //@@viewOn:render
-    return <Plus4U5App.PositionBar actionList={actionList} itemList={ITEM_LIST} activeItem={null} />;
+    return <Plus4U5App.PositionBar actionList={actionList} itemList={ITEM_LIST} activeItem={activeItemCode} />;
     //@@viewOff:render
   },
 });

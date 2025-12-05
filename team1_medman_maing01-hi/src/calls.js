@@ -66,6 +66,11 @@ const Calls = {
     return Calls.call("cmdGet", commandUri);
   },
 
+  updateAppointmentStatus(dtoIn) {
+    const commandUri = Calls.getCommandUri("appointment/update-status");
+    return Calls.call("cmdPut", commandUri, dtoIn);
+  },
+
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {
     return (!baseUri.endsWith("/") ? baseUri + "/" : baseUri) + (useCase.startsWith("/") ? useCase.slice(1) : useCase);
   },

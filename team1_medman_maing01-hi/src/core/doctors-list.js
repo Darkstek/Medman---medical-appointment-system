@@ -5,7 +5,7 @@ import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 
 import DoctorTile from "../core/doctor-tile.js";
-import { mockFetchDoctors } from "../../mock/mockFetch";
+import { mockFetchDoctors, mockFetchClinics } from "../../mock/mockFetch";
 import Calls from "../calls.js";
 
 const Css = {};
@@ -17,13 +17,20 @@ const DoctorsList = createVisualComponent({
     const [route] = useRoute();
     const search = route.params?.search?.toLowerCase() || "";
     const [data, setData] = useState([]);
+    const [clinics, setClinics] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
       setLoading(true);
-      mockFetchDoctors() // replace with fetch (API) endpoint
-        .then((json) => setData(json))
+      Promise.all([
+        mockFetchDoctors(),
+        mockFetchClinics()
+      ])
+        .then(([doctorsJson, clinicsJson]) => {
+          setData(doctorsJson);
+          setClinics(clinicsJson);
+        })
         .catch((err) => setError(err.message))
         .finally(() => setLoading(false));
     }, []);
@@ -62,10 +69,20 @@ const DoctorsList = createVisualComponent({
       );
     }
 
+    const getClinicForDoctor = (doctorClinicId) => {
+      return clinics.find(clinic => clinic.clinicId === doctorClinicId);
+    };
+
     return (
       <Uu5Tiles.ControllerProvider data={data}>
         <Uu5TilesElements.Grid tileMinWidth={100} tileMaxWidth={400}>
-          {({ data }) => <DoctorTile key={data.id} doctor={data} />}
+          {({ data }) => (
+            <DoctorTile 
+              key={data.id || data.doctorId} 
+              doctor={data} 
+              clinic={getClinicForDoctor(data.clinicId)}
+            />
+          )}
         </Uu5TilesElements.Grid>
       </Uu5Tiles.ControllerProvider>
     );
