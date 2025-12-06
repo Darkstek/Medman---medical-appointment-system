@@ -63,8 +63,23 @@ const CancelAppointmentModal = createVisualComponent({
 
       try {
         //for testing -> call mocked function instead of BE call -> for BE comment out first line and use second
-        const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
-        //const dtoOut = await Calls.cancelAppointment(dtoIn);
+        // const dtoOut = await mockCancelAppointment(dtoIn); // Use the mocked function
+
+        const appointmentDetails = await Calls.getAppointment(dtoIn);
+        console.log("Fetched Appointment Details:", appointmentDetails);
+
+        //add check in lowercase to avoid case sensitivity issues
+        if (appointmentDetails.status === "Cancelled") {
+          addAlert({
+            message: `This appointment has already been cancelled.`,
+            priority: "warning",
+            durationMs: 2000,
+          });
+          setLoading(false);
+          return;
+        }
+
+        const dtoOut = await Calls.cancelAppointment(dtoIn);
         addAlert({
           message: /*dtoOut.message ||*/ `Appointment has been cancelled!`,
           priority: "success",
