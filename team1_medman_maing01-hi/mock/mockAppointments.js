@@ -12,7 +12,6 @@ export async function getAppointmentsWithDetails() {
       mockFetchPatients(),
     ]);
 
-
     const doctorsMap = Object.fromEntries(doctors.map((d) => [d.doctorId, d]));
     const clinicsMap = Object.fromEntries(clinics.map((c) => [c.id, c]));
     const patientsMap = Object.fromEntries(patients.map((p) => [p.patientId, p]));
@@ -20,7 +19,11 @@ export async function getAppointmentsWithDetails() {
     const appointmentsWithDetails = appointments.map((app) => {
       const doctor = doctorsMap[app.doctorId] || { doctorId: app.doctorId, name: "Unknown Doctor", clinicId: null };
       const clinic = doctor.clinicId ? clinicsMap[doctor.clinicId] : { id: null, name: "Unknown Clinic" };
-      const patient = patientsMap[app.patientId] || { patientId: app.patientId, firstName: "Unknown", lastName: "Patient" };
+      const patient = patientsMap[app.patientId] || {
+        patientId: app.patientId,
+        firstName: "Unknown",
+        lastName: "Patient",
+      };
 
       return {
         ...app,
@@ -31,7 +34,7 @@ export async function getAppointmentsWithDetails() {
     });
 
     // console.log("DoctorsMap", doctorsMap);
-    // console.log("Data", appointmentsWithDetails);
+    console.log("Data", appointmentsWithDetails);
 
     return appointmentsWithDetails;
   } catch (err) {

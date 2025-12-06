@@ -10,7 +10,8 @@ const AppointmentTile = createVisualComponent({
 
   propTypes: {
     appointment: PropTypes.shape({
-      appointmentId: PropTypes.string.isRequired,
+      appointmentId: PropTypes.string,
+      id: PropTypes.string,
       doctorId: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
       dateTime: PropTypes.string.isRequired,
@@ -47,7 +48,7 @@ const AppointmentTile = createVisualComponent({
                 children: "Cancel",
                 colorScheme: "red",
                 // onClick: () => alert("Cancel appointment functionality to be implemented"),
-                onClick: () => onCancel(appointment.appointmentId), // Trigger the onCancel callback
+                onClick: () => onCancel(appointment.appointment), // Trigger the onCancel callback
               },
             ].filter(Boolean)}
           ></Uu5Elements.ButtonGroup>

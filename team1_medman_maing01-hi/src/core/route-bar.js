@@ -62,14 +62,12 @@ const RouteBar = createVisualComponent({
       { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
       { code: "doctorAppointments", label: "Doctor Schedule", href: "doctorAppointments" },
       { code: "myMedicalRecord", label: "My Medical Record", href: "myMedicalRecord" },
-      // { code: "bookAppointment", label: "Create an Appointment", href: "bookAppointment" },
     ];
 
     // Determine active item based on current route
 
     const currentRouteName = route?.uu5Route || "";
-    const activeItemCode = ITEM_LIST.find(item => item.href === currentRouteName)?.code;
-
+    const activeItemCode = ITEM_LIST.find((item) => item.href === currentRouteName)?.code;
 
     //@@viewOff:private
 

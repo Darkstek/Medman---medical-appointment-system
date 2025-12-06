@@ -37,55 +37,81 @@ const BookAppointmentModal = createVisualComponent({
       });
     }
 
+    //MOCKs
     // Replace with actual logic to identify the logged-in user
+    // useEffect(() => {
+    //   async function fetchPatientId() {
+    //     try {
+    //       const patients = await mockFetchPatients(); // Fetch mock data
+    //       const loggedInPatient = patients.find((patient) => patient.emailAddress === "jess.davis@college.edu");
+    //       setPatientId(loggedInPatient?.patientId || "Unknown");
+    //     } catch (error) {
+    //       console.error("Error fetching patient ID:", error);
+    //     }
+    //   }
+    //   fetchPatientId();
+    // }, []);
+    // Fetch mock data
+    // useEffect(() => {
+    //   async function fetchDoctors() {
+    //     try {
+    //       const doctors = await mockFetchDoctors(); // Fetch mock data
+    //       setData(doctors); // Set fetched data to state
+    //     } catch (error) {
+    //       console.error("Error fetching doctors:", error);
+    //     } finally {
+    //       setLoading(false); // Set loading to false after fetching
+    //     }
+    //   }
+    //   fetchDoctors();
+    // }, []);
+
+    //BE calls
     useEffect(() => {
       async function fetchPatientId() {
         try {
-          const patients = await mockFetchPatients(); // Fetch mock data
-          const loggedInPatient = patients.find((patient) => patient.emailAddress === "jess.davis@college.edu");
-          setPatientId(loggedInPatient?.patientId || "Unknown");
+          //const patients = await mockFetchPatients(); // Fetch mock data
+          const loggedInPatientEmail = "jess.davis@college.edu";
+
+          const response = await Calls.findPatient({ emailAddress: loggedInPatientEmail });
+          console.log("BE Patient:", response);
+          const patientData = response.itemList?.[0] ?? null;
+          console.log("BE Patient Data:", patientData);
+
+          //const loggedInPatient = patients.find((patient) => patient.emailAddress === loggedInPatientEmail);
+          //setPatient(loggedInPatient ?? null);
+
+          setPatientId(patientData?.patientId || "Unknown");
+          console.log("BE PatientId:", patientId);
         } catch (error) {
           console.error("Error fetching patient ID:", error);
+          setPatientId(null);
         }
       }
+
       fetchPatientId();
-    }, []);
-    // Fetch mock data
-    useEffect(() => {
-      async function fetchDoctors() {
-        try {
-          const doctors = await mockFetchDoctors(); // Fetch mock data
-          setData(doctors); // Set fetched data to state
-        } catch (error) {
-          console.error("Error fetching doctors:", error);
-        } finally {
-          setLoading(false); // Set loading to false after fetching
-        }
+    });
+
+    const fetchDoctors = async () => {
+      setLoading(true);
+      try {
+        const response = await Calls.findDoctors(); // Call the backend API
+        const doctors = response?.itemList || []; // Extract the itemList from the response
+        setData(doctors); // Set the refined data to state
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+        showError(error, "Failed to fetch doctors.");
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
-      fetchDoctors();
-    }, []);
+    };
 
-    // Fetch doctors from the backend
-    // const fetchDoctors = async () => {
-    //   setLoading(true);
-    //   try {
-    //     const response = await Calls.findAllDoctors(); // Call the backend API
-    //     const doctors = response?.itemList || []; // Extract the itemList from the response
-    //     setData(doctors); // Set the refined data to state
-    //   } catch (error) {
-    //     console.error("Error fetching doctors:", error);
-    //     showError(error, "Failed to fetch doctors.");
-    //   } finally {
-    //     setLoading(false); // Set loading to false after fetching
-    //   }
-    // };
-
-    // // Fetch doctors when the modal opens
-    // useEffect(() => {
-    //   if (open) {
-    //     fetchDoctors();
-    //   }
-    // }, [open]);
+    // Fetch doctors when the modal opens
+    useEffect(() => {
+      if (open) {
+        fetchDoctors();
+      }
+    }, [open]);
 
     // Update filtered doctors when specialization changes
     useEffect(() => {
@@ -118,6 +144,7 @@ const BookAppointmentModal = createVisualComponent({
 
       const dtoIn = {
         patientId, // Add the logged-in user's patientId
+        //patientId: "PAT-1008", // Replace with actual patientId
         doctorId: doctor?.doctorId,
         dateTime: new Date(
           availableTimeSlots.find(
@@ -148,8 +175,8 @@ const BookAppointmentModal = createVisualComponent({
 
       try {
         //for testing Mocked success response - enriched with status and appointmentId, comment out/uncomment as needed
-        const dtoOut = await mockCreateAppointment();
-        // const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
+        //const dtoOut = await mockCreateAppointment();
+        const dtoOut = await Calls.createAppointment(dtoIn); // Call the backend
         addAlert({
           message: dtoOut.message || "Appointment has been created successfully!",
           priority: "success",
@@ -157,7 +184,7 @@ const BookAppointmentModal = createVisualComponent({
         });
 
         window.dispatchEvent(new Event("appointmentsUpdated"));
-        console.log("Creating appointment with data:", dtoOut);
+        console.log("Created appointment with data:", dtoOut);
 
         onClose(); // Close the modal
       } catch (err) {

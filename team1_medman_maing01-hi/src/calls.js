@@ -60,10 +60,15 @@ const Calls = {
     return Calls.call("cmdGet", commandUri, dtoIn);
   },
 
-  findAllDoctors() {
-    const commandUri = Calls.getCommandUri("doctor/find");
-    return Calls.call("cmdGet", commandUri);
+  getAppointment(dtoIn) {
+    const commandUri = Calls.getCommandUri("appointment/get");
+    return Calls.call("cmdGet", commandUri, dtoIn);
   },
+
+  // findAllDoctors() {
+  //   const commandUri = Calls.getCommandUri("doctor/find");
+  //   return Calls.call("cmdGet", commandUri);
+  // },
   findPatient(dtoIn) {
     const commandUri = Calls.getCommandUri("patient/find");
     return Calls.call("cmdGet", commandUri, dtoIn);
