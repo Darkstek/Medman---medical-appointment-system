@@ -28,22 +28,22 @@ const UpdateMedicalRecordModal = createVisualComponent({
           id: patient.id,
           patientId: patient.patientId,
           medicalRecord: {
-            medications: medications
+            medications: (medications || "")
               .split(",")
               .map((m) => m.trim())
               .filter(Boolean),
-            illnesses: illnesses
+            illnesses: (illnesses || "")
               .split(",")
               .map((i) => i.trim())
               .filter(Boolean),
 
             /* Need to change backend according to bussines use case
-            surgeries: surgeries.split(",").map((s) => s.trim()).filter(Boolean),
-            vaccinations: vaccinations.split(",").map((v) => v.trim()).filter(Boolean),
-            dietaryRestrictions: dietaryRestrictions.split(",").map((d) => d.trim()).filter(Boolean),
+            surgeries: (surgeries || "").split(",").map((s) => s.trim()).filter(Boolean),
+            vaccinations: (vaccinations || "").split(",").map((v) => v.trim()).filter(Boolean),
+            dietaryRestrictions: (dietaryRestrictions || "").split(",").map((d) => d.trim()).filter(Boolean),
             */
           },
-          allergies: allergies
+          allergies: (allergies || "")
             .split(",")
             .map((a) => a.trim())
             .filter(Boolean),
