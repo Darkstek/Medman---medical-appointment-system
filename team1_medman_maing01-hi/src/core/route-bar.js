@@ -1,11 +1,12 @@
 //@@viewOn:imports
-import { createVisualComponent, Lsi, useRoute, uu5Route } from "uu5g05";
+import { createVisualComponent, Lsi, useRoute } from "uu5g05";
 import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import SearchBar from "./search-bar.js";
 import BookAppointmentButton from "../core/book-appointment-button.js";
 import importLsi from "../lsi/import-lsi.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -50,24 +51,25 @@ const RouteBar = createVisualComponent({
 
     const actionList = [
       {
-        children: <BookAppointmentButton />
-
+        children: <BookAppointmentButton />,
       },
       {
-        children: <SearchBar />
-
-      }
+        children: <SearchBar />,
+      },
     ];
     const ITEM_LIST = [
       { code: "myAppointments", label: "My Appointments", href: "myAppointments" },
       { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
-      { code: "doctorAppointments", label: "Doctor Schedule", href: "doctorAppointments" }
+      { code: "doctorAppointments", label: "Doctor Schedule", href: "doctorAppointments" },
+      { code: "myMedicalRecord", label: "My Medical Record", href: "myMedicalRecord" },
       // { code: "bookAppointment", label: "Create an Appointment", href: "bookAppointment" },
     ];
 
     // Determine active item based on current route
-    const currentRouteName = route?.name || "";
+
+    const currentRouteName = route?.uu5Route || "";
     const activeItemCode = ITEM_LIST.find(item => item.href === currentRouteName)?.code;
+
 
     //@@viewOff:private
 

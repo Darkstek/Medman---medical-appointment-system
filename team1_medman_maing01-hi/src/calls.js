@@ -39,12 +39,11 @@ const Calls = {
     await Calls.initWorkspace(dtoInData);
     return await Calls.getWorkspace();
   },
-  /*
+
   findDoctors(dtoIn) {
     const commandUri = Calls.getCommandUri("doctor/find");
     return Calls.call("cmdGet", commandUri, dtoIn);
   },
-*/
 
   cancelAppointment(dtoIn) {
     const commandUri = Calls.getCommandUri("appointment/cancel");
@@ -64,6 +63,14 @@ const Calls = {
   findAllDoctors() {
     const commandUri = Calls.getCommandUri("doctor/find");
     return Calls.call("cmdGet", commandUri);
+  },
+  findPatient(dtoIn) {
+    const commandUri = Calls.getCommandUri("patient/find");
+    return Calls.call("cmdGet", commandUri, dtoIn);
+  },
+  updatePatient(dtoIn) {
+    const commandUri = Calls.getCommandUri("patient/update");
+    return Calls.call("cmdPost", commandUri, dtoIn);
   },
 
   updateAppointmentStatus(dtoIn) {

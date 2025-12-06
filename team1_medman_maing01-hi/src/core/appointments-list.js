@@ -50,8 +50,14 @@ const AppointmentsList = createVisualComponent({
     async function fetchAppointments() {
       setLoading(true);
       try {
-        const json = await getAppointmentsWithDetails();
-        setAppointments(json);
+        // backend call to fetch appointments
+        /*
+        const dtoOut = await Calls.findAppointments({});
+        */
+       const dtoOut = { itemList: await getAppointmentsWithDetails() }; // mock data fetch, remove when using backend call above
+        setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
+
+        console.log("Fetched appointments:", dtoOut);
       } catch (err) {
         setError(err.message);
       } finally {

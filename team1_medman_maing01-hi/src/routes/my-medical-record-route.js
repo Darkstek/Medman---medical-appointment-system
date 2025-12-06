@@ -5,8 +5,9 @@ import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
 import SearchBar from "../core/search-bar.js";
 import RouteBar from "../core/route-bar.js";
-import importLsi from "../lsi/import-lsi.js";
 import AppointmentsList from "../core/appointments-list.js";
+import { MyMedicalRecordTile } from "../core/my-medical-record-tile.js";
+import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOff:imports
 
@@ -26,9 +27,9 @@ const Css = {
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-let MyAppointmentsRoute = createVisualComponent({
+let MyMedicalRecordRoute = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "MyAppointmentsRoute",
+  uu5Tag: Config.TAG + "MyMedicalRecordRoute",
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -50,7 +51,11 @@ let MyAppointmentsRoute = createVisualComponent({
         <Uu5Elements.GridTemplate
           contentMap={{
             header: <RouteBar />,
-            content: <div className={Css.headerWrapper()}><AppointmentsList />  </div>,  
+            content: (
+              <div className={Css.headerWrapper()}>
+                <MyMedicalRecordTile />
+              </div>
+            ),
           }}
           templateAreas={{
             xs: `header, content, sidebar, footer`,
@@ -63,7 +68,6 @@ let MyAppointmentsRoute = createVisualComponent({
           templateColumns={{ xs: "100%", m: "repeat(4, 1fr)" }}
           rowGap={8}
           columnGap={8}
-        
         />
       </div>
     );
@@ -71,9 +75,9 @@ let MyAppointmentsRoute = createVisualComponent({
   },
 });
 
-MyAppointmentsRoute = withRoute(MyAppointmentsRoute, { authenticated: false });
+MyMedicalRecordRoute = withRoute(MyMedicalRecordRoute, { authenticated: false });
 
 //@@viewOn:exports
-export { MyAppointmentsRoute };
-export default MyAppointmentsRoute;
+export { MyMedicalRecordRoute };
+export default MyMedicalRecordRoute;
 //@@viewOff:exports

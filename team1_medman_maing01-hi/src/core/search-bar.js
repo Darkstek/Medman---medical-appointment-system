@@ -55,6 +55,7 @@ const SearchBar = createVisualComponent({
           onChange={(e) => setQuery(e.data.value)}
           size="m"
           className={Css.textInput()}
+          inputAttrs={{ onKeyDown: (e) => e.key === "Enter" && handleSearch() }}
         />
 
         <Uu5Elements.Button className={Css.button()} size="m" significance="highlighted" onClick={handleSearch}>
