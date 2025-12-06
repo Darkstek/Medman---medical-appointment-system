@@ -23,30 +23,26 @@ const DoctorsList = createVisualComponent({
 
     useEffect(() => {
       setLoading(true);
-      Promise.all([
-        mockFetchDoctors(),
-        mockFetchClinics()
-      ])
-        .then(([doctorsJson, clinicsJson]) => {
-          setData(doctorsJson);
-          setClinics(clinicsJson);
-        })
-        .catch((err) => setError(err.message))
-        .finally(() => setLoading(false));
-    }, []);
+      //   Promise.all([
+      //     mockFetchDoctors(),
+      //     mockFetchClinics()
+      //   ])
+      //     .then(([doctorsJson, clinicsJson]) => {
+      //       setData(doctorsJson);
+      //       setClinics(clinicsJson);
+      //     })
+      //     .catch((err) => setError(err.message))
+      //     .finally(() => setLoading(false));
+      // }, []);
 
+      //Backend call to fetch doctors based on specialization, need to delete _ in development.json/callsBaseUri for this to work and uncoment call.js.
 
-    //Backend call to fetch doctors based on specialization, need to delete _ in development.json/callsBaseUri for this to work and uncoment call.js.
-    /*
       setError(null);
-
-
 
       const dtoIn = search ? { specialization: search } : {};
 
       Calls.findDoctors(dtoIn)
         .then((dtoOut) => {
-
           setData(dtoOut.itemList ?? []);
         })
         .catch((err) => {
@@ -55,7 +51,6 @@ const DoctorsList = createVisualComponent({
         })
         .finally(() => setLoading(false));
     }, [search]);
-    */
 
     if (loading) return <Uu5Elements.Text>Fetching doctors...</Uu5Elements.Text>;
     if (error) return <Uu5Elements.Text style={{ color: "red" }}>Error: {error}</Uu5Elements.Text>;
@@ -63,25 +58,21 @@ const DoctorsList = createVisualComponent({
     if (!data.length) {
       return (
         <Uu5Elements.HighlightedBox>
-          No doctors were found for {search}. Please check the spelling, or note that there may not be any doctors with this
-          specialization registered in the database yet.
+          No doctors were found for {search}. Please check the spelling, or note that there may not be any doctors with
+          this specialization registered in the database yet.
         </Uu5Elements.HighlightedBox>
       );
     }
 
     const getClinicForDoctor = (doctorClinicId) => {
-      return clinics.find(clinic => clinic.clinicId === doctorClinicId);
+      return clinics.find((clinic) => clinic.clinicId === doctorClinicId);
     };
 
     return (
       <Uu5Tiles.ControllerProvider data={data}>
         <Uu5TilesElements.Grid tileMinWidth={100} tileMaxWidth={400}>
           {({ data }) => (
-            <DoctorTile 
-              key={data.id || data.doctorId} 
-              doctor={data} 
-              clinic={getClinicForDoctor(data.clinicId)}
-            />
+            <DoctorTile key={data.id || data.doctorId} doctor={data} clinic={getClinicForDoctor(data.clinicId)} />
           )}
         </Uu5TilesElements.Grid>
       </Uu5Tiles.ControllerProvider>
