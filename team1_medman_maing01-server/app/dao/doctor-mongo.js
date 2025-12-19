@@ -20,6 +20,17 @@ class DoctorMongo extends UuObjectDao {
     return await super.find(filter, pageInfo, sort, projection);
   }
 
+  async update(awid, id, uuObject) {
+    return await super.findOneAndUpdate({ id }, uuObject, "NONE");
+  }
+
+  async remove(awid, id) {
+    return await super.findOneAndUpdate(
+      { id },
+      { status: "inactive" },
+      "NONE"
+    );
+    }
 }
 
 module.exports = DoctorMongo;

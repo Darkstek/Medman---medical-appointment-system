@@ -15,6 +15,14 @@ class DoctorController {
     return DoctorAbl.get(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }
 
+  update(ucEnv) {
+    return DoctorAbl.update(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
+  remove(ucEnv) {
+    return DoctorAbl.remove(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
 }
 
 module.exports = new DoctorController();
