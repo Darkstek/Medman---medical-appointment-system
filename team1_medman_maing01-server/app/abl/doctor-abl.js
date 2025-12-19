@@ -15,7 +15,13 @@ const WARNINGS = {
   },
   doctorFindDtoInType: {
     code: `${Errors.Find.UC_CODE}unsupportedKeys`
-  }
+  },
+  doctorUpdateDtoInType: {
+    code: `${Errors.Update.UC_CODE}unsupportedKeys`
+  },
+  doctorRemoveDtoInType: {
+    code: `${Errors.Remove.UC_CODE}unsupportedKeys`
+  },
 };
 
 class DoctorAbl {
@@ -27,22 +33,27 @@ class DoctorAbl {
 
   async create(awid, dtoIn) {
     let uuAppErrorMap = {};
-    /*const validationResult = this.validator.validate("doctorCreateDtoInType", dtoIn);
+
+    const validationResult = this.validator.validate("doctorCreateDtoInType", dtoIn);
     uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
+      uuAppErrorMap,
       WARNINGS.doctorCreateDtoInType?.code,
-      Errors.Get.InvalidDtoIn
-    );*/
+      Errors.Create.InvalidDtoIn
+    );
 
-    let doctor = {
+    const doctor = {
       awid,
-      ...dtoIn
-    }
+      status: dtoIn.status ?? "active",
+      averageRating: dtoIn.averageRating ?? 0,
+      ratingCount: dtoIn.ratingCount ?? 0,
+      ...dtoIn,
+    };
 
-    doctor = await this.dao.create(doctor);
+    const created = await this.dao.create(doctor);
 
-    return {...doctor, uuAppErrorMap};
+    return { ...created, uuAppErrorMap };
   }
 
   async get(awid, dtoIn) {
@@ -178,6 +189,65 @@ class DoctorAbl {
       Object.entries(sortBy).map(([field, direction]) => [field, direction === "asc" ? 1 : -1])
     );
   }
+
+  async update(awid, dtoIn) {
+    let uuAppErrorMap = {};
+    const validationResult = this.validator.validate("doctorUpdateDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      uuAppErrorMap,
+      WARNINGS.doctorUpdateDtoInType?.code,
+      Errors.Update.InvalidDtoIn
+    );
+
+    let existing = await this.dao.get(awid, dtoIn.id);
+    if (!existing) {
+      throw new Errors.Update.DoctorDoesNotExist({ uuAppErrorMap }, { id: dtoIn.id });
+    }
+
+    const { id, ...updateObject } = dtoIn;
+
+    let updated = await this.dao.update(awid, id, updateObject);
+    if (!updated) {
+
+      updated = await this.dao.get(awid, id);
+    }
+
+    return { ...updated, uuAppErrorMap };
+  }
+
+  async remove(awid, dtoIn) {
+    let uuAppErrorMap = {};
+    const validationResult = this.validator.validate("doctorRemoveDtoInType", dtoIn);
+    uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      uuAppErrorMap,
+      WARNINGS.doctorRemoveDtoInType?.code,
+      Errors.Remove.InvalidDtoIn
+    );
+
+    let existing = await this.dao.get(awid, dtoIn.id);
+    if (!existing) {
+      throw new Errors.Remove.DoctorDoesNotExist({ uuAppErrorMap }, { id: dtoIn.id });
+    }
+
+    if (existing.status === "inactive") {
+      return { ...existing, uuAppErrorMap };
+    }
+
+    let updated = await this.dao.update(awid, dtoIn.id, {
+      status: "inactive"
+    });
+
+    if (!updated) {
+      updated = await this.dao.get(awid, dtoIn.id);
+    }
+
+    return { ...updated, uuAppErrorMap };
+  }
+
 }
 
 module.exports = new DoctorAbl();

@@ -50,8 +50,46 @@ const Find = {
   }
 };
 
+const Update = {
+  UC_CODE: `${DOCTOR_ERROR_PREFIX}update/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+  DoctorDoesNotExist: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}doctorDoesNotExist`;
+      this.message = "Doctor does not exist.";
+    }
+  },
+};
+
+const Remove = {
+  UC_CODE: `${DOCTOR_ERROR_PREFIX}remove/`,
+  InvalidDtoIn: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Remove.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+  DoctorDoesNotExist: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Remove.UC_CODE}doctorDoesNotExist`;
+      this.message = "Doctor does not exist.";
+    }
+  },
+};
+
 module.exports = {
   Create,
   Get,
   Find,
+  Update,
+  Remove,
 };

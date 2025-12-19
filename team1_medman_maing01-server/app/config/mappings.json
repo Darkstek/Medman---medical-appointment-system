@@ -56,6 +56,18 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
+
+      "doctor/update": {
+        "realization": "api/controllers/DoctorController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "doctor/remove": {
+        "realization": "api/controllers/DoctorController.remove",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+
       "appointment/create": {
         "realization": "api/controllers/AppointmentController.create",
         "httpMethod": "POST",

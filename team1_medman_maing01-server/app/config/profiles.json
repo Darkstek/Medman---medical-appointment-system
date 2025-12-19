@@ -68,7 +68,7 @@
       },
       "doctor/create": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
       },
       "doctor/get": {
         "sysStateList": ["active"],
@@ -78,6 +78,16 @@
         "sysStateList": ["active"],
         "profileList": ["Public"]
       },
+
+      "doctor/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
+      },
+      "doctor/remove": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
+      },
+
       "appointment/create": {
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
