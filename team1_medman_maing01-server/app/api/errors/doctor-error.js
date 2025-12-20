@@ -84,6 +84,13 @@ const Remove = {
       this.message = "Doctor does not exist.";
     }
   },
+  DoctorHasScheduledAppointments: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Remove.UC_CODE}doctorHasScheduledAppointments`;
+      this.message = "Doctor has scheduled appointments and cannot be removed.";
+    }
+  }
 };
 
 module.exports = {

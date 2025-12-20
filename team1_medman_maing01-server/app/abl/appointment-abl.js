@@ -58,8 +58,6 @@ class AppointmentAbl {
     let appointment = {
       awid,
       ...dtoIn,
-      doctorId: doctor.doctorId,
-      patientId: patient.patientId,
       status: AppointmentStatus.CONFIRMED,
     }
 

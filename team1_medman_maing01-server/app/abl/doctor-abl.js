@@ -4,6 +4,7 @@
 const {Validator} = require("uu_appg01_server").Validation;
 const {DaoFactory} = require("uu_appg01_server").ObjectStore;
 const {ValidationHelper} = require("uu_appg01_server").AppServer;
+const {AppointmentStatus} = require("../enums/appointment-status");
 const Errors = require("../api/errors/doctor-error.js");
 
 const WARNINGS = {
@@ -238,7 +239,7 @@ class DoctorAbl {
       return { ...existing, uuAppErrorMap };
     }
 
-    const appointments = await this.appointmentDao.find(awid, {doctorId: dtoIn.id, status: "Confirmed"}, null, null, {});
+    const appointments = await this.appointmentDao.find(awid, {doctorId: dtoIn.id, status: AppointmentStatus.CONFIRMED}, undefined, {}, {});
     if (appointments.itemList.length > 0) {
       throw new Errors.Remove.DoctorHasScheduledAppointments({ uuAppErrorMap }, { id: dtoIn.id });
     }
