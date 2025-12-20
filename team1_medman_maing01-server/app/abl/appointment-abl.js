@@ -281,6 +281,10 @@ class AppointmentAbl {
       throw new Errors.Create.DoctorNotFound({uuAppErrorMap}, {doctorId: doctorId})
     }
 
+    if (doctor.status !== "active") {
+      throw new Errors.Create.DoctorNotActive({uuAppErrorMap}, {doctorId: doctorId, status: doctor.status})
+    }
+
     return doctor;
   }
 

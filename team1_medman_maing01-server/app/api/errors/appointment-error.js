@@ -51,6 +51,17 @@ const Create = {
       }
     }
   },
+  DoctorNotActive: class extends MedmanMainUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}doctorNotActive`;
+      if (arguments?.length > 1 && arguments[1].doctorId && arguments[1].status) {
+        this.message = `Doctor with id ${arguments[1].doctorId} is not active. Current status: ${arguments[1].status}.`
+      } else {
+        this.message = `Doctor is not active.`
+      }
+    }
+  },
   PatientNotFound: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
