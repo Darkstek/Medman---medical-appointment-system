@@ -13,6 +13,9 @@ const WARNINGS = {
   appointmentCreateDtoInType: {
     code: `${Errors.Create.UC_CODE}unsupportedKeys`
   },
+  appointmentUpdateNotesDtoInType: {
+    code: `${Errors.UpdateNotes.UC_CODE}unsupportedKeys`
+  },
   appointmentUpdateStatusDtoInType: {
     code: `${Errors.UpdateStatus.UC_CODE}unsupportedKeys`
   },
@@ -62,6 +65,26 @@ class AppointmentAbl {
 
     appointment = await this.appointmentDao.create(appointment);
     appointment.appointmentId = appointment.id;
+
+    return {...appointment, uuAppErrorMap};
+  }
+
+  async updateNotes(awid, dtoIn) {
+    const validationResult = this.validator.validate("appointmentUpdateNotesDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.appointmentUpdateNotesDtoInType?.code,
+      Errors.UpdateNotes.InvalidDtoIn
+    );
+
+    let appointment = await this.appointmentDao.get(awid, dtoIn.id);
+    if (!appointment) {
+      throw new Errors.UpdateNotes.AppointmentDoesNotExist({id: dtoIn.id});
+    }
+
+    appointment.note = dtoIn.note
+    appointment = await this.appointmentDao.update(dtoIn.id, appointment);
 
     return {...appointment, uuAppErrorMap};
   }

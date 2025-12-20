@@ -73,6 +73,11 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
+      "appointment/update-notes": {
+        "realization": "api/controllers/AppointmentController.updateNotes",
+        "httpMethod": "PUT",
+        "type": "CMD"
+      },
       "appointment/update-status": {
         "realization": "api/controllers/AppointmentController.updateStatus",
         "httpMethod": "PUT",
