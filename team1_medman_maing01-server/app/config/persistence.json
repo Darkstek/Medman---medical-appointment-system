@@ -15,6 +15,9 @@
         },
         "patient": {
           "realization": "dao/PatientMongo"
+        },
+        "rate-doctor": {
+          "realization": "dao/RateDoctorMongo"
         }
       }
     }

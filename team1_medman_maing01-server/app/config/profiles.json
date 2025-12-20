@@ -127,6 +127,18 @@
       "patient/get": {
         "sysStateList": ["active"],
         "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "rate-doctor/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "rate-doctor/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+      },
+      "rate-doctor/find": {
+        "sysStateList": ["active"],
+        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
       }
     }
   }

@@ -117,6 +117,21 @@
         "realization": "api/controllers/PatientController.find",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "rate-doctor/create": {
+        "realization": "api/controllers/RateDoctorController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "rate-doctor/get": {
+        "realization": "api/controllers/RateDoctorController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "rate-doctor/find": {   
+        "realization": "api/controllers/RateDoctorController.find",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
