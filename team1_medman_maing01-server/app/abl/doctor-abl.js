@@ -29,6 +29,7 @@ class DoctorAbl {
   constructor() {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("doctor");
+    this.appointmentDao = DaoFactory.getDao("appointment");
   }
 
   async create(awid, dtoIn) {
@@ -235,6 +236,11 @@ class DoctorAbl {
 
     if (existing.status === "inactive") {
       return { ...existing, uuAppErrorMap };
+    }
+
+    const appointments = await this.appointmentDao.find(awid, {doctorId: dtoIn.id, status: "Confirmed"}, null, null, {});
+    if (appointments.itemList.length > 0) {
+      throw new Errors.Remove.DoctorHasScheduledAppointments({ uuAppErrorMap }, { id: dtoIn.id });
     }
 
     let updated = await this.dao.update(awid, dtoIn.id, {
