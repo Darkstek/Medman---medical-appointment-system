@@ -8,7 +8,6 @@ const medicalRecordType = shape({
 });
 
 const patientCreateDtoInType = shape({
-  patientId: string(2, 50),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),
@@ -18,15 +17,14 @@ const patientCreateDtoInType = shape({
   medicalRecord: medicalRecordType(),
   allergies: array(string(1,200), 100),
   insuranceProvider: string(1, 200),
+  emergencyContact: string(1, 200)
 });
 
 const patientGetDtoInType = shape({
-  id: id().isRequired("patientId"),
-  patientId: string(2, 50).isRequired("id"),
+  id: id().isRequired()
 });
 
 const patientFindDtoInType = shape({
-  patientId: string(2, 50),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),
@@ -36,6 +34,7 @@ const patientFindDtoInType = shape({
   medicalRecord: medicalRecordType(),
   allergies: array(string(), 100),
   insuranceProvider: string(1, 200),
+  emergencyContact: string(1, 200),
   searchMode: oneOf(["and", "or"]),
   pageInfo: pageInfo(),
   sortBy: map(
@@ -48,8 +47,7 @@ const patientFindDtoInType = shape({
 });
 
 const patientUpdateDtoInType = shape({
-  id: id().isRequired("patientId"),
-  patientId: string(2, 50).isRequired("id"),
+  id: id().isRequired(),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),
@@ -59,4 +57,5 @@ const patientUpdateDtoInType = shape({
   medicalRecord: medicalRecordType(),
   allergies: array(string(1,200), 100),
   insuranceProvider: string(1, 200),
+  emergencyContact: string(1, 200)
 });
