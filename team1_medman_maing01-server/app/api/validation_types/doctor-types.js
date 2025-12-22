@@ -36,6 +36,8 @@ const doctorFindDtoInType = shape({
     end: datetime().isRequired()
   }),
   description: string(1, 200),
+  averageRatingAbove: float(5, 1),
+  ratingCountGreaterThan: integer(),
   searchMode: oneOf(["and", "or"]),
   pageInfo: pageInfo(),
   sortBy: map(
