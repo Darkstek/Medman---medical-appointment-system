@@ -51,10 +51,11 @@ const AppointmentsList = createVisualComponent({
       setLoading(true);
       try {
         // backend call to fetch appointments
-        /*
+
         const dtoOut = await Calls.findAppointments({});
-        */
-       const dtoOut = { itemList: await getAppointmentsWithDetails() }; // mock data fetch, remove when using backend call above
+
+
+       // const dtoOut = { itemList: await getAppointmentsWithDetails() }; // mock data fetch, remove when using backend call above
         setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
 
         console.log("Fetched appointments:", dtoOut);
@@ -63,6 +64,9 @@ const AppointmentsList = createVisualComponent({
       } finally {
         setLoading(false);
       }
+    }
+    async function fetchDoctorAccordingToAppointment() {
+      const doctorId = appointments.find((a) => a.appointmentId === selectedAppointmentId).doctorId;
     }
 
     const openCancelModal = (data) => {
@@ -76,7 +80,7 @@ const AppointmentsList = createVisualComponent({
 
     const upcomingAppointments = appointments.filter((a) => a.status === "Confirmed");
     const pastAppointments = appointments.filter((a) => a.status === "Cancelled" || a.status === "Completed");
-
+  console.log("upcomingAppointments:", upcomingAppointments);
     return (
       <>
         <Uu5Elements.Grid>

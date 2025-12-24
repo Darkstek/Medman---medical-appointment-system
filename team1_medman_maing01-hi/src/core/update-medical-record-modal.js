@@ -16,17 +16,14 @@ const UpdateMedicalRecordModal = createVisualComponent({
     const [medications, setMedications] = useState(patient.medicalRecord?.medications?.join(", ") || "");
     const [allergies, setAllergies] = useState(patient.allergies?.join(", ") || "");
     const [illnesses, setIllnesses] = useState(patient.medicalRecord?.illnesses?.join(", ") || "");
-    const [surgeries, setSurgeries] = useState(patient.medicalRecord?.surgeries?.join(", ") || "");
-    const [vaccinations, setVaccinations] = useState(patient.medicalRecord?.vaccinations?.join(", ") || "");
-    const [dietaryRestrictions, setDietaryRestrictions] = useState(
-      patient.medicalRecord?.dietaryRestrictions?.join(", ") || "",
-    );
+    const [insuranceProvider, setInsuranceProvider] = useState(patient.insuranceProvider);
+    const [emergencyContact, setEmergencyContact] = useState(patient.emergencyContact);
     // Sending updated data to backend
+    console.log("patientID:", patient.id);
     async function handleSubmit() {
       try {
         const updatedData = {
           id: patient.id,
-          patientId: patient.patientId,
           medicalRecord: {
             medications: (medications || "")
               .split(",")
@@ -35,20 +32,16 @@ const UpdateMedicalRecordModal = createVisualComponent({
             illnesses: (illnesses || "")
               .split(",")
               .map((i) => i.trim())
-              .filter(Boolean),
-
-            /* Need to change backend according to bussines use case
-            surgeries: (surgeries || "").split(",").map((s) => s.trim()).filter(Boolean),
-            vaccinations: (vaccinations || "").split(",").map((v) => v.trim()).filter(Boolean),
-            dietaryRestrictions: (dietaryRestrictions || "").split(",").map((d) => d.trim()).filter(Boolean),
-            */
+              .filter(Boolean)
           },
           allergies: (allergies || "")
             .split(",")
             .map((a) => a.trim())
             .filter(Boolean),
+          insuranceProvider: insuranceProvider,
+          emergencyContact: emergencyContact
         };
-
+        console.log("updated Data", updatedData)
         await Calls.updatePatient(updatedData);
 
         alertBus.addAlert({
@@ -67,7 +60,6 @@ const UpdateMedicalRecordModal = createVisualComponent({
         });
       }
     }
-
     return (
       <Uu5Elements.Modal
         open={open}
@@ -94,18 +86,12 @@ const UpdateMedicalRecordModal = createVisualComponent({
           <Uu5Elements.Label>Illness</Uu5Elements.Label>
           <Uu5Forms.Text.Input width="100%" value={illnesses} onChange={(opt) => setIllnesses(opt.data.value)} />
 
-          <Uu5Elements.Label>Surgeries</Uu5Elements.Label>
-          <Uu5Forms.Text.Input width="100%" value={surgeries} onChange={(opt) => setSurgeries(opt.data.value)} />
+          <Uu5Elements.Label>Insurance Provider</Uu5Elements.Label>
+          <Uu5Forms.Text.Input width="100%" value={insuranceProvider} onChange={(opt) => setInsuranceProvider(opt.data.value)} />
 
-          <Uu5Elements.Label>Vaccinations</Uu5Elements.Label>
-          <Uu5Forms.Text.Input width="100%" value={vaccinations} onChange={(opt) => setVaccinations(opt.data.value)} />
+          <Uu5Elements.Label>Emergency Contact</Uu5Elements.Label>
+          <Uu5Forms.Text.Input required width="50%" value={emergencyContact} onChange={(opt) => setEmergencyContact(opt.data.value)} />
 
-          <Uu5Elements.Label>Dietary Restrictions</Uu5Elements.Label>
-          <Uu5Forms.Text.Input
-            width="100%"
-            value={dietaryRestrictions}
-            onChange={(opt) => setDietaryRestrictions(opt.data.value)}
-          />
         </Uu5Elements.Grid>
       </Uu5Elements.Modal>
     );

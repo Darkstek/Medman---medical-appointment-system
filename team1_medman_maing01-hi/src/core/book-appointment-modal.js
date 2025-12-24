@@ -81,7 +81,7 @@ const BookAppointmentModal = createVisualComponent({
           //const loggedInPatient = patients.find((patient) => patient.emailAddress === loggedInPatientEmail);
           //setPatient(loggedInPatient ?? null);
 
-          setPatientId(patientData?.patientId || "Unknown");
+          setPatientId(patientData?.id || "Unknown");
           console.log("BE PatientId:", patientId);
         } catch (error) {
           console.error("Error fetching patient ID:", error);
@@ -145,7 +145,7 @@ const BookAppointmentModal = createVisualComponent({
       const dtoIn = {
         patientId, // Add the logged-in user's patientId
         //patientId: "PAT-1008", // Replace with actual patientId
-        doctorId: doctor?.doctorId,
+        doctorId: doctor?.id,
         dateTime: new Date(
           availableTimeSlots.find(
             (slot) =>
@@ -246,7 +246,7 @@ const BookAppointmentModal = createVisualComponent({
             {/* Create an Appointment */}
             {loading ? "Booking..." : "Create an Appointment"}
           </Uu5Forms.SubmitButton>
-          {/* 
+          {/*
           <Uu5Forms.ResetButton>
         Start Over</Uu5Forms.ResetButton>  */}
         </Uu5Forms.Form>

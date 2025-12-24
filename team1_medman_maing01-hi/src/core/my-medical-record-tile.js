@@ -75,7 +75,7 @@ const MyMedicalRecordTile = createVisualComponent({
         title: (
           <Uu5Elements.Grid>
             {patient.medicalRecord?.medications?.length > 0 ? (
-              patient.medicalRecord.medications.map((medication, i) => (
+              patient.medicalRecord?.medications?.map((medication, i) => (
                 <Uu5Elements.Text key={i}>{medication}</Uu5Elements.Text>
               ))
             ) : (
@@ -89,7 +89,7 @@ const MyMedicalRecordTile = createVisualComponent({
         title: (
           <Uu5Elements.Grid>
             {patient.allergies?.length > 0 ? (
-              patient.allergies.map((allergy, i) => <Uu5Elements.Text key={i}>{allergy}</Uu5Elements.Text>)
+              patient.allergies?.map((allergy, i) => <Uu5Elements.Text key={i}>{allergy}</Uu5Elements.Text>)
             ) : (
               <Uu5Elements.Text>No allergies</Uu5Elements.Text>
             )}
@@ -102,7 +102,7 @@ const MyMedicalRecordTile = createVisualComponent({
         title: (
           <Uu5Elements.Grid>
             {patient.medicalRecord?.illnesses?.length > 0 ? (
-              patient.medicalRecord.illnesses.map((illness, i) => (
+              patient.medicalRecord?.illnesses?.map((illness, i) => (
                 <Uu5Elements.Text key={i}>{illness}</Uu5Elements.Text>
               ))
             ) : (
@@ -115,44 +115,26 @@ const MyMedicalRecordTile = createVisualComponent({
       {
         title: (
           <Uu5Elements.Grid>
-            {patient.medicalRecord?.surgeries?.length > 0 ? (
-              patient.medicalRecord.surgeries.map((surgery, i) => (
-                <Uu5Elements.Text key={i}>{surgery}</Uu5Elements.Text>
-              ))
+            {patient.insuranceProvider?.length > 0 ? (
+                <Uu5Elements.Text> {patient.insuranceProvider} </Uu5Elements.Text>
             ) : (
-              <Uu5Elements.Text>No surgeries</Uu5Elements.Text>
+              <Uu5Elements.Text>No insurance</Uu5Elements.Text>
             )}
           </Uu5Elements.Grid>
         ),
-        subtitle: "Surgeries",
+        subtitle: "Insurance Provider",
       },
       {
         title: (
           <Uu5Elements.Grid>
-            {patient.medicalRecord?.vaccinations?.length > 0 ? (
-              patient.medicalRecord.vaccinations.map((vaccination, i) => (
-                <Uu5Elements.Text key={i}>{vaccination}</Uu5Elements.Text>
-              ))
+            {patient.emergencyContact?.length > 0 ? (
+                <Uu5Elements.Text> {patient.emergencyContact} </Uu5Elements.Text>
             ) : (
               <Uu5Elements.Text>No vaccinations</Uu5Elements.Text>
             )}
           </Uu5Elements.Grid>
         ),
-        subtitle: "Vaccinations",
-      },
-      {
-        title: (
-          <Uu5Elements.Grid>
-            {patient.medicalRecord?.dietaryRestrictions?.length > 0 ? (
-              patient.medicalRecord.dietaryRestrictions.map((restriction, i) => (
-                <Uu5Elements.Text key={i}>{restriction}</Uu5Elements.Text>
-              ))
-            ) : (
-              <Uu5Elements.Text>No dietary restrictions</Uu5Elements.Text>
-            )}
-          </Uu5Elements.Grid>
-        ),
-        subtitle: "Dietary Restrictions",
+        subtitle: "Emergency Contact",
       },
     ];
 
