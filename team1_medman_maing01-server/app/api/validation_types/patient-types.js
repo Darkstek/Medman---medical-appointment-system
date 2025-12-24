@@ -21,7 +21,7 @@ const patientCreateDtoInType = shape({
 });
 
 const patientGetDtoInType = shape({
-  id: id().isRequired()
+  id: string(1, 10).isRequired() // If 'id()' Validator expects UU format.
 });
 
 const patientFindDtoInType = shape({
@@ -47,7 +47,7 @@ const patientFindDtoInType = shape({
 });
 
 const patientUpdateDtoInType = shape({
-  id: id().isRequired(),
+  id: string(1, 10).isRequired(), // If 'id()' Validator expects UU format.
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),

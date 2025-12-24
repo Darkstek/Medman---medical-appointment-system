@@ -152,10 +152,20 @@ class AppointmentAbl {
     let sortBy = this._transformSortBy(dtoIn.sortBy) ?? {_id: -1};
     let appointmentList = await this.appointmentDao.find(awid, filter, dtoIn.pageInfo, sortBy, {});
 
+    // load doctors in batch
+    const doctorMap = await this._loadDoctorsForAppointments(
+      awid,
+      appointmentList.itemList
+    );
+    // attach doctor to each appointment
+    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
+      ...appointment,
+      doctor: doctorMap[appointment.doctorId] || null
+    }));
+
     if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
       appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
     }
-
     // reorder pageInfo and itemList
     return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
   }
@@ -354,6 +364,46 @@ class AppointmentAbl {
       message: "Appointment has been canceled",
       uuAppErrorMap
     };
+  }
+  /**
+   * Loads doctors for a list of appointments in one DB call.
+   *
+   * @param {string} awid
+   * @param {Array} appointments
+   * @return {Promise<Object>} map of doctorId -> doctor
+   */
+  async _loadDoctorsForAppointments(awid, appointments) {
+    const doctorIds = [
+      ...new Set(
+        appointments
+          .map(a => a.doctorId)
+          .filter(Boolean)
+      )
+    ];
+
+    if (doctorIds.length === 0) {
+      return {};
+    }
+
+    const doctors = await this.doctorDao.find(
+      awid,
+      {
+        id: { $in: doctorIds },
+        status: "active"
+      },
+      { pageIndex: 0, pageSize: doctorIds.length },
+      { _id: -1 },
+      {}
+    );
+
+    // Map doctors by their _id (string)
+    const doctorMap = {};
+    for (const doctor of doctors.itemList) {
+      doctorMap[doctor.id] = doctor;
+    }
+
+    return doctorMap;
+
   }
 
 }
