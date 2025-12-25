@@ -1,8 +1,9 @@
 //@@viewOn:imports
-import { createVisualComponent, PropTypes, useState } from "uu5g05";
+import { createVisualComponent, PropTypes, useState, useEffect } from "uu5g05";
 import * as Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
 import BookAppointmentConfirmModal from "./book-appointment-confirm-modal.js";
+import Calls from "../calls.js";
 //@@viewOff:imports
 
 //@@viewOn:css
@@ -45,7 +46,7 @@ const DoctorAvailabilityModal = createVisualComponent({
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     doctor: PropTypes.shape({
-      doctorId: PropTypes.string,
+      id: PropTypes.string,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
       specialization: PropTypes.string,
@@ -55,17 +56,18 @@ const DoctorAvailabilityModal = createVisualComponent({
           end: PropTypes.string.isRequired,
         }),
       ),
-      clinicId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    }).isRequired,
-    clinic: PropTypes.shape({
-      name: PropTypes.string,
     }),
+    clinicName: PropTypes.string
+
   },
   //@@viewOff:propTypes
 
   render({ open, onClose, doctor, clinic }) {
     const [bookAppointmentModalOpen, setBookAppointmentModalOpen] = useState(false);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+    const [appointments, setAppointments] = useState([]);
+    const [loadingAppointments, setLoadingAppointments] = useState(false);
+
 
     const handleBookClick = (timeSlot) => {
       setSelectedTimeSlot(timeSlot);
@@ -94,8 +96,58 @@ const DoctorAvailabilityModal = createVisualComponent({
 
       return `${startStr} - ${endTime}`;
     };
+  console.log("doctor", doctor.id)
+    useEffect(() => {
+      if (!open || !doctor?.id) return;
 
-    const hasAvailableSlots = doctor.availableTimeSlots && doctor.availableTimeSlots.length > 0;
+      const fetchAppointments = async () => {
+        setLoadingAppointments(true);
+        try {
+          const result = await Calls.findAppointments({ doctorId: doctor.id });
+          setAppointments(result?.itemList || []);
+        } catch (error) {
+          console.error("Failed to fetch appointments", error);
+          setAppointments([]);
+        } finally {
+          setLoadingAppointments(false);
+        }
+        console.log("appointments", appointments)
+      };
+
+      fetchAppointments();
+    }, [open, doctor.id]);
+
+
+    // Filter available time slots
+    const now = new Date();
+
+    const filteredTimeSlots = (doctor.availableTimeSlots || []).filter((slot) => {
+      const slotStart = new Date(slot.start);
+      const slotEnd = new Date(slot.end);
+
+      // 1️⃣ only future slots
+      if (slotStart <= now) return false;
+
+      // 2️⃣ exclude booked slots
+      const isBooked = appointments.some((appointment) => {
+        // ignore cancelled appointments
+        if (appointment.status === "Cancelled") return false;
+
+        // must be same doctor
+        if (appointment.doctorId !== doctor.id) return false;
+
+        const appointmentTime = new Date(appointment.dateTime);
+
+        // appointment falls inside slot
+        return (
+          appointmentTime >= slotStart &&
+          appointmentTime < slotEnd
+        );
+      });
+
+      return !isBooked;
+    });
+    const hasAvailableSlots = filteredTimeSlots.length > 0;
 
     return (
       <>
@@ -105,7 +157,7 @@ const DoctorAvailabilityModal = createVisualComponent({
           header={
             <Uu5Elements.Text category="interface" segment="title" type="major">
               {doctor.firstName} {doctor.lastName} is available on the following dates
-              {clinic && ` at ${clinic.name}`}
+              {clinic && ` at ${doctor.clinicName}`}
             </Uu5Elements.Text>
           }
         >
@@ -118,7 +170,7 @@ const DoctorAvailabilityModal = createVisualComponent({
               </div>
             ) : (
               <Uu5Elements.Block>
-                {doctor.availableTimeSlots.map((slot, index) => (
+                {filteredTimeSlots.map((slot, index) => (
                   <div key={index} className={Css.timeSlotRow()}>
                     <Uu5Elements.Text className={Css.timeSlotText()}>
                       {formatTimeSlot(slot.start, slot.end)}
