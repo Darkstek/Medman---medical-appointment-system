@@ -106,7 +106,7 @@ const MyMedicalRecordTile = createVisualComponent({
                 <Uu5Elements.Text key={i}>{illness}</Uu5Elements.Text>
               ))
             ) : (
-              <Uu5Elements.Text>No illness</Uu5Elements.Text>
+              <Uu5Elements.Text>No illnesses</Uu5Elements.Text>
             )}
           </Uu5Elements.Grid>
         ),
@@ -118,7 +118,7 @@ const MyMedicalRecordTile = createVisualComponent({
             {patient.insuranceProvider?.length > 0 ? (
                 <Uu5Elements.Text> {patient.insuranceProvider} </Uu5Elements.Text>
             ) : (
-              <Uu5Elements.Text>No insurance</Uu5Elements.Text>
+              <Uu5Elements.Text>No insurance provider specified</Uu5Elements.Text>
             )}
           </Uu5Elements.Grid>
         ),
@@ -130,7 +130,7 @@ const MyMedicalRecordTile = createVisualComponent({
             {patient.emergencyContact?.length > 0 ? (
                 <Uu5Elements.Text> {patient.emergencyContact} </Uu5Elements.Text>
             ) : (
-              <Uu5Elements.Text>No vaccinations</Uu5Elements.Text>
+              <Uu5Elements.Text>No emergency contact specified</Uu5Elements.Text>
             )}
           </Uu5Elements.Grid>
         ),
