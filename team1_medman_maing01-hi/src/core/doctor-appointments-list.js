@@ -129,13 +129,16 @@ const DoctorAppointmentsList = createVisualComponent({
 
     // Filter appointments by date (showing all status types)
     const filteredAppointments = filterAppointmentsByDate(appointments);
+    const uniqueAppointments = Array.from(
+      new Map(filteredAppointments.map(a => [a.id, a])).values()
+    );
 
     // Group appointments by status
-    const createdAppointments = filteredAppointments.filter((a) => a.status === "Created");
-    const confirmedAppointments = filteredAppointments.filter((a) => a.status === "Confirmed");
-    const completedAppointments = filteredAppointments.filter((a) => a.status === "Completed");
-    const cancelledAppointments = filteredAppointments.filter((a) => a.status === "Cancelled");
-
+    const createdAppointments = uniqueAppointments.filter((a) => a.status === "Created");
+    const confirmedAppointments = uniqueAppointments.filter((a) => a.status === "Confirmed");
+    const completedAppointments = uniqueAppointments.filter((a) => a.status === "Completed");
+    const cancelledAppointments = uniqueAppointments.filter((a) => a.status === "Cancelled");
+  console.log("cancelled", cancelledAppointments)
     return (
       <Uu5Elements.Grid>
         {/* Filter Section */}

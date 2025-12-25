@@ -198,7 +198,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
         />
 
         {/* Note Section */}
-        {(appointment.status === "Confirmed" || appointment.status === "Created") && (
+        { appointment.status === "Completed" && (
           <div className={Css.noteSection()}>
             <Uu5Elements.Text category="interface" segment="title" type="micro" style={{ marginBottom: "8px" }}>
               Add/Update Note:
