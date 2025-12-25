@@ -20,7 +20,7 @@ const doctorCreateDtoInType = shape({
 });
 
 const doctorGetDtoInType = shape({
-  id: id().isRequired()
+  id: string(1,10).isRequired()
 });
 
 const doctorFindDtoInType = shape({

@@ -58,7 +58,7 @@ class AppointmentAbl {
     let appointment = {
       awid,
       ...dtoIn,
-      status: AppointmentStatus.CONFIRMED,
+      status: AppointmentStatus.CREATED,
     }
 
     appointment = await this.appointmentDao.create(appointment);
@@ -161,6 +161,17 @@ class AppointmentAbl {
     appointmentList.itemList = appointmentList.itemList.map(appointment => ({
       ...appointment,
       doctor: doctorMap[appointment.doctorId] || null
+    }));
+
+    // load patients in batch
+    const patientMap = await this._loadPatientsForAppointments(
+      awid,
+      appointmentList.itemList
+    );
+    // attach patient to each appointment
+    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
+      ...appointment,
+      patient: patientMap[appointment.patientId] || null
     }));
 
     if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
@@ -403,6 +414,39 @@ class AppointmentAbl {
     }
 
     return doctorMap;
+
+  }
+
+  async _loadPatientsForAppointments(awid, appointments) {
+    const patientIds = [
+      ...new Set(
+        appointments
+          .map(a => a.patientId)
+          .filter(Boolean)
+      )
+    ];
+
+    if (patientIds.length === 0) {
+      return {};
+    }
+
+    const patients = await this.patientDao.find(
+      awid,
+      {
+        id: { $in: patientIds },
+      },
+      { pageIndex: 0, pageSize: patientIds.length },
+      { _id: -1 },
+      {}
+    );
+
+    // Map patients by their _id (string)
+    const patientMap = {};
+    for (const patient of patients.itemList) {
+      patientMap[patient.id] = patient;
+    }
+
+    return patientMap;
 
   }
 

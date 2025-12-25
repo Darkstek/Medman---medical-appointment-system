@@ -75,12 +75,12 @@
       },
       "appointment/update-notes": {
         "realization": "api/controllers/AppointmentController.updateNotes",
-        "httpMethod": "PUT",
+        "httpMethod": "POST",
         "type": "CMD"
       },
       "appointment/update-status": {
         "realization": "api/controllers/AppointmentController.updateStatus",
-        "httpMethod": "PUT",
+        "httpMethod": "POST",
         "type": "CMD"
       },
       "appointment/get": {
@@ -128,7 +128,7 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "rate-doctor/find": {   
+      "rate-doctor/find": {
         "realization": "api/controllers/RateDoctorController.find",
         "httpMethod": "GET",
         "type": "CMD"
