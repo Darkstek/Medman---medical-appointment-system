@@ -76,7 +76,12 @@ const Calls = {
 
   updateAppointmentStatus(dtoIn) {
     const commandUri = Calls.getCommandUri("appointment/update-status");
-    return Calls.call("cmdPut", commandUri, dtoIn);
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
+  updateAppointmentNotes(dtoIn) {
+    const commandUri = Calls.getCommandUri("appointment/update-notes");
+    return Calls.call("cmdPost", commandUri, dtoIn);
   },
 
   getCommandUri(useCase, baseUri = Environment.appBaseUri) {

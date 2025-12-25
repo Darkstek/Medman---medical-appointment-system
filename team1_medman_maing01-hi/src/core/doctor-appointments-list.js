@@ -63,8 +63,17 @@ const DoctorAppointmentsList = createVisualComponent({
     async function fetchAppointments() {
       setLoading(true);
       try {
-        const json = await getAppointmentsWithDetails();
-        setAppointments(json);
+        //Using Mock data uncomment bellow
+        //const json = await getAppointmentsWithDetails();
+
+        const doctorId = "DOC-005" //Replace with logged in doctor logic
+        //Backend Call, comment when mocking
+        Calls.findAppointments({ doctorId: doctorId }).then((dtoOut) => {
+          setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
+        }
+        )
+        //Using Mock data uncomment bellow
+        //setAppointments(json);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -75,7 +84,7 @@ const DoctorAppointmentsList = createVisualComponent({
     const filterAppointmentsByDate = (appointments) => {
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      
+
       switch (viewMode) {
         case "today":
           return appointments.filter((apt) => {
@@ -83,7 +92,7 @@ const DoctorAppointmentsList = createVisualComponent({
             const aptDay = new Date(aptDate.getFullYear(), aptDate.getMonth(), aptDate.getDate());
             return aptDay.getTime() === today.getTime();
           });
-        
+
         case "week":
           const weekEnd = new Date(today);
           weekEnd.setDate(weekEnd.getDate() + 7);
@@ -91,7 +100,7 @@ const DoctorAppointmentsList = createVisualComponent({
             const aptDate = new Date(apt.dateTime);
             return aptDate >= today && aptDate < weekEnd;
           });
-        
+
         case "custom":
           if (!selectedDate) return appointments;
           const selected = new Date(selectedDate);
@@ -101,7 +110,7 @@ const DoctorAppointmentsList = createVisualComponent({
             const aptDay = new Date(aptDate.getFullYear(), aptDate.getMonth(), aptDate.getDate());
             return aptDay.getTime() === selectedDay.getTime();
           });
-        
+
         case "all":
         default:
           return appointments;
@@ -122,7 +131,7 @@ const DoctorAppointmentsList = createVisualComponent({
     const filteredAppointments = filterAppointmentsByDate(appointments);
 
     // Group appointments by status
-    const requestedAppointments = filteredAppointments.filter((a) => a.status === "Requested");
+    const createdAppointments = filteredAppointments.filter((a) => a.status === "Created");
     const confirmedAppointments = filteredAppointments.filter((a) => a.status === "Confirmed");
     const completedAppointments = filteredAppointments.filter((a) => a.status === "Completed");
     const cancelledAppointments = filteredAppointments.filter((a) => a.status === "Cancelled");
@@ -162,7 +171,7 @@ const DoctorAppointmentsList = createVisualComponent({
               Custom Date
             </Uu5Elements.Button>
           </div>
-          
+
           {viewMode === "custom" && (
             <div className={Css.filterRow()} style={{ marginTop: "16px" }}>
               <Uu5Elements.Text className={Css.filterLabel()}>Select Date:</Uu5Elements.Text>
@@ -183,16 +192,16 @@ const DoctorAppointmentsList = createVisualComponent({
         ) : (
           <>
             {/* Requested Appointments */}
-            {requestedAppointments.length > 0 && (
+            {createdAppointments.length > 0 && (
               <Uu5Elements.Block
                 header={
                   <Uu5Elements.Text category="story" segment="heading" type="h5">
-                    Requested Appointments ({requestedAppointments.length})
+                    Requested Appointments ({createdAppointments.length})
                   </Uu5Elements.Text>
                 }
                 headerSeparator={true}
               >
-                <Uu5Tiles.ControllerProvider data={requestedAppointments}>
+                <Uu5Tiles.ControllerProvider data={createdAppointments}>
                   <Uu5TilesElements.Grid tileMinWidth={250} tileMaxWidth={400}>
                     {(tile) => <DoctorAppointmentTile appointment={tile.data} onUpdate={fetchAppointments} />}
                   </Uu5TilesElements.Grid>
