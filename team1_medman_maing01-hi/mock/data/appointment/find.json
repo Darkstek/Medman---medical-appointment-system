@@ -1,0 +1,162 @@
+{
+  "itemList": [
+    {
+      "id": "apt1",
+      "appointmentId": "APT-001",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-001",
+      "dateTime": "2025-12-05T14:30:00.000Z",
+      "status": "Completed",
+      "note": "Regular checkup",
+      "doctor": {
+        "id": "DOC-001",
+        "firstName": "Priya",
+        "lastName": "Patel",
+        "specialization": "Cardiology"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      },
+      "rating": 4,
+      "ratingComment": "Very professional and caring doctor. Would recommend!"
+    },
+    {
+      "id": "apt2",
+      "appointmentId": "APT-002",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-001",
+      "dateTime": "2025-12-05T16:00:00.000Z",
+      "status": "Confirmed",
+      "note": "Follow-up consultation",
+      "doctor": {
+        "id": "DOC-001",
+        "firstName": "Marie",
+        "lastName": "Mitchell",
+        "specialization": "Cardiology"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    },
+    {
+      "id": "apt3",
+      "appointmentId": "APT-003",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-002",
+      "dateTime": "2025-12-07T14:15:00.000Z",
+      "status": "Confirmed",
+      "note": "Pediatric consultation",
+      "doctor": {
+        "id": "DOC-002",
+        "firstName": "James",
+        "lastName": "Chen",
+        "specialization": "Pediatrics"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    },
+    {
+      "id": "apt4",
+      "appointmentId": "APT-004",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-004",
+      "dateTime": "2025-12-10T15:00:00.000Z",
+      "status": "Confirmed",
+      "note": "Neurological assessment",
+      "doctor": {
+        "id": "DOC-004",
+        "firstName": "David",
+        "lastName": "Anderson",
+        "specialization": "Neurology"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    },
+    {
+      "id": "apt5",
+      "appointmentId": "APT-005",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-005",
+      "dateTime": "2025-12-11T14:30:00.000Z",
+      "status": "Confirmed",
+      "note": "Annual checkup",
+      "doctor": {
+        "id": "DOC-005",
+        "firstName": "Sarah",
+        "lastName": "Wilson",
+        "specialization": "Orthopedics"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    },
+    {
+      "id": "apt6",
+      "appointmentId": "APT-006",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-001",
+      "dateTime": "2025-11-15T10:00:00.000Z",
+      "status": "Completed",
+      "note": "Previous checkup - went great!",
+      "doctor": {
+        "id": "DOC-001",
+        "firstName": "Marie",
+        "lastName": "Mitchell",
+        "specialization": "Cardiology"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    },
+    {
+      "id": "apt7",
+      "appointmentId": "APT-007",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-002",
+      "dateTime": "2025-11-10T14:30:00.000Z",
+      "status": "Completed",
+      "note": "Annual physical exam",
+      "doctor": {
+        "id": "DOC-002",
+        "firstName": "James",
+        "lastName": "Chen",
+        "specialization": "Pediatrics"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      },
+      "rating": 5,
+      "ratingComment": "Excellent doctor, very thorough!"
+    },
+    {
+      "id": "apt8",
+      "appointmentId": "APT-008",
+      "patientId": "PAT-001",
+      "doctorId": "DOC-003",
+      "dateTime": "2025-10-28T09:00:00.000Z",
+      "status": "Cancelled",
+      "note": "Skin checkup - cancelled due to illness",
+      "doctor": {
+        "id": "DOC-003",
+        "firstName": "Emily",
+        "lastName": "Rodriguez",
+        "specialization": "Dermatology"
+      },
+      "clinic": {
+        "id": "CLINIC-001",
+        "name": "Central Health Clinic"
+      }
+    }
+  ],
+  "pageInfo": { "pageIndex": 0, "pageSize": 100, "total": 8 },
+  "uuAppErrorMap": {}
+}

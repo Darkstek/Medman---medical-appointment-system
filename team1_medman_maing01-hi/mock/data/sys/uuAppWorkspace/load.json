@@ -1,0 +1,14 @@
+{
+  "sysState": "active",
+  "name": "MedMan",
+  "awid": "22222222222222222222222222222222",
+  "awidLicenseOwnerList": ["0-0"],
+  "authorizationStrategy": "roleGroupInterface",
+  "profileList": ["Authorities", "Executives", "Public", "Authenticated", "Patient", "Doctor"],
+  "authorizedProfileList": ["Authorities", "Executives", "Patient", "Doctor"],
+  "identityProfileList": ["Authorities", "Patient"],
+  "uuIdentity": "0-0",
+  "uuAppErrorMap": {}
+}
+
+

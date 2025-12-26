@@ -4,6 +4,7 @@ import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import AppointmentDetailModal from "./appointment-detail-modal.js";
 import CancelAppointmentModal from "./cancel-appointment-modal.js";
+import RateDoctorModal from "./rate-doctor-modal.js";
 
 const AppointmentTile = createVisualComponent({
   uu5Tag: Config.TAG + "AppointmentTile",
@@ -31,6 +32,12 @@ const AppointmentTile = createVisualComponent({
 
   render({ appointment, onCancel }) {
     const [appointmentDetailModalOpen, setAppointmentDetailModalOpen] = useState(false);
+    const [rateModalOpen, setRateModalOpen] = useState(false);
+
+    // Check if appointment is in the past or completed
+    const appointmentDate = new Date(appointment.dateTime);
+    const isPastAppointment = appointmentDate < new Date();
+    const canRate = isPastAppointment || appointment.status === "Completed";
 
     return (
       <Uu5TilesElements.Tile
@@ -44,11 +51,19 @@ const AppointmentTile = createVisualComponent({
                 colorScheme: "blue",
                 onClick: () => setAppointmentDetailModalOpen(true),
               },
-              appointment.status === "Confirmed" && {
+              canRate && {
+                children: (
+                  <>
+                    <Uu5Elements.Icon icon="mdi-star" /> Rate
+                  </>
+                ),
+                colorScheme: "yellow",
+                onClick: () => setRateModalOpen(true),
+              },
+              appointment.status === "Confirmed" && !isPastAppointment && {
                 children: "Cancel",
                 colorScheme: "red",
-                // onClick: () => alert("Cancel appointment functionality to be implemented"),
-                onClick: () => onCancel(appointment.appointment), // Trigger the onCancel callback
+                onClick: () => onCancel(appointment.appointment),
               },
             ].filter(Boolean)}
           ></Uu5Elements.ButtonGroup>
@@ -73,6 +88,17 @@ const AppointmentTile = createVisualComponent({
           open={appointmentDetailModalOpen}
           appointment={appointment}
           onClose={() => setAppointmentDetailModalOpen(false)}
+        />
+
+        <RateDoctorModal
+          open={rateModalOpen}
+          onClose={() => setRateModalOpen(false)}
+          doctor={appointment.doctor}
+          patientId={appointment.patientId}
+          appointmentId={appointment.id || appointment.appointmentId}
+          onSuccess={() => {
+            setRateModalOpen(false);
+          }}
         />
       </Uu5TilesElements.Tile>
     );

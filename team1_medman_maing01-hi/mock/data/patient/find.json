@@ -1,0 +1,20 @@
+{
+  "itemList": [
+    {
+      "id": "pat1",
+      "patientId": "PAT-001",
+      "firstName": "John",
+      "lastName": "Doe",
+      "phoneNumber": "+1-555-1234",
+      "emailAddress": "john.doe@email.com",
+      "dateOfBirth": "1985-03-15",
+      "gender": "male",
+      "allergies": ["Penicillin"],
+      "insuranceProvider": "HealthCare Plus"
+    }
+  ],
+  "pageInfo": { "pageIndex": 0, "pageSize": 100, "total": 1 },
+  "uuAppErrorMap": {}
+}
+
+

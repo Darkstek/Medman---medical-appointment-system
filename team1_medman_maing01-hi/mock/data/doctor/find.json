@@ -1,0 +1,83 @@
+{
+  "itemList": [
+    {
+      "id": "doc1",
+      "doctorId": "DOC-001",
+      "firstName": "Marie",
+      "lastName": "Mitchell",
+      "specialization": "Cardiology",
+      "phoneNumber": "+1-555-0101",
+      "emailAddress": "marie.mitchell@clinic.com",
+      "status": "active",
+      "description": "Board-certified cardiologist with 15 years of experience.",
+      "averageRating": 4.8,
+      "ratingCount": 856,
+      "availableTimeSlots": [
+        { "start": "2025-12-23T09:00:00.000Z", "end": "2025-12-23T12:00:00.000Z" },
+        { "start": "2025-12-24T14:00:00.000Z", "end": "2025-12-24T17:00:00.000Z" }
+      ]
+    },
+    {
+      "id": "doc2",
+      "doctorId": "DOC-002",
+      "firstName": "James",
+      "lastName": "Chen",
+      "specialization": "Pediatrics",
+      "phoneNumber": "+1-555-0102",
+      "emailAddress": "james.chen@clinic.com",
+      "status": "active",
+      "description": "Compassionate pediatrician specializing in child healthcare.",
+      "averageRating": 4.9,
+      "ratingCount": 1203,
+      "availableTimeSlots": [
+        { "start": "2025-12-23T08:00:00.000Z", "end": "2025-12-23T16:00:00.000Z" }
+      ]
+    },
+    {
+      "id": "doc3",
+      "doctorId": "DOC-003",
+      "firstName": "Emily",
+      "lastName": "Rodriguez",
+      "specialization": "Dermatology",
+      "phoneNumber": "+1-555-0103",
+      "emailAddress": "emily.rodriguez@clinic.com",
+      "status": "active",
+      "description": "Expert dermatologist focusing on skin health.",
+      "averageRating": 4.7,
+      "ratingCount": 674,
+      "availableTimeSlots": []
+    },
+    {
+      "id": "doc4",
+      "doctorId": "DOC-004",
+      "firstName": "Michael",
+      "lastName": "Thompson",
+      "specialization": "Neurology",
+      "phoneNumber": "+1-555-0104",
+      "emailAddress": "michael.thompson@clinic.com",
+      "status": "inactive",
+      "description": "Neurologist specializing in brain disorders.",
+      "averageRating": 4.5,
+      "ratingCount": 423,
+      "availableTimeSlots": []
+    },
+    {
+      "id": "doc5",
+      "doctorId": "DOC-005",
+      "firstName": "Sarah",
+      "lastName": "Wilson",
+      "specialization": "Orthopedics",
+      "phoneNumber": "+1-555-0105",
+      "emailAddress": "sarah.wilson@clinic.com",
+      "status": "active",
+      "description": "Orthopedic surgeon with expertise in sports injuries.",
+      "averageRating": 4.6,
+      "ratingCount": 512,
+      "availableTimeSlots": [
+        { "start": "2025-12-25T10:00:00.000Z", "end": "2025-12-25T15:00:00.000Z" }
+      ]
+    }
+  ],
+  "pageInfo": { "pageIndex": 0, "pageSize": 100, "total": 5 },
+  "uuAppErrorMap": {}
+}

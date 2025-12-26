@@ -1,0 +1,13 @@
+{
+  "id": "doc-new",
+  "doctorId": "DOC-NEW",
+  "firstName": "New",
+  "lastName": "Doctor",
+  "specialization": "General Practice",
+  "status": "active",
+  "averageRating": 0,
+  "ratingCount": 0,
+  "uuAppErrorMap": {}
+}
+
+
