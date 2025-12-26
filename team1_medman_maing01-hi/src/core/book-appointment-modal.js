@@ -21,12 +21,14 @@ const BookAppointmentModal = createVisualComponent({
     const [selectedDoctor, setSelectedDoctor] = useState("");
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
     const [patientId, setPatientId] = useState(null);
-    const [doctorAppointments, setDoctorAppointments] = useState([]);
-
     const { addAlert } = useAlertBus();
-
-    const showError = (error, header = "") => {
-      addAlert({ header, message: error.message, priority: "error", durationMs: 2000 });
+    const errorMessages = {
+      "team1-medman-main/appointment/create/appointmentDoesNotFit":
+        "Sorry, the time is too close to the doctor's availability end.",
+      "team1-medman-main/appointment/create/timeSlotNotAvailable":
+        "Oops! Someone just booked this slot.",
+      "team1-medman-main/appointment/create/appointmentCollision":
+        "This time is already booked. Please pick another slot.",
     };
 
     // Fetch logged-in patient ID
@@ -55,7 +57,6 @@ const BookAppointmentModal = createVisualComponent({
           setDoctors(response?.itemList || []);
         } catch (error) {
           console.error("Error fetching doctors:", error);
-          showError(error, "Failed to fetch doctors.");
         } finally {
           setLoading(false);
         }
@@ -87,33 +88,32 @@ const BookAppointmentModal = createVisualComponent({
 
       const loadAndFilterSlots = async () => {
         try {
-          // 1️⃣ fetch appointments for doctor
+          //  fetch appointments for doctor
           const response = await Calls.findAppointments({ doctorId: doctor.id });
           const appointments = response?.itemList || [];
-          console.log("appointments",appointments);
           const now = new Date();
+          const filteredTimeSlots = (doctor.availableTimeSlots || []).filter((slot) => {
+            const slotStart = new Date(slot.start);
+            const slotEnd = new Date(slot.end);
+            if (slotStart <= now) return false;
 
-          // 2️⃣ filter free slots
-          const freeSlots = doctor.availableTimeSlots
-            .filter((slot) => new Date(slot.start) > now)
-            .filter((slot) => {
-              const slotStart = new Date(slot.start);
-              const slotEnd = new Date(slot.end);
-
-              return !appointments.some((appt) => {
-                if (appt.status && appt.status === "Cancelled") return false;
-                if (appt.doctorId !== doctor.id) return false;
-
-                const apptTime = new Date(appt.dateTime);
-                return apptTime >= slotStart && apptTime < slotEnd;
-              });
+            const isBooked = appointments.some((appointment) => {
+              if (appointment.status === "Cancelled") return false;
+              if (appointment.doctorId !== doctor.id) return false;
+              const appointmentTime = new Date(appointment.dateTime);
+              return (
+                appointmentTime >= slotStart &&
+                appointmentTime < slotEnd
+              );
             });
-          setAvailableTimeSlots(freeSlots);
+
+            return !isBooked;
+          });
+          setAvailableTimeSlots(filteredTimeSlots);
         } catch (e) {
           console.error("Failed to load doctor slots:", e);
           setAvailableTimeSlots([]);
         }
-        console.log("available ts",availableTimeSlots);
       };
 
       loadAndFilterSlots();
@@ -147,20 +147,24 @@ const BookAppointmentModal = createVisualComponent({
           priority: "success",
           durationMs: 2000,
         });
-        // Relload appointments to update available time slots
-        const response = await Calls.findAppointments({ patientId });
-        setDoctorAppointments(response?.itemList || []);
-
         window.dispatchEvent(new Event("appointmentsUpdated"));
         onClose();
       } catch (err) {
         console.error(err);
-        showError(err, "Failed to create an appointment.");
+        const code = err?.dtoOut?.uuAppErrorMap
+          ? Object.keys(err.dtoOut.uuAppErrorMap)[0]
+          : null;
+        addAlert({
+          header: "Appointment wasn't created.",
+          message: errorMessages[code] || "Unable to create appointment. Please try again.",
+          priority: "warning",
+          durationMs: 5000,
+        });
       } finally {
         setLoading(false);
       }
     };
-    console.log("Available Time Slots:", availableTimeSlots);
+
     return (
       <Uu5Elements.Modal
         open={open}

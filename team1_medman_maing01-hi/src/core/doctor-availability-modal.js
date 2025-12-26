@@ -62,7 +62,7 @@ const DoctorAvailabilityModal = createVisualComponent({
   },
   //@@viewOff:propTypes
 
-  render({ open, onClose, doctor, clinic }) {
+  render({ open, onClose, doctor }) {
     const [bookAppointmentModalOpen, setBookAppointmentModalOpen] = useState(false);
     const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
     const [appointments, setAppointments] = useState([]);
@@ -96,7 +96,7 @@ const DoctorAvailabilityModal = createVisualComponent({
 
       return `${startStr} - ${endTime}`;
     };
-  console.log("doctor", doctor.id)
+    console.log("doctor", doctor.id)
     useEffect(() => {
       if (!open || !doctor?.id) return;
 
@@ -125,15 +125,13 @@ const DoctorAvailabilityModal = createVisualComponent({
       const slotStart = new Date(slot.start);
       const slotEnd = new Date(slot.end);
 
-      // 1️⃣ only future slots
+      // only future slots
       if (slotStart <= now) return false;
 
-      // 2️⃣ exclude booked slots
+      // exclude booked slots
       const isBooked = appointments.some((appointment) => {
         // ignore cancelled appointments
         if (appointment.status === "Cancelled") return false;
-
-        // must be same doctor
         if (appointment.doctorId !== doctor.id) return false;
 
         const appointmentTime = new Date(appointment.dateTime);
@@ -157,7 +155,7 @@ const DoctorAvailabilityModal = createVisualComponent({
           header={
             <Uu5Elements.Text category="interface" segment="title" type="major">
               {doctor.firstName} {doctor.lastName} is available on the following dates
-              {clinic && ` at ${doctor.clinicName}`}
+              {` at ${doctor.clinicName}`}
             </Uu5Elements.Text>
           }
         >
