@@ -64,15 +64,11 @@ const DoctorsList = createVisualComponent({
       );
     }
 
-    const getClinicForDoctor = (doctorClinicId) => {
-      return clinics.find((clinic) => clinic.clinicId === doctorClinicId);
-    };
-
     return (
       <Uu5Tiles.ControllerProvider data={data}>
         <Uu5TilesElements.Grid tileMinWidth={100} tileMaxWidth={400}>
           {({ data }) => (
-            <DoctorTile key={data.id || data.doctorId} doctor={data} clinic={getClinicForDoctor(data.clinicId)} />
+            <DoctorTile key={data.id} doctor={data}/>
           )}
         </Uu5TilesElements.Grid>
       </Uu5Tiles.ControllerProvider>

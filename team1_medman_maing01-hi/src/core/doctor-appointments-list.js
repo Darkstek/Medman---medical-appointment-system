@@ -66,7 +66,7 @@ const DoctorAppointmentsList = createVisualComponent({
         //Using Mock data uncomment bellow
         //const json = await getAppointmentsWithDetails();
 
-        const doctorId = "DOC-005" //Replace with logged in doctor logic
+        const doctorId = "DOC-010" //Replace with logged in doctor logic
         //Backend Call, comment when mocking
         Calls.findAppointments({ doctorId: doctorId }).then((dtoOut) => {
           setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
@@ -138,7 +138,16 @@ const DoctorAppointmentsList = createVisualComponent({
     const confirmedAppointments = uniqueAppointments.filter((a) => a.status === "Confirmed");
     const completedAppointments = uniqueAppointments.filter((a) => a.status === "Completed");
     const cancelledAppointments = uniqueAppointments.filter((a) => a.status === "Cancelled");
-  console.log("cancelled", cancelledAppointments)
+
+    //Sorting displayed appointments
+    const sorterDefinition = [
+      {
+        key: "dateTimeDesc",
+        label: "Date & Time (Descending)",
+        sort: (a, b) => new Date(b.dateTime) - new Date(a.dateTime),
+      },
+    ];
+
     return (
       <Uu5Elements.Grid>
         {/* Filter Section */}
@@ -204,7 +213,11 @@ const DoctorAppointmentsList = createVisualComponent({
                 }
                 headerSeparator={true}
               >
-                <Uu5Tiles.ControllerProvider data={createdAppointments}>
+                <Uu5Tiles.ControllerProvider
+                  data={createdAppointments}
+                  sorterDefinitionList={sorterDefinition}
+                  sorterList={[{ key: "dateTimeDesc" }]}
+                >
                   <Uu5TilesElements.Grid tileMinWidth={250} tileMaxWidth={400}>
                     {(tile) => <DoctorAppointmentTile appointment={tile.data} onUpdate={fetchAppointments} />}
                   </Uu5TilesElements.Grid>
@@ -222,7 +235,11 @@ const DoctorAppointmentsList = createVisualComponent({
                 }
                 headerSeparator={true}
               >
-                <Uu5Tiles.ControllerProvider data={confirmedAppointments}>
+                <Uu5Tiles.ControllerProvider
+                  data={confirmedAppointments}
+                  sorterDefinitionList={sorterDefinition}
+                  sorterList={[{ key: "dateTimeDesc" }]}
+                >
                   <Uu5TilesElements.Grid tileMinWidth={250} tileMaxWidth={400}>
                     {(tile) => <DoctorAppointmentTile appointment={tile.data} onUpdate={fetchAppointments} />}
                   </Uu5TilesElements.Grid>
@@ -240,7 +257,11 @@ const DoctorAppointmentsList = createVisualComponent({
                 }
                 headerSeparator={true}
               >
-                <Uu5Tiles.ControllerProvider data={completedAppointments}>
+                <Uu5Tiles.ControllerProvider
+                  data={completedAppointments}
+                  sorterDefinitionList={sorterDefinition}
+                  sorterList={[{ key: "dateTimeDesc" }]}
+                >
                   <Uu5TilesElements.Grid tileMinWidth={250} tileMaxWidth={400}>
                     {(tile) => <DoctorAppointmentTile appointment={tile.data} onUpdate={fetchAppointments} />}
                   </Uu5TilesElements.Grid>
@@ -258,7 +279,11 @@ const DoctorAppointmentsList = createVisualComponent({
                 }
                 headerSeparator={true}
               >
-                <Uu5Tiles.ControllerProvider data={cancelledAppointments}>
+                <Uu5Tiles.ControllerProvider
+                  data={cancelledAppointments}
+                  sorterDefinitionList={sorterDefinition}
+                  sorterList={[{ key: "dateTimeDesc" }]}
+                >
                   <Uu5TilesElements.Grid tileMinWidth={250} tileMaxWidth={400}>
                     {(tile) => <DoctorAppointmentTile appointment={tile.data} onUpdate={fetchAppointments} />}
                   </Uu5TilesElements.Grid>

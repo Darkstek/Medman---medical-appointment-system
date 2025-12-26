@@ -59,7 +59,7 @@ const DoctorTile = createVisualComponent({
   //@@viewOff:propTypes
 
   render: function (props) {
-    const { doctor, clinic } = props;
+    const { doctor } = props;
     const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
 
     return (
@@ -101,7 +101,6 @@ const DoctorTile = createVisualComponent({
           open={availabilityModalOpen}
           onClose={() => setAvailabilityModalOpen(false)}
           doctor={doctor}
-          clinic={clinic}
         />
       </>
     );

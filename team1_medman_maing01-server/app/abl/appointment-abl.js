@@ -269,7 +269,7 @@ class AppointmentAbl {
       }
     }
 
-    let timeSlot = doctor.availableTimeSlots.find(slot => new Date(slot.start) <= dtoInDateTime && new Date(slot.end) >= dtoInDateTime);
+    let timeSlot = doctor.availableTimeSlots.find(slot => new Date(slot.start) <= dtoInDateTime && new Date(slot.end) > dtoInDateTime);
     if (!timeSlot) {
       // the appointment is outside the doctor's available time slots, so it can't be scheduled
       throw new Errors.Create.TimeSlotNotAvailable({uuAppErrorMap}, {dateTime: dtoIn.dateTime, availableTimeSlots: doctor.availableTimeSlots})
