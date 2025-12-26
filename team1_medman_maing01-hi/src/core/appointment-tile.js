@@ -1,10 +1,11 @@
-import Uu5, { createVisualComponent, PropTypes, useState } from "uu5g05";
+import Uu5, { createVisualComponent, PropTypes, useEffect, useState } from "uu5g05";
 import * as Uu5Elements from "uu5g05-elements";
 import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import AppointmentDetailModal from "./appointment-detail-modal.js";
 import CancelAppointmentModal from "./cancel-appointment-modal.js";
 import RateDoctorModal from "./rate-doctor-modal.js";
+import Calls from "../calls";
 
 //@@viewOn:css
 const Css = {
@@ -55,26 +56,46 @@ const AppointmentTile = createVisualComponent({
       doctor: PropTypes.shape({
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
-      }),
-      clinic: PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
+        clinicName: PropTypes.string
       }),
     }).isRequired,
     onCancel: PropTypes.func,
   },
 
   render({ appointment, onCancel }) {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [appointmentDetailModalOpen, setAppointmentDetailModalOpen] = useState(false);
     const [rateModalOpen, setRateModalOpen] = useState(false);
     const [submittedRating, setSubmittedRating] = useState(appointment.rating || null);
     const [submittedComment, setSubmittedComment] = useState(appointment.ratingComment || null);
-
     // Check if appointment is in the past or completed
-    const appointmentDate = new Date(appointment.dateTime);
-    const isPastAppointment = appointmentDate < new Date();
-    const canRate = (isPastAppointment || appointment.status === "Completed") && !submittedRating;
+    //const appointmentDate = new Date(appointment.dateTime);
+    //const isPastAppointment = appointmentDate < new Date();
+    //const canRate = (isPastAppointment || appointment.status === "Completed") && !submittedRating;
+    const canRate = appointment.status === "Completed" && !submittedRating;
     const hasRating = submittedRating !== null;
+
+    //BE call for rating and comment
+    useEffect(() => {
+      async function fetchRatingAndComment() {
+        setLoading(true);
+        try {
+          const dtoOut = await Calls.findRatings({appointmentId: appointment.id});
+          if (Array.isArray(dtoOut.itemList) && dtoOut.itemList.length > 0) {
+            const ratingData = dtoOut.itemList[0]; // first rating
+            setSubmittedRating(ratingData.ratingScore); // number
+            setSubmittedComment(ratingData.comment); // comment string
+          }
+          console.log("Fetched ratings:", dtoOut);
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+      fetchRatingAndComment();
+    }, [appointment?.id]);
 
     // Render star rating display
     const renderRatingStars = (rating) => {
@@ -112,7 +133,9 @@ const AppointmentTile = createVisualComponent({
                   colorScheme: "blue",
                   onClick: () => setAppointmentDetailModalOpen(true),
                 },
-                appointment.status === "Confirmed" && !isPastAppointment && {
+                appointment.status === "Confirmed"
+                //&& !isPastAppointment
+                && {
                   children: "Cancel",
                   colorScheme: "red",
                   onClick: () => onCancel(appointment.appointment),
@@ -138,7 +161,7 @@ const AppointmentTile = createVisualComponent({
         </Uu5Elements.Grid>
 
         {/* Rating comment display */}
-        {submittedComment && (
+        {appointment.status === "Completed" && submittedComment && (
           <div className={Css.ratingComment()}>
             "{submittedComment}"
           </div>

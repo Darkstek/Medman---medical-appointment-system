@@ -50,7 +50,7 @@ const doctorFindDtoInType = shape({
 });
 
 const doctorUpdateDtoInType = shape({
-  id: id().isRequired(),
+  id: string(1,10).isRequired(),
   doctorId: string(2, 50),
   firstName: string(1, 200),
   lastName: string(1, 200),

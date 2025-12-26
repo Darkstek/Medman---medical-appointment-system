@@ -417,6 +417,13 @@ class AppointmentAbl {
 
   }
 
+  /**
+   * Loads patients for a list of appointments in one DB call.
+   *
+   * @param {string} awid
+   * @param {Array} appointments
+   * @return {Promise<Object>} map of patientID -> patient
+   */
   async _loadPatientsForAppointments(awid, appointments) {
     const patientIds = [
       ...new Set(

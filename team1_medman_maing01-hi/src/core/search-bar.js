@@ -36,32 +36,19 @@ const SearchBar = createVisualComponent({
 
   defaultProps: {},
 
-  render: function () {
-    const [route, setRoute] = useRoute();
-    const [query, setQuery] = useState("");
-
-    const handleSearch = () => {
-      if (query.trim()) {
-        setRoute("doctorsList", { search: query.trim() });
-      }
-    };
+  render: function ({query, setQuery, onSearch}) {
 
     return (
-      <Uu5Elements.Grid templateColumns="3fr 1fr">
         <Uu5Forms.Text
           borderRadius="expressive"
           placeholder="Search for a specialist"
           value={query}
           onChange={(e) => setQuery(e.data.value)}
           size="m"
-          className={Css.textInput()}
-          inputAttrs={{ onKeyDown: (e) => e.key === "Enter" && handleSearch() }}
+
+          inputAttrs={{ onKeyDown: (e) => e.key === "Enter" && onSearch() }}
         />
 
-        <Uu5Elements.Button className={Css.button()} size="m" significance="highlighted" onClick={handleSearch}>
-          Search
-        </Uu5Elements.Button>
-      </Uu5Elements.Grid>
     );
   },
 });

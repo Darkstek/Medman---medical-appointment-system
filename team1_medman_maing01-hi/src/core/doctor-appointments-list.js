@@ -66,7 +66,7 @@ const DoctorAppointmentsList = createVisualComponent({
         //Using Mock data uncomment bellow
         //const json = await getAppointmentsWithDetails();
 
-        const doctorId = "DOC-010" //Replace with logged in doctor logic
+        const doctorId = "DOC-009" //Replace with logged in doctor logic
         //Backend Call, comment when mocking
         Calls.findAppointments({ doctorId: doctorId }).then((dtoOut) => {
           setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
