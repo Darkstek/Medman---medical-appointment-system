@@ -2,7 +2,6 @@ import Uu5, { createVisualComponent, useRoute, useState, useEffect, setData, Pro
 import * as Uu5Elements from "uu5g05-elements";
 import Uu5Tiles from "uu5tilesg02";
 import Uu5TilesElements from "uu5tilesg02-elements";
-import { getAppointmentsWithDetails } from "../../mock/mockAppointments.js";
 import Config from "./config/config.js";
 import Calls from "../calls.js";
 import AppointmentTile from "./appointment-tile.js";
@@ -50,13 +49,9 @@ const AppointmentsList = createVisualComponent({
     async function fetchAppointments() {
       setLoading(true);
       try {
-        // backend call to fetch appointments
-        /*
+        // Use the same data source as Past Appointments page
         const dtoOut = await Calls.findAppointments({});
-        */
-       const dtoOut = { itemList: await getAppointmentsWithDetails() }; // mock data fetch, remove when using backend call above
         setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
-
         console.log("Fetched appointments:", dtoOut);
       } catch (err) {
         setError(err.message);

@@ -58,7 +58,7 @@ const RouteBar = createVisualComponent({
         children: <SearchBar />,
       },
       {
-        children: <UserProfileMenu />,
+        component: UserProfileMenu,
       },
     ];
     const ITEM_LIST = [
