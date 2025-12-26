@@ -5,7 +5,6 @@ import Plus4U5App from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
 import SearchBar from "./search-bar.js";
 import BookAppointmentButton from "../core/book-appointment-button.js";
-import UserProfileMenu from "./user-profile-menu.js";
 import importLsi from "../lsi/import-lsi.js";
 
 //@@viewOff:imports
@@ -56,9 +55,6 @@ const RouteBar = createVisualComponent({
       },
       {
         children: <SearchBar />,
-      },
-      {
-        component: UserProfileMenu,
       },
     ];
     const ITEM_LIST = [

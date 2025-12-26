@@ -151,7 +151,7 @@ const RateDoctorModal = createVisualComponent({
         });
 
         setSubmitted(true);
-        onSuccess?.();
+        onSuccess?.(rating, comment.trim() || null); // Pass rating and comment to parent
       } catch (err) {
         console.error("Error submitting rating:", err);
         setError(err.message || "Failed to submit review. Please try again.");

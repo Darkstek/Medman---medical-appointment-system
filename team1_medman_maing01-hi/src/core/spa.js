@@ -14,7 +14,6 @@ const MyAppointmentsRoute = Utils.Component.lazy(() => import("../routes/my-appo
 const DoctorsListRoute = Utils.Component.lazy(() => import("../routes/doctors-list-route.js"));
 const MyMedicalRecordRoute = Utils.Component.lazy(() => import("../routes/my-medical-record-route.js"));
 const ManageDoctorsRoute = Utils.Component.lazy(() => import("../routes/manage-doctors-route.js"));
-const PastAppointmentsRoute = Utils.Component.lazy(() => import("../routes/past-appointments-route.js"));
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -28,7 +27,6 @@ const ROUTE_MAP = {
   doctorAppointments: (props) => <DoctorAppointmentsRoute {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,
   manageDoctors: (props) => <ManageDoctorsRoute {...props} />,
-  pastAppointments: (props) => <PastAppointmentsRoute {...props} />,
   "*": () => (
     <Uu5Elements.Text category="story" segment="heading" type="h1">
       Not Found
