@@ -1,0 +1,11 @@
+{
+  "id": "rating-1",
+  "doctorId": "DOC-001",
+  "patientId": "PAT-001",
+  "rating": 5,
+  "comment": "Dr. Mitchell was very professional and caring.",
+  "createdAt": "2025-12-20T10:00:00.000Z",
+  "uuAppErrorMap": {}
+}
+
+

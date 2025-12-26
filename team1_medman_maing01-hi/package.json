@@ -22,6 +22,7 @@
     "externals": {}
   },
   "devDependencies": {
+    "@babel/plugin-bugfix-firefox-class-in-computed-class-key": "^7.28.5",
     "uu_appg01_devkit": "^6.8.0",
     "uu_cloudg02-devkit": "^0.15.3",
     "uu5devkitg01-plugin": "^1.7.1"

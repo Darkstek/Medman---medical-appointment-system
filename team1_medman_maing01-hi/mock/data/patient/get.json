@@ -1,0 +1,20 @@
+{
+  "id": "pat1",
+  "patientId": "PAT-001",
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "+1-555-1234",
+  "emailAddress": "john.doe@email.com",
+  "dateOfBirth": "1985-03-15",
+  "gender": "male",
+  "medicalRecord": {
+    "previousAppointments": ["2024-01-15", "2024-06-20"],
+    "medications": ["Aspirin"],
+    "illnesses": ["Hypertension"]
+  },
+  "allergies": ["Penicillin"],
+  "insuranceProvider": "HealthCare Plus",
+  "uuAppErrorMap": {}
+}
+
+

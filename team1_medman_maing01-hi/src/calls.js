@@ -45,6 +45,42 @@ const Calls = {
     return Calls.call("cmdGet", commandUri, dtoIn);
   },
 
+  getDoctor(dtoIn) {
+    const commandUri = Calls.getCommandUri("doctor/get");
+    return Calls.call("cmdGet", commandUri, dtoIn);
+  },
+
+  createDoctor(dtoIn) {
+    const commandUri = Calls.getCommandUri("doctor/create");
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
+  updateDoctor(dtoIn) {
+    const commandUri = Calls.getCommandUri("doctor/update");
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
+  removeDoctor(dtoIn) {
+    const commandUri = Calls.getCommandUri("doctor/remove");
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
+  // Rate Doctor
+  createRating(dtoIn) {
+    const commandUri = Calls.getCommandUri("rate-doctor/create");
+    return Calls.call("cmdPost", commandUri, dtoIn);
+  },
+
+  getRating(dtoIn) {
+    const commandUri = Calls.getCommandUri("rate-doctor/get");
+    return Calls.call("cmdGet", commandUri, dtoIn);
+  },
+
+  findRatings(dtoIn) {
+    const commandUri = Calls.getCommandUri("rate-doctor/find");
+    return Calls.call("cmdGet", commandUri, dtoIn);
+  },
+
   cancelAppointment(dtoIn) {
     const commandUri = Calls.getCommandUri("appointment/cancel");
     return Calls.call("cmdPost", commandUri, dtoIn);

@@ -4,6 +4,39 @@ import Uu5TilesElements from "uu5tilesg02-elements";
 import Config from "./config/config.js";
 import AppointmentDetailModal from "./appointment-detail-modal.js";
 import CancelAppointmentModal from "./cancel-appointment-modal.js";
+import RateDoctorModal from "./rate-doctor-modal.js";
+
+//@@viewOn:css
+const Css = {
+  ratingDisplay: () =>
+    Config.Css.css({
+      display: "flex",
+      alignItems: "center",
+      gap: "4px",
+      color: "#ffc107",
+      fontSize: "16px",
+    }),
+  starFilled: () =>
+    Config.Css.css({
+      color: "#ffc107",
+    }),
+  starEmpty: () =>
+    Config.Css.css({
+      color: "#e0e0e0",
+    }),
+  ratingComment: () =>
+    Config.Css.css({
+      marginTop: "8px",
+      padding: "8px 12px",
+      backgroundColor: "#fff9e6",
+      borderLeft: "3px solid #ffc107",
+      borderRadius: "4px",
+      fontStyle: "italic",
+      fontSize: "14px",
+      color: "#666",
+    }),
+};
+//@@viewOff:css
 
 const AppointmentTile = createVisualComponent({
   uu5Tag: Config.TAG + "AppointmentTile",
@@ -17,6 +50,8 @@ const AppointmentTile = createVisualComponent({
       dateTime: PropTypes.string.isRequired,
       //  time: PropTypes.string.isRequired,
       note: PropTypes.string,
+      rating: PropTypes.number, // Existing rating
+      ratingComment: PropTypes.string, // Existing rating comment
       doctor: PropTypes.shape({
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
@@ -31,27 +66,60 @@ const AppointmentTile = createVisualComponent({
 
   render({ appointment, onCancel }) {
     const [appointmentDetailModalOpen, setAppointmentDetailModalOpen] = useState(false);
+    const [rateModalOpen, setRateModalOpen] = useState(false);
+    const [submittedRating, setSubmittedRating] = useState(appointment.rating || null);
+    const [submittedComment, setSubmittedComment] = useState(appointment.ratingComment || null);
+
+    // Check if appointment is in the past or completed
+    const appointmentDate = new Date(appointment.dateTime);
+    const isPastAppointment = appointmentDate < new Date();
+    const canRate = (isPastAppointment || appointment.status === "Completed") && !submittedRating;
+    const hasRating = submittedRating !== null;
+
+    // Render star rating display
+    const renderRatingStars = (rating) => {
+      return (
+        <span className={Css.ratingDisplay()}>
+          {[1, 2, 3, 4, 5].map((star) => (
+            <span key={star} className={star <= rating ? Css.starFilled() : Css.starEmpty()}>
+              ★
+            </span>
+          ))}
+        </span>
+      );
+    };
 
     return (
       <Uu5TilesElements.Tile
         header={<Uu5Elements.DateTime value={appointment.dateTime} />}
         footer={
-          <Uu5Elements.ButtonGroup
-            spacing="8px"
-            itemList={[
-              {
-                children: <Uu5Elements.Icon icon="uugds-eye" />,
-                colorScheme: "blue",
-                onClick: () => setAppointmentDetailModalOpen(true),
-              },
-              appointment.status === "Confirmed" && {
-                children: "Cancel",
-                colorScheme: "red",
-                // onClick: () => alert("Cancel appointment functionality to be implemented"),
-                onClick: () => onCancel(appointment.appointment), // Trigger the onCancel callback
-              },
-            ].filter(Boolean)}
-          ></Uu5Elements.ButtonGroup>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", justifyContent: "flex-end" }}>
+            {hasRating && renderRatingStars(submittedRating)}
+            <Uu5Elements.ButtonGroup
+              spacing="8px"
+              itemList={[
+                canRate && {
+                  children: (
+                    <>
+                      <Uu5Elements.Icon icon="mdi-star" /> Rate
+                    </>
+                  ),
+                  colorScheme: "yellow",
+                  onClick: () => setRateModalOpen(true),
+                },
+                {
+                  children: <Uu5Elements.Icon icon="uugds-eye" />,
+                  colorScheme: "blue",
+                  onClick: () => setAppointmentDetailModalOpen(true),
+                },
+                appointment.status === "Confirmed" && !isPastAppointment && {
+                  children: "Cancel",
+                  colorScheme: "red",
+                  onClick: () => onCancel(appointment.appointment),
+                },
+              ].filter(Boolean)}
+            ></Uu5Elements.ButtonGroup>
+          </div>
         }
         footerHorizontalAlignment="end"
       >
@@ -69,10 +137,30 @@ const AppointmentTile = createVisualComponent({
           </div>
         </Uu5Elements.Grid>
 
+        {/* Rating comment display */}
+        {submittedComment && (
+          <div className={Css.ratingComment()}>
+            "{submittedComment}"
+          </div>
+        )}
+
         <AppointmentDetailModal
           open={appointmentDetailModalOpen}
           appointment={appointment}
           onClose={() => setAppointmentDetailModalOpen(false)}
+        />
+
+        <RateDoctorModal
+          open={rateModalOpen}
+          onClose={() => setRateModalOpen(false)}
+          doctor={appointment.doctor}
+          patientId={appointment.patientId}
+          appointmentId={appointment.id || appointment.appointmentId}
+          onSuccess={(rating, comment) => {
+            setSubmittedRating(rating);
+            setSubmittedComment(comment);
+            setRateModalOpen(false);
+          }}
         />
       </Uu5TilesElements.Tile>
     );

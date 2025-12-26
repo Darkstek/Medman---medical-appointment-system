@@ -62,6 +62,7 @@ const RouteBar = createVisualComponent({
       { code: "doctorsList", label: "Doctors List", href: "doctorsList" },
       { code: "doctorAppointments", label: "Doctor Schedule", href: "doctorAppointments" },
       { code: "myMedicalRecord", label: "My Medical Record", href: "myMedicalRecord" },
+      { code: "manage", label: "Manage", href: "manageDoctors" },
     ];
 
     // Determine active item based on current route
