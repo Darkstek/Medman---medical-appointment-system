@@ -158,6 +158,7 @@ class AppointmentAbl {
 
     // get uuIdentity from session
     const uuIdentity = session.getIdentity().getUuIdentity();
+    console.log("uuIdentity:", uuIdentity);
 
     // load doctors in batch
     const doctorMap = await this._loadDoctorsForAppointments(
@@ -169,7 +170,7 @@ class AppointmentAbl {
     if (doctorMap) {
       const doctorIds = Object.values(doctorMap)
         .filter(doctor => doctor.uuIdentity === uuIdentity)
-        .map(doctor => doctor.doctorId);
+        .map(doctor => doctor.id);
       if (doctorIds.length > 0) {
         appointmentList.itemList = appointmentList.itemList.filter(appointment => doctorIds.includes(appointment.doctorId));
       }
@@ -191,7 +192,7 @@ class AppointmentAbl {
     if (patientMap) {
       const patientIds = Object.values(patientMap)
         .filter(patient => patient.uuIdentity === uuIdentity)
-        .map(patient => patient.patientId);
+        .map(patient => patient.id);
       if (patientIds.length > 0) {
         appointmentList.itemList = appointmentList.itemList.filter(appointment => patientIds.includes(appointment.patientId));
       }
