@@ -45,7 +45,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
   },
   //@@viewOff:propTypes
 
-  render({ open, appointment, onClose, onUpdate }) {
+  render({ open, appointment, onClose, onUpdate, handleStatusChange }) {
     const [loading, setLoading] = useState(false);
     const [note, setNote] = useState(appointment?.note || "");
     const { addAlert } = useAlertBus();
@@ -68,16 +68,18 @@ const DoctorAppointmentDetailModal = createVisualComponent({
         durationMs: 2000,
       });
     };
-
+    //BE call passed as prop
+    //Mock bellow
+    /*
     const handleStatusChange = async (newStatus) => {
       setLoading(true);
       try {
         // Mock implementation for development - replace with real API call when backend is ready
         await new Promise(resolve => setTimeout(resolve, 500));
-        
+
         showSuccess(`Appointment ${newStatus.toLowerCase()} successfully!`);
         onClose();
-        
+
         if (onUpdate) onUpdate();
       } catch (err) {
         console.error(err);
@@ -86,7 +88,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
         setLoading(false);
       }
     };
-
+    */
     const handleAddNote = async () => {
       if (!note.trim()) {
         showError("Please enter a note");
@@ -98,12 +100,27 @@ const DoctorAppointmentDetailModal = createVisualComponent({
         // Note: Backend doesn't have a separate update note endpoint yet
         // This would need to be implemented on the backend
         // For now, we'll just show success and update locally
-        showSuccess("Note functionality requires backend implementation");
-        
+        //showSuccess("Note functionality requires backend implementation");
+
+        // BE call to update the appointment with the new note
+        await Calls.updateAppointmentNotes({
+          id: appointment.id,
+          note: note.trim(),
+        });
+        console.log("updated appointment", appointment.id)
+        addAlert({
+          message: `Note added successfully!`,
+          priority: "success",
+          durationMs: 2000,
+        });
         if (onUpdate) onUpdate();
       } catch (err) {
         console.error(err);
-        showError(err, "Failed to add note");
+        addAlert({
+          message: err.message || "Failed to update appointment note",
+          priority: "error",
+          durationMs: 2000,
+        });
       } finally {
         setLoading(false);
       }
@@ -111,7 +128,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
 
     const getStatusColorScheme = () => {
       switch (appointment.status) {
-        case "Requested":
+        case "Created":
           return "warning";
         case "Completed":
           return "positive";
@@ -169,8 +186,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
               label: <Uu5Elements.Icon icon="uugds-mapmarker" />,
               children: (
                 <>
-                  <div>{appointment.clinic?.name}</div>
-                  <div>{appointment.clinic?.street}, {appointment.clinic?.city}</div>
+                  <div>{appointment.doctor?.clinicName}</div>
                 </>
               ),
             },
@@ -182,7 +198,7 @@ const DoctorAppointmentDetailModal = createVisualComponent({
         />
 
         {/* Note Section */}
-        {(appointment.status === "Confirmed" || appointment.status === "Requested") && (
+        { appointment.status === "Completed" && (
           <div className={Css.noteSection()}>
             <Uu5Elements.Text category="interface" segment="title" type="micro" style={{ marginBottom: "8px" }}>
               Add/Update Note:
@@ -205,8 +221,8 @@ const DoctorAppointmentDetailModal = createVisualComponent({
           </div>
         )}
 
-        {/* Action Buttons for Requested Appointments */}
-        {appointment.status === "Requested" && (
+        {/* Action Buttons for Created Appointments */}
+        {appointment.status === "Created" && (
           <div className={Css.actionButtons()}>
             <Uu5Elements.Button
               colorScheme="negative"

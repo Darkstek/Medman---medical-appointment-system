@@ -47,10 +47,15 @@ const AppointmentDetailModal = createVisualComponent({
             { label : <Uu5Elements.Icon icon="uugds-calendar" />,
               children: <Uu5Elements.DateTime value={appointment.dateTime} />,
             },
-            {
-              label: "About",
-              children: appointment.note,
-            },
+            // Only displays this item if appointment.note exists
+            ...(appointment.note
+              ? [
+                {
+                  label: "Notes from the doctor",
+                  children: appointment.note,
+                },
+              ]
+              : []),
             {
               label: <Uu5Elements.Icon icon="uugdsstencil-education-student" />,
               children: (

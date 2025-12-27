@@ -101,6 +101,9 @@ class RateDoctorAbl {
     if (dtoIn.doctorId) {
       filter.push({doctorId: dtoIn.doctorId});
     }
+    if (dtoIn.appointmentId) {
+      filter.push({appointmentId: dtoIn.appointmentId});
+    }
 
     if (filter.length === 0) {
       return {};

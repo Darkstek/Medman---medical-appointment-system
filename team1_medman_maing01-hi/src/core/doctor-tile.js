@@ -27,6 +27,22 @@ const Css = {
       objectFit: "cover",
       marginBottom: "12px",
     }),
+  noPhoto: () =>
+    Config.Css.css({
+      width: "120px",
+      height: "120px",
+      borderRadius: "50%",
+      objectFit: "cover",
+      marginBottom: "12px",
+      backgroundColor: "#e0e0e0", // grey placeholder
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      fontSize: "16px",
+      color: "#000000",
+    }),
+
   statusBox: () =>
     Config.Css.css({
       padding: "10px",
@@ -50,32 +66,35 @@ const DoctorTile = createVisualComponent({
       averageRating: PropTypes.number.isRequired,
       status: PropTypes.string.isRequired,
       availableTimeSlots: PropTypes.array,
-      clinicId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      clinicName: PropTypes.string,
     }).isRequired,
-    clinic: PropTypes.shape({
-      name: PropTypes.string,
-    }),
   },
   //@@viewOff:propTypes
 
   render: function (props) {
-    const { doctor, clinic } = props;
+    const { doctor } = props;
     const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
 
     return (
       <>
         <Uu5Elements.Box className={Css.main()}>
-          <img
-            src={doctor.profilePhoto || "https://via.placeholder.com/120"}
-            alt={`${doctor.firstName} ${doctor.lastName}`}
-            className={Css.photo()}
-          />
+          {doctor.profilePhoto ? (
+            <img
+              src={doctor.profilePhoto}
+              alt={`Photo of Dr. ${doctor.firstName} ${doctor.lastName}`}
+              className={Css.photo()}
+            />
+          ) : (
+            <div className={Css.noPhoto()} >
+              Picture unavailable
+            </div>
+          )}
           <Uu5Elements.Text category="interface" segment="title" type="common">
             {doctor.firstName} {doctor.lastName}
           </Uu5Elements.Text>
           <Uu5Elements.Text>{doctor.specialization}</Uu5Elements.Text>
 
-          <Uu5Elements.Text>{doctor.averageRating}</Uu5Elements.Text>
+          <Uu5Elements.Text>{doctor.averageRating.toPrecision(2)}</Uu5Elements.Text>
 
           {doctor.status === "active" ? (
             <Uu5Elements.HighlightedBox colorScheme="positive" className={Css.statusBox()}>
@@ -101,7 +120,6 @@ const DoctorTile = createVisualComponent({
           open={availabilityModalOpen}
           onClose={() => setAvailabilityModalOpen(false)}
           doctor={doctor}
-          clinic={clinic}
         />
       </>
     );

@@ -38,8 +38,8 @@ const UpdateMedicalRecordModal = createVisualComponent({
             .split(",")
             .map((a) => a.trim())
             .filter(Boolean),
-          insuranceProvider: insuranceProvider,
-          emergencyContact: emergencyContact
+          insuranceProvider: (insuranceProvider ?? "").trim() || null,
+          emergencyContact: (emergencyContact ?? "").trim() || null,
         };
         console.log("updated Data", updatedData)
         await Calls.updatePatient(updatedData);
@@ -90,8 +90,12 @@ const UpdateMedicalRecordModal = createVisualComponent({
           <Uu5Forms.Text.Input width="100%" value={insuranceProvider} onChange={(opt) => setInsuranceProvider(opt.data.value)} />
 
           <Uu5Elements.Label>Emergency Contact</Uu5Elements.Label>
-          <Uu5Forms.Text.Input required width="50%" value={emergencyContact} onChange={(opt) => setEmergencyContact(opt.data.value)} />
-
+          <Uu5Forms.Text.Input
+            required={true}
+            width="50%"
+            value={emergencyContact}
+            onChange={(opt) => setEmergencyContact(opt.data.value)}
+          />
         </Uu5Elements.Grid>
       </Uu5Elements.Modal>
     );

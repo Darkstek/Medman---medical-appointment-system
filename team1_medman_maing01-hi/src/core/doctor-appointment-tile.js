@@ -49,7 +49,7 @@ const DoctorAppointmentTile = createVisualComponent({
   //@@viewOn:propTypes
   propTypes: {
     appointment: PropTypes.shape({
-      appointmentId: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
       patientId: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,
       dateTime: PropTypes.string.isRequired,
@@ -84,8 +84,11 @@ const DoctorAppointmentTile = createVisualComponent({
       setLoading(true);
       try {
         // Mock implementation for development - replace with real API call when backend is ready
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
+        //await new Promise(resolve => setTimeout(resolve, 500));
+        // BE call below
+        console.log("doctor tile id", appointment.id)
+
+        await Calls.updateAppointmentStatus({id: appointment.id, status: newStatus});
         addAlert({
           message: `Appointment ${newStatus.toLowerCase()} successfully!`,
           priority: "success",
@@ -113,7 +116,7 @@ const DoctorAppointmentTile = createVisualComponent({
         },
       ];
 
-      if (appointment.status === "Requested") {
+      if (appointment.status === "Created") {
         buttons.unshift(
           {
             children: "Confirm",
@@ -159,7 +162,7 @@ const DoctorAppointmentTile = createVisualComponent({
         >
           <div className={Css.patientInfo()}>
             <div className={Css.infoRow()}>
-              <Uu5Elements.Icon icon="uugds-user" />
+              <Uu5Elements.Icon icon="uugds-account" />
               <Uu5Elements.Text category="interface" segment="title" type="common">
                 {appointment.patient?.firstName} {appointment.patient?.lastName}
               </Uu5Elements.Text>
@@ -187,6 +190,7 @@ const DoctorAppointmentTile = createVisualComponent({
         </Uu5TilesElements.Tile>
 
         <DoctorAppointmentDetailModal
+          handleStatusChange={handleQuickStatusChange}
           open={detailModalOpen}
           appointment={appointment}
           onClose={() => setDetailModalOpen(false)}

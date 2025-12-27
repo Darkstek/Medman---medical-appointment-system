@@ -1,6 +1,6 @@
 //@@viewOn:imports
 import { createVisualComponent, useState, useEffect, useCallback } from "uu5g05";
-import Uu5Elements from "uu5g05-elements";
+import Uu5Elements, { useAlertBus } from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Plus4U5App, { withRoute } from "uu_plus4u5g02-app";
 import Config from "./config/config.js";
@@ -94,8 +94,12 @@ const SPECIALIZATIONS = [
   { value: "Pediatrics", children: "Pediatrics" },
   { value: "Dermatology", children: "Dermatology" },
   { value: "Neurology", children: "Neurology" },
-  { value: "Orthopedics", children: "Orthopedics" },
-  { value: "General Practice", children: "General Practice" },
+  { value: "Orthopedic Surgery", children: "Orthopedic Surgery" },
+  { value: "Psychiatry", children: "Psychiatry" },
+  { value: "Ophthalmology", children: "Ophthalmology" },
+  { value: "Obstetrics and Gynecology", children: "Obstetrics and Gynecology" },
+  { value: "Emergency Medicine", children: "Emergency Medicine" },
+
 ];
 
 const CLINICS = [
@@ -172,28 +176,29 @@ const AddDoctorView = ({ onBack, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     specialization: "",
-    clinic: "",
+    clinicName: "",
     status: "active",
     firstName: "",
     lastName: "",
     phoneNumber: "",
     emailAddress: "",
-    description: "",
-    profilePhoto: "",
+    description: null,
+    profilePhoto: null,
   });
-
+  console.log(formData)
+  const { addAlert } = useAlertBus();
   const handleSubmit = async () => {
     setLoading(true);
     try {
       await Calls.createDoctor({
         ...formData,
-        name: `${formData.firstName} ${formData.lastName}`,
+        //name: `${formData.firstName} ${formData.lastName}`,
       });
-      alert("Doctor created successfully!");
+      addAlert({message: "Doctor created successfully!", priority:"success"});
       onSuccess();
-      onBack();
+      //onBack();
     } catch (err) {
-      alert(err.message || "Failed to create doctor");
+      addAlert({message:err.message || "Failed to create doctor", priority:"error"});
     } finally {
       setLoading(false);
     }
@@ -229,8 +234,8 @@ const AddDoctorView = ({ onBack, onSuccess }) => {
 
         <Uu5Forms.Select
           label="Choose clinic"
-          value={formData.clinic}
-          onChange={(e) => updateField("clinic", e.data.value)}
+          value={formData.clinicName}
+          onChange={(e) => updateField("clinicName", e.data.value)}
           itemList={CLINICS}
           required
         />
@@ -312,6 +317,7 @@ const RemoveDoctorView = ({ onBack, onSuccess }) => {
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const { addAlert } = useAlertBus();
 
   useEffect(() => {
     loadDoctors();
@@ -327,7 +333,7 @@ const RemoveDoctorView = ({ onBack, onSuccess }) => {
   };
 
   const filteredDoctors = selectedSpecialization
-    ? doctors.filter((d) => d.specialization === selectedSpecialization)
+    ? doctors.filter((d) => d.specialization === selectedSpecialization && d.status === "active")
     : doctors;
 
   const doctorOptions = filteredDoctors.map((d) => ({
@@ -339,14 +345,14 @@ const RemoveDoctorView = ({ onBack, onSuccess }) => {
     setLoading(true);
     try {
       await Calls.removeDoctor({ id: selectedDoctor });
-      alert("Doctor removed successfully!");
+      addAlert({message: "Doctor removed successfully!", priority: "success"});
       onSuccess();
       onBack();
     } catch (err) {
       if (err.message?.includes("active appointments")) {
-        alert("Cannot remove this doctor. They have active appointments. Please cancel or reassign those appointments first.");
+        addAlert({message:"Cannot remove this doctor. They have active appointments. Please cancel or reassign those appointments first.", priority:"warning"});
       } else {
-        alert(err.message || "Failed to remove doctor");
+        addAlert({message: err.message || "Failed to remove doctor", priority:"error"});
       }
     } finally {
       setLoading(false);
@@ -441,6 +447,7 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
   const [selectedDoctorId, setSelectedDoctorId] = useState("");
   const [formData, setFormData] = useState(null);
+  const { addAlert } = useAlertBus();
 
   useEffect(() => {
     loadDoctors();
@@ -474,7 +481,7 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
         specialization: doctor.specialization || "",
         phoneNumber: doctor.phoneNumber || "",
         emailAddress: doctor.emailAddress || "",
-        clinic: doctor.clinic || "",
+        clinicName: doctor.clinicName || "",
         description: doctor.description || "",
         profilePhoto: doctor.profilePhoto || "",
         status: doctor.status || "active",
@@ -485,7 +492,6 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
   const updateField = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
-
   const handleUpdate = async () => {
     setLoading(true);
     try {
@@ -493,11 +499,11 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
         id: selectedDoctorId,
         ...formData,
       });
-      alert("Doctor updated successfully!");
+      addAlert({message: "Doctor updated successfully!", priority: "success"});
       onSuccess();
       onBack();
     } catch (err) {
-      alert(err.message || "Failed to update doctor");
+      addAlert({message: err.message || "Failed to update doctor", priority: "error"});
     } finally {
       setLoading(false);
     }
@@ -577,8 +583,8 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
 
             <Uu5Forms.Select
               label="Clinic"
-              value={formData.clinic}
-              onChange={(e) => updateField("clinic", e.data.value)}
+              value={formData.clinicName}
+              onChange={(e) => updateField("clinicName", e.data.value)}
               itemList={CLINICS}
             />
 
