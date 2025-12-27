@@ -156,6 +156,9 @@ class PatientAbl {
    */
   _createFilterFrom(dtoIn) {
     let filter = [];
+    if (dtoIn.uuIdentity) {
+      filter.push({uuIdentity: dtoIn.uuIdentity});
+    }
     if (dtoIn.firstName) {
       filter.push({firstName: {$regex: dtoIn.firstName, $options: "i"}});
     }
