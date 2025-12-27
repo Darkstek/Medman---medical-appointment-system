@@ -16,7 +16,7 @@ const Css = {
     Config.Css.css({
       marginBottom: "24px",
       padding: "16px",
-      backgroundColor: "#f5f5f5",
+      backgroundColor: "rgba(142,139,139,0.19)",
       borderRadius: "8px",
     }),
   filterRow: () =>

@@ -25,8 +25,8 @@ const Css = {
     Config.Css.css({
       marginTop: "24px",
       padding: "16px",
-      backgroundColor: "#f5f5f5",
       borderRadius: "8px",
+      backgroundColor: "rgba(142,139,139,0.19)",
     }),
 };
 //@@viewOff:css

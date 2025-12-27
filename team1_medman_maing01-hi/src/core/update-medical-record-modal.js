@@ -92,7 +92,7 @@ const UpdateMedicalRecordModal = createVisualComponent({
           <Uu5Elements.Label>Emergency Contact</Uu5Elements.Label>
           <Uu5Forms.Text.Input
             required={true}
-            width="50%"
+            width="100%"
             value={emergencyContact}
             onChange={(opt) => setEmergencyContact(opt.data.value)}
           />

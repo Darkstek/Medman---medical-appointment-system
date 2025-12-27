@@ -196,7 +196,7 @@ const AddDoctorView = ({ onBack, onSuccess }) => {
       });
       addAlert({message: "Doctor created successfully!", priority:"success"});
       onSuccess();
-      //onBack();
+      onBack();
     } catch (err) {
       addAlert({message:err.message || "Failed to create doctor", priority:"error"});
     } finally {
@@ -456,6 +456,13 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
   const loadDoctors = async () => {
     try {
       const result = await Calls.findDoctors({});
+      console.log(
+        result.itemList.map(d => ({
+          id: d.id,
+          oid: d.oid,
+          doctorId: d.doctorId,
+        }))
+      );
       setDoctors(result.itemList || []);
     } catch (err) {
       console.error("Error loading doctors:", err);
@@ -467,7 +474,7 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
     : doctors;
 
   const doctorOptions = filteredDoctors.map((d) => ({
-    value: d.id || d.doctorId,
+    value: d.id,
     children: `${d.firstName} ${d.lastName}`,
   }));
 
@@ -482,8 +489,8 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
         phoneNumber: doctor.phoneNumber || "",
         emailAddress: doctor.emailAddress || "",
         clinicName: doctor.clinicName || "",
-        description: doctor.description || "",
-        profilePhoto: doctor.profilePhoto || "",
+        description: doctor.description || null,
+        profilePhoto: doctor.profilePhoto || null,
         status: doctor.status || "active",
       });
     }
@@ -494,6 +501,9 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
   };
   const handleUpdate = async () => {
     setLoading(true);
+    console.log(formData)
+    console.log(selectedDoctorId)
+    console.log(doctors)
     try {
       await Calls.updateDoctor({
         id: selectedDoctorId,
@@ -554,12 +564,14 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
               label="First Name"
               value={formData.firstName}
               onChange={(e) => updateField("firstName", e.data.value)}
+              required
             />
 
             <Uu5Forms.Text
               label="Last Name"
               value={formData.lastName}
               onChange={(e) => updateField("lastName", e.data.value)}
+              required
             />
 
             <Uu5Forms.Select
@@ -567,18 +579,21 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
               value={formData.specialization}
               onChange={(e) => updateField("specialization", e.data.value)}
               itemList={SPECIALIZATIONS}
+              required
             />
 
             <Uu5Forms.Text
               label="Phone"
               value={formData.phoneNumber}
               onChange={(e) => updateField("phoneNumber", e.data.value)}
+              required
             />
 
             <Uu5Forms.Text
               label="Email"
               value={formData.emailAddress}
               onChange={(e) => updateField("emailAddress", e.data.value)}
+              required
             />
 
             <Uu5Forms.Select
@@ -586,6 +601,7 @@ const UpdateDoctorView = ({ onBack, onSuccess }) => {
               value={formData.clinicName}
               onChange={(e) => updateField("clinicName", e.data.value)}
               itemList={CLINICS}
+              required
             />
 
             <Uu5Forms.TextArea
