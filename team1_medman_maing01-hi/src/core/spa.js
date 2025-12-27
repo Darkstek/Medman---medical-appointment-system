@@ -25,7 +25,7 @@ const ROLE = {
   ADMIN: "authorities",
 };
 const ROUTE_ACCESS = {
-  myAppointments: [ROLE.PATIENT],
+  myAppointments: [ROLE.PATIENT, ROLE.ADMIN],
   doctorsList: [ROLE.PATIENT, ROLE.ADMIN],
   myMedicalRecord: [ROLE.PATIENT, ROLE.ADMIN],
   doctorAppointments: [ROLE.DOCTOR, ROLE.ADMIN],
@@ -149,29 +149,27 @@ const Spa = createVisualComponent({
   //@@viewOff:defaultProps
 
   render() {
-    const [userRole, setUserRole] = useState(null);
-    const [state, setState] = useState("pending");
+    const [userRole, setUserRole] = useState(undefined);
 
-   useEffect(() => {
+    useEffect(() => {
       resolveUserRole()
-        .then((role) => {
-          setUserRole(role);
-          setState("ready");
-        })
-        .catch(() => setState("error"));
+        .then(setUserRole)
+        .catch(() => setUserRole("error"));
     }, []);
 
-    if (state === "pending") {
+    if (userRole === undefined) {
       return <Uu5Elements.Pending />;
     }
 
-    if (state === "error") {
+    if (userRole === "error") {
       return (
         <Uu5Elements.Text colorScheme="negative">
           Failed to load user permissions
         </Uu5Elements.Text>
       );
     }
+    const cachedRole = sessionStorage.getItem("userRole");
+    if (cachedRole) setUserRole(cachedRole);
     //@@viewOn:private
     //@@viewOff:private
 

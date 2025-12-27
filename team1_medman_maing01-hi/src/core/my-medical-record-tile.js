@@ -69,7 +69,7 @@ const MyMedicalRecordTile = createVisualComponent({
     console.log("Logged-in patient ID:", patient);
 
     const itemList = [
-      { title: patient.gender, subtitle: "Gender" },
+      { title: patient.gender.charAt(0).toUpperCase()+patient.gender.slice(1), subtitle: "Gender" },
       { title: Math.floor((Date.now() - new Date(patient.dateOfBirth)) / 31557600000), subtitle: "Age" },
       {
         title: (
