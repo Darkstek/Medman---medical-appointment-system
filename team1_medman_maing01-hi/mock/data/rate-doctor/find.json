@@ -1,0 +1,32 @@
+{
+  "itemList": [
+    {
+      "id": "rating-1",
+      "doctorId": "DOC-001",
+      "patientId": "PAT-001",
+      "rating": 5,
+      "comment": "Dr. Mitchell was very professional and caring. Highly recommend!",
+      "createdAt": "2025-12-20T10:00:00.000Z"
+    },
+    {
+      "id": "rating-2",
+      "doctorId": "DOC-001",
+      "patientId": "PAT-002",
+      "rating": 4,
+      "comment": "Good experience overall.",
+      "createdAt": "2025-12-18T14:30:00.000Z"
+    },
+    {
+      "id": "rating-3",
+      "doctorId": "DOC-002",
+      "patientId": "PAT-001",
+      "rating": 5,
+      "comment": "Dr. Chen is amazing with kids!",
+      "createdAt": "2025-12-15T09:00:00.000Z"
+    }
+  ],
+  "pageInfo": { "pageIndex": 0, "pageSize": 100, "total": 3 },
+  "uuAppErrorMap": {}
+}
+
+

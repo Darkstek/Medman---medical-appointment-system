@@ -1,0 +1,11 @@
+{
+  "id": "doc1",
+  "doctorId": "DOC-001",
+  "firstName": "Updated",
+  "lastName": "Doctor",
+  "specialization": "Cardiology",
+  "status": "active",
+  "uuAppErrorMap": {}
+}
+
+
