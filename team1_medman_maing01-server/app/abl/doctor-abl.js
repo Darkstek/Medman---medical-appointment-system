@@ -31,6 +31,7 @@ class DoctorAbl {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("doctor");
     this.appointmentDao = DaoFactory.getDao("appointment");
+    this.rateDoctorDao = DaoFactory.getDao("rate-doctor");
   }
 
   async create(awid, dtoIn) {
@@ -48,8 +49,6 @@ class DoctorAbl {
     const doctor = {
       awid,
       status: dtoIn.status ?? "active",
-      averageRating: dtoIn.averageRating ?? 0,
-      ratingCount: dtoIn.ratingCount ?? 0,
       ...dtoIn,
     };
 
@@ -73,6 +72,8 @@ class DoctorAbl {
     if (!doctor) {
       throw new Errors.Get.DoctorDoesNotExist({id: dtoIn.id});
     }
+
+    await this._addRating(awid, doctor);
 
     return {...doctor, uuAppErrorMap};
   }
@@ -112,8 +113,19 @@ class DoctorAbl {
           slot.start >= dtoIn.availableBetween.start && slot.end <= dtoIn.availableBetween.end)
       });
     }
+
     if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing doctors with any status
       doctorList.itemList = doctorList.itemList.filter(doctor => doctor.status === dtoIn.status);
+    }
+
+    await Promise.all(doctorList.itemList.map(doctor => this._addRating(awid, doctor)));
+
+    if (dtoIn.averageRatingAbove) {
+      doctorList.itemList = doctorList.itemList.filter(doctor => doctor.averageRating >= dtoIn.averageRatingAbove);
+    }
+
+    if (dtoIn.ratingCountGreaterThan) {
+      doctorList.itemList = doctorList.itemList.filter(doctor => doctor.ratingCount > dtoIn.ratingCountGreaterThan);
     }
 
     // reorder pageInfo and itemList
@@ -133,8 +145,6 @@ class DoctorAbl {
    * @param {string} [dtoIn.emailAddress] - Filter condition for the email address, using case-insensitive partial match.
    * @param {string} [dtoIn.clinicId] - Filter condition for the clinic ID.
    * @param {string} [dtoIn.status] - Filter condition for the doctor status (active or inactive).
-   * @param {number} [dtoIn.ratingCountGreaterThan] - Filter condition for the number of ratings greater than the specified value.
-   * @param {number} [dtoIn.averageRatingAbove] - Filter condition for the average rating above the specified value.
    * @param {string} [dtoIn.description] - Filter condition for the doctor description, using case-insensitive partial match.
    * @return {Object} The constructed filter object.
    * @*/
@@ -155,17 +165,11 @@ class DoctorAbl {
     if (dtoIn.emailAddress) {
       filter.push({emailAddress: {$regex: dtoIn.emailAddress, $options: "i"}});
     }
-    if (dtoIn.clinicId) {
-      filter.push({clinicId: dtoIn.clinicId});
+    if (dtoIn.clinicName) {
+      filter.push({clinicName: {$regex: dtoIn.clinicName, $options: "i"}});
     }
     if (dtoIn.searchMode === "and") {
       filter.push({status: dtoIn.status ?? "active"});
-    }
-    if (dtoIn.ratingCountGreaterThan) {
-      filter.push({ratingCount: {$gt: dtoIn.ratingCountGreaterThan}});
-    }
-    if (dtoIn.averageRatingAbove) {
-      filter.push({averageRating: {$gt: dtoIn.averageRatingAbove}});
     }
     if (dtoIn.description) {
       filter.push({description: {$regex: dtoIn.description, $options: "i"}});
@@ -190,6 +194,19 @@ class DoctorAbl {
     return Object.fromEntries(
       Object.entries(sortBy).map(([field, direction]) => [field, direction === "asc" ? 1 : -1])
     );
+  }
+
+  async _addRating(awid, doctor) {
+    const ratings = await this.rateDoctorDao.find(awid, {doctorId: doctor.id.toString()}, undefined, {}, {});
+
+    let totalRating = 0
+    ratings.itemList.forEach(rating => {
+      totalRating += rating.ratingScore;
+    })
+
+    doctor.averageRating = ratings.itemList.length > 0 ? totalRating / ratings.itemList.length : 0
+
+    doctor.ratingCount = ratings.itemList.length
   }
 
   async update(awid, dtoIn) {

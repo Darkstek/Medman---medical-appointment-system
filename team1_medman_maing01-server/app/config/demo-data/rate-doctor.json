@@ -1,0 +1,137 @@
+[
+  {
+    "id": "507f1f77bcf86cd799439011",
+    "patientId": "PAT-1001",
+    "doctorId": "DOC-001",
+    "ratingScore": 5,
+    "comment": "Excellent cardiologist, very knowledgeable and caring."
+  },
+  {
+    "id": "507f191e810c19729de860ea",
+    "patientId": "PAT-1002",
+    "doctorId": "DOC-002",
+    "ratingScore": 4,
+    "comment": "Great pediatrician, my child felt comfortable."
+  },
+  {
+    "id": "507f0f77bcf86cd799439012",
+    "patientId": "PAT-1003",
+    "doctorId": "DOC-003",
+    "ratingScore": 5,
+    "comment": "Highly recommend for dermatology."
+  },
+  {
+    "id": "507f1f77bcf86cd799439013",
+    "patientId": "PAT-1004",
+    "doctorId": "DOC-004",
+    "ratingScore": 3,
+    "comment": "Decent service, but waiting time was long."
+  },
+  {
+    "id": "507f191e810c19729de860eb",
+    "patientId": "PAT-1005",
+    "doctorId": "DOC-005",
+    "ratingScore": 5
+  },
+  {
+    "id": "507f0f77bcf86cd799439014",
+    "patientId": "PAT-1006",
+    "doctorId": "DOC-006",
+    "ratingScore": 4,
+    "comment": "Professional and thorough."
+  },
+  {
+    "id": "507f1f77bcf86cd799439015",
+    "patientId": "PAT-1007",
+    "doctorId": "DOC-007",
+    "ratingScore": 5,
+    "comment": "Best neurologist I've seen."
+  },
+  {
+    "id": "507f191e810c19729de860ec",
+    "patientId": "PAT-1008",
+    "doctorId": "DOC-008",
+    "ratingScore": 4
+  },
+  {
+    "id": "507f0f77bcf86cd799439016",
+    "patientId": "PAT-1009",
+    "doctorId": "DOC-009",
+    "ratingScore": 2,
+    "comment": "Not satisfied with the consultation."
+  },
+  {
+    "id": "507f1f77bcf86cd799439017",
+    "patientId": "PAT-1010",
+    "doctorId": "DOC-010",
+    "ratingScore": 5,
+    "comment": "Excellent emergency care."
+  },
+  {
+    "id": "507f191e810c19729de860ed",
+    "patientId": "PAT-1001",
+    "doctorId": "DOC-005",
+    "ratingScore": 4,
+    "comment": "Good follow-up."
+  },
+  {
+    "id": "507f0f77bcf86cd799439018",
+    "patientId": "PAT-1002",
+    "doctorId": "DOC-001",
+    "ratingScore": 5
+  },
+  {
+    "id": "507f1f77bcf86cd799439019",
+    "patientId": "PAT-1003",
+    "doctorId": "DOC-007",
+    "ratingScore": 3,
+    "comment": "Average experience."
+  },
+  {
+    "id": "507f191e810c19729de860ee",
+    "patientId": "PAT-1004",
+    "doctorId": "DOC-002",
+    "ratingScore": 5,
+    "comment": "Very patient and understanding."
+  },
+  {
+    "id": "507f0f77bcf86cd799439020",
+    "patientId": "PAT-1005",
+    "doctorId": "DOC-003",
+    "ratingScore": 4
+  },
+  {
+    "id": "507f1f77bcf86cd799439021",
+    "patientId": "PAT-1006",
+    "doctorId": "DOC-004",
+    "ratingScore": 5,
+    "comment": "Highly skilled."
+  },
+  {
+    "id": "507f191e810c19729de860ef",
+    "patientId": "PAT-1007",
+    "doctorId": "DOC-006",
+    "ratingScore": 4,
+    "comment": "Good communication."
+  },
+  {
+    "id": "507f0f77bcf86cd799439022",
+    "patientId": "PAT-1008",
+    "doctorId": "DOC-008",
+    "ratingScore": 5
+  },
+  {
+    "id": "507f1f77bcf86cd799439023",
+    "patientId": "PAT-1009",
+    "doctorId": "DOC-009",
+    "ratingScore": 3,
+    "comment": "Could be better."
+  },
+  {
+    "id": "507f191e810c19729de860f0",
+    "patientId": "PAT-1010",
+    "doctorId": "DOC-010",
+    "ratingScore": 4,
+    "comment": "Reliable."
+  }
+]

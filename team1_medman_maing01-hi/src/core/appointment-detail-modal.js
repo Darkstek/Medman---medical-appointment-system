@@ -53,25 +53,24 @@ const AppointmentDetailModal = createVisualComponent({
             },
             {
               label: <Uu5Elements.Icon icon="uugdsstencil-education-student" />,
-              children: <><div>{appointment.doctor.firstName + " " + appointment.doctor.lastName}</div> <div> {appointment.doctor.specialization}</div></>,
-            },
-            {
-              label: <Uu5Elements.Icon icon="uugds-mapmarker" />,
               children: (
                 <>
-                  <div>{appointment.clinic?.name} {appointment.clinic?.building}</div>
-                  <div> {appointment.clinic?.street}</div>
-                  <div> {appointment.clinic?.city}</div>
+                  <div>{appointment.doctor?.firstName + " " + appointment.doctor?.lastName}</div>
+                  <div> {appointment.doctor?.specialization}</div>
                 </>
               ),
             },
             {
+              label: <Uu5Elements.Icon icon="uugds-mapmarker" />,
+              children: appointment.doctor?.clinicName,
+            },
+            {
               label: <Uu5Elements.Icon icon="uugds-phone" />,
-              children: appointment.clinic?.phone,
+              children: appointment.doctor?.phoneNumber,
             },
             {
               label: <Uu5Elements.Icon icon="uugds-email" />,
-              children: appointment.clinic?.email,
+              children: appointment.doctor?.emailAddress,
             },
           ]}
         ></Uu5Elements.ListLayout>

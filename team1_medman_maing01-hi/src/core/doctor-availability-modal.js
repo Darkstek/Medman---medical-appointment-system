@@ -140,7 +140,7 @@ const DoctorAvailabilityModal = createVisualComponent({
         <BookAppointmentConfirmModal
           open={bookAppointmentModalOpen}
           onClose={() => setBookAppointmentModalOpen(false)}
-          doctorId={doctor.doctorId}
+          doctorId={doctor.id}
           timeSlot={selectedTimeSlot}
         />
       </>

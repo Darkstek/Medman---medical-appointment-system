@@ -44,11 +44,11 @@ const Get = {
       this.message = "DtoIn is not valid."
     }
   },
-  AppointmentDoesNotExist: class extends MedmanMainUseCaseError {
+  RatingDoesNotExist: class extends MedmanMainUseCaseError {
     constructor() {
       super(...arguments);
-      this.code = `${Get.UC_CODE}doctorDoesNotExist`;
-      this.message = "Appointment does not exist."
+      this.code = `${Get.UC_CODE}ratingDoesNotExist`;
+      this.message = "Rating does not exist."
     }
   }
 }

@@ -129,7 +129,7 @@ const AppointmentTile = createVisualComponent({
           </Uu5Elements.Text>
           <div>
             <Uu5Elements.Icon icon="uugds-mapmarker" />
-            <Uu5Elements.Text>{appointment.clinic?.name}</Uu5Elements.Text>
+            <Uu5Elements.Text>{appointment.doctor?.clinicName}</Uu5Elements.Text>
           </div>
           <div>
             <Uu5Elements.Icon icon="uugdsstencil-education-student" />

@@ -1,7 +1,6 @@
 [
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1001",
     "firstName": "James",
     "lastName": "Smith",
     "phoneNumber": "+1-555-0102",
@@ -14,11 +13,12 @@
       "illnesses": ["Hypertension"]
     },
     "allergies": ["Penicillin"],
-    "insuranceProvider": "HealthCare Global"
+    "insuranceProvider": "HealthCare Global",
+    "emergencyContact": "Anna Smith",
+    "id": "PAT-1001"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1002",
     "firstName": "Emily",
     "lastName": "Johnson",
     "phoneNumber": "+1-555-0299",
@@ -31,11 +31,12 @@
       "illnesses": []
     },
     "allergies": ["Peanuts", "Shellfish"],
-    "insuranceProvider": "United Insure"
+    "insuranceProvider": "United Insure",
+    "emergencyContact": "Mark Johnson",
+    "id": "PAT-1002"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1003",
     "firstName": "Alex",
     "lastName": "Rivera",
     "phoneNumber": "+1-555-0388",
@@ -48,11 +49,12 @@
       "illnesses": ["Asthma"]
     },
     "allergies": [],
-    "insuranceProvider": "Blue Cross"
+    "insuranceProvider": "Blue Cross",
+    "emergencyContact": "Carlos Rivera",
+    "id": "PAT-1003"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1004",
     "firstName": "Sarah",
     "lastName": "Connor",
     "phoneNumber": "+1-555-0477",
@@ -65,11 +67,12 @@
       "illnesses": ["Type 2 Diabetes"]
     },
     "allergies": ["Latex"],
-    "insuranceProvider": "General Life"
+    "insuranceProvider": "General Life",
+    "emergencyContact": "John Connor",
+    "id": "PAT-1004"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1005",
     "firstName": "Michael",
     "lastName": "Brown",
     "phoneNumber": "+1-555-0566",
@@ -82,11 +85,12 @@
       "illnesses": ["Seasonal Flu"]
     },
     "allergies": [],
-    "insuranceProvider": "State Farm Medical"
+    "insuranceProvider": "State Farm Medical",
+    "emergencyContact": "Lisa Brown",
+    "id": "PAT-1005"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1006",
     "firstName": "Taylor",
     "lastName": "Morgan",
     "phoneNumber": "+1-555-0655",
@@ -99,11 +103,12 @@
       "illnesses": []
     },
     "allergies": ["Dust Mites"],
-    "insuranceProvider": "Private Pay"
+    "insuranceProvider": "Private Pay",
+    "emergencyContact": "Jordan Morgan",
+    "id": "PAT-1006"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1007",
     "firstName": "David",
     "lastName": "Lee",
     "phoneNumber": "+1-555-0744",
@@ -116,11 +121,12 @@
       "illnesses": ["Hyperlipidemia", "Heart Disease"]
     },
     "allergies": ["Sulfa drugs"],
-    "insuranceProvider": "Medicare"
+    "insuranceProvider": "Medicare",
+    "emergencyContact": "Susan Lee",
+    "id": "PAT-1007"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1008",
     "firstName": "Jessica",
     "lastName": "Davis",
     "phoneNumber": "+1-555-0833",
@@ -133,11 +139,12 @@
       "illnesses": []
     },
     "allergies": ["Cats", "Pollen"],
-    "insuranceProvider": "Aetna"
+    "insuranceProvider": "Aetna",
+    "emergencyContact": "Robert Davis",
+    "id": "PAT-1008"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1009",
     "firstName": "Robert",
     "lastName": "Wilson",
     "phoneNumber": "+1-555-0922",
@@ -150,11 +157,12 @@
       "illnesses": ["Broken Arm (healed)"]
     },
     "allergies": [],
-    "insuranceProvider": "Cigna"
+    "insuranceProvider": "Cigna",
+    "emergencyContact": "Karen Wilson",
+    "id": "PAT-1009"
   },
   {
     "awid": "22222222222222222222222222222222",
-    "patientId": "PAT-1010",
     "firstName": "Linda",
     "lastName": "Martinez",
     "phoneNumber": "+1-555-1011",
@@ -167,6 +175,8 @@
       "illnesses": ["Hypothyroidism"]
     },
     "allergies": ["Gluten"],
-    "insuranceProvider": "BlueCross"
+    "insuranceProvider": "BlueCross",
+    "emergencyContact": "Miguel Martinez",
+    "id": "PAT-1010"
   }
 ]

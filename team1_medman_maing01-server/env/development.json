@@ -3,7 +3,7 @@
   "uuSubAppDataStoreMap": {
     "primary": "mongodb://127.0.0.1:27017/medmanMainPrimary"
   },
-  "asid_license_owner_list": ["8967-497-2614-0000", "4727-1816-1548-0000","7534-7888-9403-0000"],
+  "asid_license_owner_list": ["8967-497-2614-0000", "4727-1816-1548-0000","7534-7888-9403-0000", "7534-7888-9403-0000"],
   "asid": "11111111111111111111111111111111",
   "log_level": "INFO",
   "uu_app_oidc_providers_oidcg02_uri": "https://uuapp-dev.plus4u.net/uu-oidc-maing02/eca71064ecce44b0a25ce940eb8f053d/oidc",

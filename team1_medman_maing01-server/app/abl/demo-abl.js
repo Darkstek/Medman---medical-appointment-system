@@ -11,6 +11,7 @@ const DATA_FILES = [
   { id: "doctor", path: Path.join(__dirname, "../config/demo-data/doctors.json") },
   { id: "patient", path: Path.join(__dirname, "../config/demo-data/patients.json") },
   { id: "appointment", path: Path.join(__dirname, "../config/demo-data/appointments.json") },
+  { id: "rate-doctor", path: Path.join(__dirname, "../config/demo-data/rate-doctor.json") },
 ]
 
 const logger = LoggerFactory.get();
@@ -23,6 +24,7 @@ class DemoAbl {
     this.daoList["doctor"] = DaoFactory.getDao("doctor");
     this.daoList["patient"] = DaoFactory.getDao("patient");
     this.daoList["appointment"] = DaoFactory.getDao("appointment");
+    this.daoList["rate-doctor"] = DaoFactory.getDao("rate-doctor");
   }
 
   /**

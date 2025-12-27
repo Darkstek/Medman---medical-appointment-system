@@ -59,6 +59,9 @@ const AppointmentsList = createVisualComponent({
         setLoading(false);
       }
     }
+    async function fetchDoctorAccordingToAppointment() {
+      const doctorId = appointments.find((a) => a.appointmentId === selectedAppointmentId).doctorId;
+    }
 
     const openCancelModal = (data) => {
       setSelectedAppointmentId(data.appointmentId);
@@ -71,7 +74,7 @@ const AppointmentsList = createVisualComponent({
 
     const upcomingAppointments = appointments.filter((a) => a.status === "Confirmed");
     const pastAppointments = appointments.filter((a) => a.status === "Cancelled" || a.status === "Completed");
-
+  console.log("upcomingAppointments:", upcomingAppointments);
     return (
       <>
         <Uu5Elements.Grid>
