@@ -156,24 +156,24 @@ class AppointmentAbl {
       appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
     }
 
+    // get uuIdentity from session
     const uuIdentity = session.getIdentity().getUuIdentity();
-    // filter by uuIdentity of patient from session
-    const patient = await this.patientDao.find(awid, {uuIdentity: uuIdentity}, undefined, {}, {});
-    if (patient && patient.itemList.length > 0) {
-      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.patientId === patient.itemList[0].patientId);
-    }
-
-    // filter by uuIdentity of doctor from session
-    const doctor = await this.doctorDao.find(awid, {uuIdentity: uuIdentity}, undefined, {}, {});
-    if (doctor && doctor.itemList.length > 0) {
-      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.doctorId === doctor.itemList[0].doctorId);
-    }
 
     // load doctors in batch
     const doctorMap = await this._loadDoctorsForAppointments(
       awid,
       appointmentList.itemList
     );
+
+    // filter doctor by uuIdentity from session 
+    if (doctorMap) {
+      const doctorIds = Object.values(doctorMap)
+        .filter(doctor => doctor.uuIdentity === uuIdentity)
+        .map(doctor => doctor.doctorId);
+      if (doctorIds.length > 0) {
+        appointmentList.itemList = appointmentList.itemList.filter(appointment => doctorIds.includes(appointment.doctorId));
+      }
+    }
 
     // attach doctor to each appointment
     appointmentList.itemList = appointmentList.itemList.map(appointment => ({
@@ -186,29 +186,23 @@ class AppointmentAbl {
       awid,
       appointmentList.itemList
     );
-    // attach patient to each appointment
-    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
-      ...appointment,
-      patient: patientMap[appointment.patientId] || null
-    }));
 
-<<<<<<< HEAD
-=======
-    // load patients in batch
-    const patientMap = await this._loadPatientsForAppointments(
-      awid,
-      appointmentList.itemList
-    );
-    // attach patient to each appointment
-    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
-      ...appointment,
-      patient: patientMap[appointment.patientId] || null
-    }));
-
-    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
-      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
+    // filter patient by uuIdentity from session
+    if (patientMap) {
+      const patientIds = Object.values(patientMap)
+        .filter(patient => patient.uuIdentity === uuIdentity)
+        .map(patient => patient.patientId);
+      if (patientIds.length > 0) {
+        appointmentList.itemList = appointmentList.itemList.filter(appointment => patientIds.includes(appointment.patientId));
+      }
     }
->>>>>>> sprint
+
+    // attach patient to each appointment
+    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
+      ...appointment,
+      patient: patientMap[appointment.patientId] || null
+    }));
+
     // reorder pageInfo and itemList
     return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
   }
