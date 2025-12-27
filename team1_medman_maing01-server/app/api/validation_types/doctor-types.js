@@ -7,6 +7,7 @@ const timeSlotType = shape({
 });
 
 const doctorCreateDtoInType = shape({
+  uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),
   specialization: string(1, 200),
@@ -24,6 +25,7 @@ const doctorGetDtoInType = shape({
 });
 
 const doctorFindDtoInType = shape({
+  uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),
   specialization: string(1, 200),
@@ -51,6 +53,7 @@ const doctorFindDtoInType = shape({
 
 const doctorUpdateDtoInType = shape({
   id: id().isRequired(),
+  uuIdentity: string(1, 200),
   doctorId: string(2, 50),
   firstName: string(1, 200),
   lastName: string(1, 200),

@@ -8,6 +8,7 @@ const medicalRecordType = shape({
 });
 
 const patientCreateDtoInType = shape({
+  uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),
@@ -25,6 +26,7 @@ const patientGetDtoInType = shape({
 });
 
 const patientFindDtoInType = shape({
+  uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),
@@ -48,6 +50,7 @@ const patientFindDtoInType = shape({
 
 const patientUpdateDtoInType = shape({
   id: string(1, 10).isRequired(), // If 'id()' Validator expects UU format.
+  uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),
   phoneNumber: string(1, 200),

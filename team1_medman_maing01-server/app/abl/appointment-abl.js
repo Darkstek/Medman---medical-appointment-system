@@ -138,7 +138,7 @@ class AppointmentAbl {
    * itemList - List of appointments meeting the specified criteria.
    * uuAppErrorMap - Map of validation errors and warnings that occurred during processing.
    */
-  async find(awid, dtoIn) {
+  async find(awid, dtoIn, session) {
     const validationResult = this.validator.validate("appointmentFindDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -152,20 +152,35 @@ class AppointmentAbl {
     let sortBy = this._transformSortBy(dtoIn.sortBy) ?? {_id: -1};
     let appointmentList = await this.appointmentDao.find(awid, filter, dtoIn.pageInfo, sortBy, {});
 
+    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
+    }
+
+    const uuIdentity = session.getIdentity().getUuIdentity();
+    // filter by uuIdentity of patient from session
+    const patient = await this.patientDao.find(awid, {uuIdentity: uuIdentity}, undefined, {}, {});
+    if (patient && patient.itemList.length > 0) {
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.patientId === patient.itemList[0].patientId);
+    }
+
+    // filter by uuIdentity of doctor from session
+    const doctor = await this.doctorDao.find(awid, {uuIdentity: uuIdentity}, undefined, {}, {});
+    if (doctor && doctor.itemList.length > 0) {
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.doctorId === doctor.itemList[0].doctorId);
+    }
+
     // load doctors in batch
     const doctorMap = await this._loadDoctorsForAppointments(
       awid,
       appointmentList.itemList
     );
+
     // attach doctor to each appointment
     appointmentList.itemList = appointmentList.itemList.map(appointment => ({
       ...appointment,
       doctor: doctorMap[appointment.doctorId] || null
     }));
 
-    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
-      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
-    }
     // reorder pageInfo and itemList
     return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
   }
