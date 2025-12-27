@@ -113,7 +113,6 @@ const STATUS_OPTIONS = [
   { value: "inactive", children: "Inactive" },
 ];
 
-
 //@@viewOn:helpers
 // Main Menu View
 const MainMenuView = ({ onNavigate }) => {
