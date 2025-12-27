@@ -62,7 +62,7 @@ let DoctorsListRoute = createVisualComponent({
   },
 });
 
-DoctorsListRoute = withRoute(DoctorsListRoute, { authenticated: false });
+DoctorsListRoute = withRoute(DoctorsListRoute, { authenticated: true });
 
 //@@viewOn:exports
 export { DoctorsListRoute };

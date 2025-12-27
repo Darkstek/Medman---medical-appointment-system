@@ -68,77 +68,79 @@
       },
       "doctor/create": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
+        "profileList": ["Authorities","AwidLicenseOwner"]
       },
       "doctor/get": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["Authorities","AwidLicenseOwner"]
       },
       "doctor/find": {
         "sysStateList": ["active"],
-        "profileList": ["Public"]
+        "profileList": ["Public","Authorities","AwidLicenseOwner"]
       },
-
       "doctor/update": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
+        "profileList": ["Authorities","AwidLicenseOwner"]
       },
       "doctor/remove": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities", "Executives", "AwidLicenseOwner"]
+        "profileList": ["Authorities","AwidLicenseOwner"]
       },
-
       "appointment/create": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
       },
       "appointment/update-notes": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Doctor","Authorities","AwidLicenseOwner"]
       },
       "appointment/update-status": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Doctor","Authorities","AwidLicenseOwner"]
       },
       "appointment/get": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Doctor","Authorities","AwidLicenseOwner"]
       },
       "appointment/find": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Doctor","Authorities","AwidLicenseOwner"]
       },
       "appointment/cancel": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
       },
       "patient/create": {
         "sysStateList": ["active"],
-        "profileList": ["Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Authorities","AwidLicenseOwner"]
       },
       "patient/update": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
       },
       "patient/find": {
         "sysStateList": ["active"],
-        "profileList": ["Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Doctor","Authorities","AwidLicenseOwner"]
       },
       "patient/get": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Doctor","Authorities","AwidLicenseOwner"]
       },
       "rate-doctor/create": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
       },
       "rate-doctor/get": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
       },
       "rate-doctor/find": {
         "sysStateList": ["active"],
-        "profileList": ["Patient","Doctor","Authorities","Executives","AwidLicenseOwner"]
+        "profileList": ["Patient","Authorities","AwidLicenseOwner"]
+      },
+      "permission": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

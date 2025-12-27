@@ -657,7 +657,7 @@ let ManageDoctorsRoute = createVisualComponent({
   },
 });
 
-ManageDoctorsRoute = withRoute(ManageDoctorsRoute);
+ManageDoctorsRoute = withRoute(ManageDoctorsRoute, { authenticated: true } );
 
 //@@viewOn:exports
 export { ManageDoctorsRoute };
