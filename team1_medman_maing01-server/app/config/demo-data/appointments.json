@@ -1,6 +1,7 @@
 [
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "210g7h8i-9j0k-1l2m-3n4o-5p6q7r8s9t0u",
     "patientId": "PAT-1006",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-20T18:00:00.000Z",
@@ -17,74 +18,138 @@
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "987d4e5f-6g7h-8i9j-0k1l-2m3n4o5p6q7r",
     "patientId": "PAT-1004",
     "doctorId": "DOC-007",
     "dateTime": "2025-12-22T15:45:00.000Z",
     "status": "Completed",
     "note": "Annual physical exam.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d3",
     "id": "693063296a854f19658293d3"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "654a1b2c-3d4e-5f6g-7h8i-9j0k1l2m3n4o",
     "patientId": "PAT-1001",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-28T13:30:00.000Z",
     "status": "Confirmed",
     "note": "Routine check-up regarding blood pressure.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d4",
     "id": "693063296a854f19658293d4"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "765b2c3d-4e5f-6g7h-8i9j-0k1l2m3n4o5p",
     "patientId": "PAT-1002",
     "doctorId": "DOC-001",
     "dateTime": "2025-12-30T15:00:00.000Z",
     "status": "Confirmed",
     "note": "Follow-up on prescribed medication.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d5",
     "id": "693063296a854f19658293d5"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "876c3d4e-5f6g-7h8i-9j0k-1l2m3n4o5p6q",
     "patientId": "PAT-1003",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-24T18:30:00.000Z",
     "status": "Cancelled",
     "note": "Patient called to reschedule due to work conflict.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d6",
     "id": "693063296a854f19658293d6"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "098e5f6g-7h8i-9j0k-1l2m-3n4o5p6q7r8s",
     "patientId": "PAT-1005",
     "doctorId": "DOC-002",
     "dateTime": "2026-01-02T13:15:00.000Z",
     "status": "Confirmed",
     "note": "Consultation for persistent headaches.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d7",
     "id": "693063296a854f19658293d7"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "432i9j0k-1l2m-3n4o-5p6q-7r8s9t0u1v2w",
     "patientId": "PAT-1002",
     "doctorId": "DOC-008",
     "dateTime": "2025-12-25T20:30:00.000Z",
     "status": "Cancelled",
     "note": "Doctor unavailable, rescheduled to next week.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293d9",
     "id": "693063296a854f19658293d9"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "321h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v",
     "patientId": "PAT-1007",
     "doctorId": "DOC-006",
     "dateTime": "2026-01-05T14:00:00.000Z",
     "status": "Confirmed",
     "note": "Initial consultation for knee pain.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293da",
     "id": "693063296a854f19658293da"
   },
   {
     "awid": "22222222222222222222222222222222",
+    "appointmentId": "543j0k1l-2m3n-4o5p-6q7r-8s9t0u1v2w3x",
     "patientId": "PAT-1008",
     "doctorId": "DOC-002",
     "dateTime": "2026-01-10T14:30:00.000Z",
     "status": "Confirmed",
     "note": "Vaccination update.",
+    "sys": {
+      "cts": "2025-12-03T16:19:53.675Z",
+      "mts": "2025-12-03T16:19:53.675Z",
+      "rev": 0,
+      "uuObjectType": "appointment"
+    },
+    "oid": "693063296a854f19658293db",
     "id": "693063296a854f19658293db"
   }
 ]

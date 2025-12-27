@@ -56,7 +56,6 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-
       "doctor/update": {
         "realization": "api/controllers/DoctorController.update",
         "httpMethod": "POST",
@@ -67,7 +66,6 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
-
       "appointment/create": {
         "realization": "api/controllers/AppointmentController.create",
         "httpMethod": "POST",
@@ -75,12 +73,12 @@
       },
       "appointment/update-notes": {
         "realization": "api/controllers/AppointmentController.updateNotes",
-        "httpMethod": "PUT",
+        "httpMethod": "POST",
         "type": "CMD"
       },
       "appointment/update-status": {
         "realization": "api/controllers/AppointmentController.updateStatus",
-        "httpMethod": "PUT",
+        "httpMethod": "POST",
         "type": "CMD"
       },
       "appointment/get": {
@@ -128,8 +126,13 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "rate-doctor/find": {   
+      "rate-doctor/find": {
         "realization": "api/controllers/RateDoctorController.find",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "permission": {
+        "realization": "api/controllers/PermissionController.get",
         "httpMethod": "GET",
         "type": "CMD"
       }

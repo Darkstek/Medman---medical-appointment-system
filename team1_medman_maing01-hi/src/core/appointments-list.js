@@ -32,6 +32,7 @@ const AppointmentsList = createVisualComponent({
     // }, []);
 
     //modified to refresh after appointment cancellation or creation based on demo-data - appointments.json -> if without server, comment out and uncomment the above useEffect
+
     useEffect(() => {
       fetchAppointments();
     }, []);
@@ -50,7 +51,7 @@ const AppointmentsList = createVisualComponent({
       setLoading(true);
       try {
         // Use the same data source as Past Appointments page
-        const dtoOut = await Calls.findAppointments({});
+        const dtoOut = await Calls.findAppointments({patientId: "PAT-1008"});
         setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
         console.log("Fetched appointments:", dtoOut);
       } catch (err) {
@@ -58,9 +59,6 @@ const AppointmentsList = createVisualComponent({
       } finally {
         setLoading(false);
       }
-    }
-    async function fetchDoctorAccordingToAppointment() {
-      const doctorId = appointments.find((a) => a.appointmentId === selectedAppointmentId).doctorId;
     }
 
     const openCancelModal = (data) => {
@@ -74,7 +72,16 @@ const AppointmentsList = createVisualComponent({
 
     const upcomingAppointments = appointments.filter((a) => a.status === "Confirmed");
     const pastAppointments = appointments.filter((a) => a.status === "Cancelled" || a.status === "Completed");
-  console.log("upcomingAppointments:", upcomingAppointments);
+
+    //Sorting displayed appointments
+    const sorterDefinition = [
+      {
+        key: "dateTimeDesc",
+        label: "Date & Time (Descending)",
+        sort: (a, b) => new Date(b.dateTime) - new Date(a.dateTime),
+      },
+    ];
+
     return (
       <>
         <Uu5Elements.Grid>
@@ -86,7 +93,11 @@ const AppointmentsList = createVisualComponent({
             }
             headerSeparator={true}
           >
-            <Uu5Tiles.ControllerProvider data={upcomingAppointments}>
+            <Uu5Tiles.ControllerProvider
+              data={upcomingAppointments}
+              sorterDefinitionList={sorterDefinition}
+              sorterList={[{ key: "dateTimeDesc" }]}
+            >
               <Uu5TilesElements.Grid tileMinWidth={100}>
                 {(tile) => <AppointmentTile appointment={tile.data} onCancel={() => openCancelModal(tile.data)} />}
               </Uu5TilesElements.Grid>
@@ -101,7 +112,11 @@ const AppointmentsList = createVisualComponent({
             }
             headerSeparator={true}
           >
-            <Uu5Tiles.ControllerProvider data={pastAppointments}>
+            <Uu5Tiles.ControllerProvider
+              data={pastAppointments}
+              sorterDefinitionList={sorterDefinition}
+              sorterList={[{ key: "dateTimeDesc" }]}
+            >
               <Uu5TilesElements.Grid tileMinWidth={100}>
                 {(tile) => <AppointmentTile appointment={tile.data} />}
               </Uu5TilesElements.Grid>

@@ -27,20 +27,13 @@ const BookAppointmentConfirmModal = createVisualComponent({
     timeSlot: PropTypes.object, // Selected time slot
   },
 
-  render({ open, onClose, doctorId, timeSlot }) {
+  render({ open, onClose, doctorId, timeSlot, doctor }) {
     //const [patientId, setPatientId] = useState(null); // State to store the logged-in user's patientId
     const [loading, setLoading] = useState(false); // State to track loading status
 
     const { addAlert } = useAlertBus();
 
-    function showError(error, header = "") {
-      addAlert({
-        header,
-        message: error.message,
-        priority: "error",
-        durationMs: 2000,
-      });
-    }
+
     // console.log("Modal doctorId:", doctorId);
     // console.log("Modal timeSlot:", timeSlot);
 
@@ -52,14 +45,16 @@ const BookAppointmentConfirmModal = createVisualComponent({
       const dtoIn = {
         patientId: "PAT-1008", // Replace with actual patientId
         doctorId: doctorId,
-        dateTime: timeSlot.start,
+        dateTime: new Date(timeSlot.start).toISOString(),
         note: null,
       };
 
       console.log("Creating appointment with data:", dtoIn); // Log appointment data
+      console.log("Incoming appointment dateTime:", dtoIn.dateTime);
       setLoading(true);
 
       // -> for testing Mocked success response - enriched with status and appointmentId
+      /*
       const mockCreateAppointment = () =>
         new Promise((resolve) => {
           setTimeout(() => {
@@ -72,7 +67,16 @@ const BookAppointmentConfirmModal = createVisualComponent({
             });
           }, 1000); // Simulate a 1-second delay
         });
-
+      */
+      const errorMessages = {
+        "team1-medman-main/appointment/create/appointmentDoesNotFit":
+          "Sorry, the time is too close to the doctor's availability end.",
+        "team1-medman-main/appointment/create/timeSlotNotAvailable":
+          "Oops! Someone just booked this slot.",
+        "team1-medman-main/appointment/create/appointmentCollision":
+          "This time is already booked. Please pick another slot.",
+      };
+      console.log(errorMessages)
       try {
         //for testing Mocked success response - enriched with status and appointmentId, comment out/uncomment as needed
         // const dtoOut = await mockCreateAppointment();
@@ -86,12 +90,21 @@ const BookAppointmentConfirmModal = createVisualComponent({
         window.dispatchEvent(new Event("appointmentsUpdated"));
         console.log("Created appointment with data:", dtoOut);
 
-        onClose(); // Close the modal
+
       } catch (err) {
         console.error(err);
-        showError(err, "Failed to book appointment.");
+        const code = err?.dtoOut?.uuAppErrorMap
+          ? Object.keys(err.dtoOut.uuAppErrorMap)[0]
+          : null;
+        addAlert({
+          header: "Appointment wasn't created.",
+          message: errorMessages[code] || "Unable to create appointment. Please try again.",
+          priority: "warning",
+          durationMs: 5000,
+        });
       } finally {
         setLoading(false);
+        onClose();
       }
     };
 

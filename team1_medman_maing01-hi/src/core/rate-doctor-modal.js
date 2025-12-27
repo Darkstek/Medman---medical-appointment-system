@@ -146,7 +146,7 @@ const RateDoctorModal = createVisualComponent({
           doctorId: doctor?.doctorId || doctor?.id,
           patientId: patientId,
           appointmentId: appointmentId,
-          rating: rating,
+          ratingScore: rating,
           comment: comment.trim() || undefined,
         });
 

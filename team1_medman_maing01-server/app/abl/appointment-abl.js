@@ -58,7 +58,7 @@ class AppointmentAbl {
     let appointment = {
       awid,
       ...dtoIn,
-      status: AppointmentStatus.CONFIRMED,
+      status: AppointmentStatus.CREATED,
     }
 
     appointment = await this.appointmentDao.create(appointment);
@@ -181,6 +181,34 @@ class AppointmentAbl {
       doctor: doctorMap[appointment.doctorId] || null
     }));
 
+    // load patients in batch
+    const patientMap = await this._loadPatientsForAppointments(
+      awid,
+      appointmentList.itemList
+    );
+    // attach patient to each appointment
+    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
+      ...appointment,
+      patient: patientMap[appointment.patientId] || null
+    }));
+
+<<<<<<< HEAD
+=======
+    // load patients in batch
+    const patientMap = await this._loadPatientsForAppointments(
+      awid,
+      appointmentList.itemList
+    );
+    // attach patient to each appointment
+    appointmentList.itemList = appointmentList.itemList.map(appointment => ({
+      ...appointment,
+      patient: patientMap[appointment.patientId] || null
+    }));
+
+    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
+    }
+>>>>>>> sprint
     // reorder pageInfo and itemList
     return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
   }
@@ -273,7 +301,7 @@ class AppointmentAbl {
       }
     }
 
-    let timeSlot = doctor.availableTimeSlots.find(slot => new Date(slot.start) <= dtoInDateTime && new Date(slot.end) >= dtoInDateTime);
+    let timeSlot = doctor.availableTimeSlots.find(slot => new Date(slot.start) <= dtoInDateTime && new Date(slot.end) > dtoInDateTime);
     if (!timeSlot) {
       // the appointment is outside the doctor's available time slots, so it can't be scheduled
       throw new Errors.Create.TimeSlotNotAvailable({uuAppErrorMap}, {dateTime: dtoIn.dateTime, availableTimeSlots: doctor.availableTimeSlots})
@@ -418,6 +446,46 @@ class AppointmentAbl {
     }
 
     return doctorMap;
+
+  }
+
+  /**
+   * Loads patients for a list of appointments in one DB call.
+   *
+   * @param {string} awid
+   * @param {Array} appointments
+   * @return {Promise<Object>} map of patientID -> patient
+   */
+  async _loadPatientsForAppointments(awid, appointments) {
+    const patientIds = [
+      ...new Set(
+        appointments
+          .map(a => a.patientId)
+          .filter(Boolean)
+      )
+    ];
+
+    if (patientIds.length === 0) {
+      return {};
+    }
+
+    const patients = await this.patientDao.find(
+      awid,
+      {
+        id: { $in: patientIds },
+      },
+      { pageIndex: 0, pageSize: patientIds.length },
+      { _id: -1 },
+      {}
+    );
+
+    // Map patients by their _id (string)
+    const patientMap = {};
+    for (const patient of patients.itemList) {
+      patientMap[patient.id] = patient;
+    }
+
+    return patientMap;
 
   }
 
