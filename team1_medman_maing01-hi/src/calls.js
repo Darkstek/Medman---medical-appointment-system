@@ -25,6 +25,12 @@ const Calls = {
     return Calls.call("cmdGet", commandUri);
   },
 
+  //Authorization
+  getPermission() {
+    const commandUri = Calls.getCommandUri("permission");
+    return Calls.call("cmdGet", commandUri);
+  },
+
   initWorkspace(dtoInData) {
     const commandUri = Calls.getCommandUri("sys/uuAppWorkspace/init");
     return Calls.call("cmdPost", commandUri, dtoInData);

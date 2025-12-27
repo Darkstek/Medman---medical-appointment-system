@@ -75,7 +75,7 @@ let MyMedicalRecordRoute = createVisualComponent({
   },
 });
 
-MyMedicalRecordRoute = withRoute(MyMedicalRecordRoute, { authenticated: false });
+MyMedicalRecordRoute = withRoute(MyMedicalRecordRoute, { authenticated: true });
 
 //@@viewOn:exports
 export { MyMedicalRecordRoute };

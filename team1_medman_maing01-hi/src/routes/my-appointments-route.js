@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent } from "uu5g05";
+import { Utils, createVisualComponent, Environment } from "uu5g05";
 import { withRoute } from "uu_plus4u5g02-app";
 import Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
@@ -50,7 +50,7 @@ let MyAppointmentsRoute = createVisualComponent({
         <Uu5Elements.GridTemplate
           contentMap={{
             header: <RouteBar />,
-            content: <div className={Css.headerWrapper()}><AppointmentsList />  </div>,  
+            content: <div className={Css.headerWrapper()}><AppointmentsList />  </div>,
           }}
           templateAreas={{
             xs: `header, content, sidebar, footer`,
@@ -63,7 +63,7 @@ let MyAppointmentsRoute = createVisualComponent({
           templateColumns={{ xs: "100%", m: "repeat(4, 1fr)" }}
           rowGap={8}
           columnGap={8}
-        
+
         />
       </div>
     );
@@ -71,7 +71,7 @@ let MyAppointmentsRoute = createVisualComponent({
   },
 });
 
-MyAppointmentsRoute = withRoute(MyAppointmentsRoute, { authenticated: false });
+MyAppointmentsRoute = withRoute(MyAppointmentsRoute, { authenticated: true });
 
 //@@viewOn:exports
 export { MyAppointmentsRoute };
