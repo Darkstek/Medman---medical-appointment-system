@@ -138,7 +138,7 @@ class AppointmentAbl {
    * itemList - List of appointments meeting the specified criteria.
    * uuAppErrorMap - Map of validation errors and warnings that occurred during processing.
    */
-  async find(awid, dtoIn) {
+  async find(awid, dtoIn, session) {
     const validationResult = this.validator.validate("appointmentFindDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -152,11 +152,30 @@ class AppointmentAbl {
     let sortBy = this._transformSortBy(dtoIn.sortBy) ?? {_id: -1};
     let appointmentList = await this.appointmentDao.find(awid, filter, dtoIn.pageInfo, sortBy, {});
 
+    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
+      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
+    }
+
+    // get uuIdentity from session
+    const uuIdentity = session.getIdentity().getUuIdentity();
+    console.log("uuIdentity:", uuIdentity);
+
     // load doctors in batch
     const doctorMap = await this._loadDoctorsForAppointments(
       awid,
       appointmentList.itemList
     );
+
+    // filter doctor by uuIdentity from session 
+    if (doctorMap) {
+      const doctorIds = Object.values(doctorMap)
+        .filter(doctor => doctor.uuIdentity === uuIdentity)
+        .map(doctor => doctor.id);
+      if (doctorIds.length > 0) {
+        appointmentList.itemList = appointmentList.itemList.filter(appointment => doctorIds.includes(appointment.doctorId));
+      }
+    }
+
     // attach doctor to each appointment
     appointmentList.itemList = appointmentList.itemList.map(appointment => ({
       ...appointment,
@@ -168,15 +187,23 @@ class AppointmentAbl {
       awid,
       appointmentList.itemList
     );
+
+    // filter patient by uuIdentity from session
+    if (patientMap) {
+      const patientIds = Object.values(patientMap)
+        .filter(patient => patient.uuIdentity === uuIdentity)
+        .map(patient => patient.id);
+      if (patientIds.length > 0) {
+        appointmentList.itemList = appointmentList.itemList.filter(appointment => patientIds.includes(appointment.patientId));
+      }
+    }
+
     // attach patient to each appointment
     appointmentList.itemList = appointmentList.itemList.map(appointment => ({
       ...appointment,
       patient: patientMap[appointment.patientId] || null
     }));
 
-    if (dtoIn.searchMode === "or" && dtoIn.status) { // we need this because in "or" mode we can have a result containing appointment with any status
-      appointmentList.itemList = appointmentList.itemList.filter(appointment => appointment.status === dtoIn.status);
-    }
     // reorder pageInfo and itemList
     return {pageInfo: appointmentList.pageInfo, itemList: appointmentList.itemList, uuAppErrorMap};
   }

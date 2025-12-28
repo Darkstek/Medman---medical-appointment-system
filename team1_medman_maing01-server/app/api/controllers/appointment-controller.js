@@ -20,7 +20,7 @@ class AppointmentController {
   }
 
   find(ucEnv) {
-    return AppointmentAbl.find(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+    return AppointmentAbl.find(ucEnv.getUri().getAwid(), ucEnv.getDtoIn(), ucEnv.getSession());
   }
 
   cancel(ucEnv) {
