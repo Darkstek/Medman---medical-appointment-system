@@ -52,7 +52,7 @@ const doctorFindDtoInType = shape({
 });
 
 const doctorUpdateDtoInType = shape({
-  id: id().isRequired(),
+  id: string(1,200).isRequired(),
   uuIdentity: string(1, 200),
   doctorId: string(2, 50),
   firstName: string(1, 200),
@@ -68,5 +68,5 @@ const doctorUpdateDtoInType = shape({
 });
 
 const doctorRemoveDtoInType = shape({
-  id: id().isRequired()
+  id: string(1,200).isRequired()
 });
