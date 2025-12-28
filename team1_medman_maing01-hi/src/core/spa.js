@@ -16,6 +16,7 @@ const MyAppointmentsRoute = Utils.Component.lazy(() => import("../routes/my-appo
 const DoctorsListRoute = Utils.Component.lazy(() => import("../routes/doctors-list-route.js"));
 const MyMedicalRecordRoute = Utils.Component.lazy(() => import("../routes/my-medical-record-route.js"));
 const ManageDoctorsRoute = Utils.Component.lazy(() => import("../routes/manage-doctors-route.js"));
+const WelcomeIntersectionRoute = Utils.Component.lazy(() => import("../routes/welcome-intersection.js"));
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -46,7 +47,7 @@ function withRoleGuard(Component, allowedRoles, userRole) {
 }
 function createRouteMap(userRole) {
   return {
-    "": { redirect: "myAppointments" },
+    "": { redirect: "welcomeIntersection" },
 
     home: (props) => <Home {...props} />,
 
@@ -84,11 +85,14 @@ function createRouteMap(userRole) {
       userRole
     ),
 
+
     manageDoctors: withRoleGuard(
       ManageDoctorsRoute,
       ROUTE_ACCESS.manageDoctors,
       userRole
+
     ),
+    welcomeIntersection: (props) =>  <WelcomeIntersectionRoute {...props}/>,
 
     "*": () => (
       <Uu5Elements.Text category="story" segment="heading" type="h1">
@@ -175,7 +179,7 @@ const Spa = createVisualComponent({
 
     //@@viewOn:render
     return (
-      <Plus4U5.SpaProvider initialLanguageList={["en", "cs"]}>
+      <Plus4U5.SpaProvider initialLanguageList={["en"]}>
         <Uu5Elements.ModalBus>
           <Plus4U5App.Spa routeMap={createRouteMap(userRole)} />
         </Uu5Elements.ModalBus>

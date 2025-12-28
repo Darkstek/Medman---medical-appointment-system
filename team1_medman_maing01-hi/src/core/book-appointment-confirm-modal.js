@@ -43,7 +43,7 @@ const BookAppointmentConfirmModal = createVisualComponent({
       // console.log("Form Data:", formData); // Log form data
 
       const dtoIn = {
-        patientId: "PAT-1008", // Replace with actual patientId
+        patientId: "PAT-1001", // Replace with actual patientId
         doctorId: doctorId,
         dateTime: new Date(timeSlot.start).toISOString(),
         note: null,

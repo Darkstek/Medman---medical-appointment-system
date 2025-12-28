@@ -10,7 +10,7 @@ const UpdateMedicalRecordModal = createVisualComponent({
 
   propTypes: {},
 
-  render({ open, onClose, patient, setPatient }) {
+  render({ open, onClose, patient, setPatient, uuId }) {
     const alertBus = Uu5Elements.useAlertBus();
 
     const [medications, setMedications] = useState(patient.medicalRecord?.medications?.join(", ") || "");
@@ -51,7 +51,7 @@ const UpdateMedicalRecordModal = createVisualComponent({
         onClose();
 
         //Updating displayed data
-        const response = await Calls.findPatient({ emailAddress: patient.emailAddress });
+        const response = await Calls.findPatient({ uuIdentity: uuId });
         setPatient(response.itemList?.[0] ?? null);
       } catch (error) {
         alertBus.addAlert({

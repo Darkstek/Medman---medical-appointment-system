@@ -26,7 +26,6 @@ const patientGetDtoInType = shape({
 });
 
 const patientFindDtoInType = shape({
-  id: string(1, 10),
   uuIdentity: string(1, 200),
   firstName: string(1, 200),
   lastName: string(1, 200),

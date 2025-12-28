@@ -14,6 +14,8 @@ const Css = {
     Config.Css.css({
       paddingLeft: "30px",
       paddingRight: "30px",
+      paddingTop: "30px",
+      paddingBottom: "30px",
     }),
 };
 //@@viewOff:css
@@ -27,13 +29,12 @@ let DoctorAppointmentsRoute = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props);
 
     return (
-      <div {...attrs}>
+      <div {...attrs} className={Css.container()}>
         <Uu5Elements.GridTemplate
           contentMap={{
-            header: <RouteBar />,
             content: (
               <Uu5Elements.Block
-                className={Css.container()}
+
                 header={
                   <Uu5Elements.Text category="story" segment="heading" type="h4">
                     My Schedule

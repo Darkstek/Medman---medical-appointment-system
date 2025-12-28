@@ -120,7 +120,7 @@
       },
       "patient/find": {
         "sysStateList": ["active"],
-        "profileList": ["Doctor","Authorities","AwidLicenseOwner"]
+        "profileList": ["Patient","Doctor","Authorities","AwidLicenseOwner"]
       },
       "patient/get": {
         "sysStateList": ["active"],

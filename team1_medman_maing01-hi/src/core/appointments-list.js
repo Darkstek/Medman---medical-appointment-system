@@ -51,7 +51,7 @@ const AppointmentsList = createVisualComponent({
       setLoading(true);
       try {
         // Use the same data source as Past Appointments page
-        const dtoOut = await Calls.findAppointments({patientId: "PAT-1008"});
+        const dtoOut = await Calls.findAppointments({patientId: "PAT-1001"});
         setAppointments(Array.isArray(dtoOut.itemList) ? dtoOut.itemList : []);
         console.log("Fetched appointments:", dtoOut);
       } catch (err) {

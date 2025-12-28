@@ -13,7 +13,7 @@ const Css = {
 const UpdateMedicalRecordButton = createVisualComponent({
   uu5Tag: Config.TAG + "UpdateMedicalRecordButton",
 
-  render({ patient, setPatient }) {
+  render({ patient, setPatient, uuId }) {
     const [updateRecordModalOpen, setUpdateRecordModalOpen] = useState(false);
     const [editableData, setEditableData] = useState(null);
 
@@ -28,6 +28,7 @@ const UpdateMedicalRecordButton = createVisualComponent({
           Update My Medical Record
         </Uu5Elements.Button>
         <UpdateMedicalRecordModal
+          uuId={uuId}
           open={updateRecordModalOpen}
           onClose={() => setUpdateRecordModalOpen(false)}
           editableData={editableData}

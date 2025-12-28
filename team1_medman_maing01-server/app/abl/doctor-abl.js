@@ -259,30 +259,15 @@ class DoctorAbl {
       return { ...existing, uuAppErrorMap };
     }
 
-    const pageInfo = { pageIndex: 0, pageSize: 1 }; // just to find out the existence
-    const nowIso = new Date().toISOString();
-
-    const appointments = await this.appointmentDao.find(
-      awid,
-      {
-        awid,
-        doctorId: existing.doctorId,
-        status: "Confirmed",
-        dateTime: { $gte: nowIso }   // only future
-      },
-      pageInfo,
-      {},
-      {}
-    );
-
-    if (appointments?.itemList?.length > 0) {
-      throw new Errors.Remove.DoctorHasScheduledAppointments(
-        { uuAppErrorMap },
-        { id: dtoIn.id, doctorId: existing.doctorId }
-      );
+    const appointments = await this.appointmentDao.find(awid, {doctorId: dtoIn.id, status: AppointmentStatus.CONFIRMED}, undefined, {}, {});
+    if (appointments.itemList.length > 0) {
+      throw new Errors.Remove.DoctorHasScheduledAppointments({ uuAppErrorMap }, { id: dtoIn.id });
     }
 
-    let updated = await this.dao.update(awid, dtoIn.id, { status: "inactive" });
+    let updated = await this.dao.update(awid, dtoIn.id, {
+      status: "inactive"
+    });
+
     if (!updated) {
       updated = await this.dao.get(awid, dtoIn.id);
     }

@@ -1,4 +1,4 @@
-import { createVisualComponent, useState, useEffect, PropTypes } from "uu5g05";
+import { createVisualComponent, useState, useEffect, PropTypes, useSession } from "uu5g05";
 import Uu5Forms from "uu5g05-forms";
 import Uu5Elements from "uu5g05-elements";
 import { useAlertBus } from "uu5g05-elements";
@@ -32,10 +32,11 @@ const BookAppointmentModal = createVisualComponent({
     };
 
     // Fetch logged-in patient ID
+    const uuId = useSession.identity?.uuIdentity
     useEffect(() => {
       const fetchPatientId = async () => {
         try {
-          const response = await Calls.findPatient({ emailAddress: "jess.davis@college.edu" });
+          const response = await Calls.findPatient({ uuIdentity: uuId });
           const patientData = response.itemList?.[0] ?? null;
           setPatientId(patientData?.id || null);
         } catch (error) {

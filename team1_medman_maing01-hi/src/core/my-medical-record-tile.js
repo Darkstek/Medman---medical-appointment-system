@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { createVisualComponent, PropTypes, useState, useEffect } from "uu5g05";
+import { createVisualComponent, PropTypes, useState, useEffect, useSession } from "uu5g05";
 import * as Uu5Elements from "uu5g05-elements";
 import Config from "./config/config.js";
 import { mockFetchPatients } from "../../mock/mockFetch.js";
@@ -34,20 +34,16 @@ const MyMedicalRecordTile = createVisualComponent({
 
   render(props) {
     const [patient, setPatient] = useState(undefined);
-
+    const uuId = useSession().identity.uuIdentity
+    console.log("uuId from session:", uuId);
     useEffect(() => {
       async function fetchPatient() {
         try {
-          //const patients = await mockFetchPatients(); // Fetch mock data
           const loggedInPatientEmail = "jess.davis@college.edu";
 
-          const response = await Calls.findPatient({ emailAddress: loggedInPatientEmail });
+          const response = await Calls.findPatient({ uuIdentity: uuId });
           console.log("BE Patient:", response);
           const patientData = response.itemList?.[0] ?? null;
-
-          //const loggedInPatient = patients.find((patient) => patient.emailAddress === loggedInPatientEmail);
-          //setPatient(loggedInPatient ?? null);
-
           setPatient(patientData ?? null);
         } catch (error) {
           console.error("Error fetching patient:", error);
@@ -148,7 +144,7 @@ const MyMedicalRecordTile = createVisualComponent({
               ]}
               size="xl"
             />
-            <UpdateMedicalRecordButton patient={patient} setPatient={setPatient} />
+            <UpdateMedicalRecordButton uuId = {uuId} patient={patient} setPatient={setPatient} />
           </Uu5Elements.Grid>
         }
         headerSeparator={true}
