@@ -172,8 +172,11 @@ const Spa = createVisualComponent({
         </Uu5Elements.Text>
       );
     }
+    //Cashing the user role in session storage for future use.
+    /*
     const cachedRole = sessionStorage.getItem("userRole");
     if (cachedRole) setUserRole(cachedRole);
+    */
     //@@viewOn:private
     //@@viewOff:private
 
