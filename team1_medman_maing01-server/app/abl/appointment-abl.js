@@ -426,8 +426,7 @@ class AppointmentAbl {
     const doctors = await this.doctorDao.find(
       awid,
       {
-        id: { $in: doctorIds },
-        status: "active"
+        id: { $in: doctorIds }
       },
       { pageIndex: 0, pageSize: doctorIds.length },
       { _id: -1 },
