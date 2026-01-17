@@ -175,6 +175,7 @@ const MainMenuView = ({ onNavigate }) => {
 const AddDoctorView = ({ onBack, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    uuIdentity: "",
     specialization: "",
     clinicName: "",
     status: "active",
@@ -224,6 +225,14 @@ const AddDoctorView = ({ onBack, onSuccess }) => {
       </Uu5Elements.Text>
 
       <div className={Css.formContainer()}>
+        <Uu5Forms.Text
+          label="uuIdentity"
+          value={formData.uuIdentity}
+          onChange={(e) => updateField("uuIdentity", e.data.value)}
+          placeholder="Add doctor uuIdentity ..."
+          required
+        />
+
         <Uu5Forms.Select
           label="Choose specialization"
           value={formData.specialization}
