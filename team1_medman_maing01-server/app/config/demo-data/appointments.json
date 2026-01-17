@@ -1,7 +1,6 @@
 [
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "210g7h8i-9j0k-1l2m-3n4o-5p6q7r8s9t0u",
     "patientId": "PAT-1006",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-20T18:00:00.000Z",
@@ -18,7 +17,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "987d4e5f-6g7h-8i9j-0k1l-2m3n4o5p6q7r",
     "patientId": "PAT-1004",
     "doctorId": "DOC-007",
     "dateTime": "2025-12-22T15:45:00.000Z",
@@ -35,7 +33,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "654a1b2c-3d4e-5f6g-7h8i-9j0k1l2m3n4o",
     "patientId": "PAT-1002",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-28T13:30:00.000Z",
@@ -52,7 +49,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "765b2c3d-4e5f-6g7h-8i9j-0k1l2m3n4o5p",
     "patientId": "PAT-1001",
     "doctorId": "DOC-001",
     "dateTime": "2025-12-30T15:00:00.000Z",
@@ -69,7 +65,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "876c3d4e-5f6g-7h8i-9j0k-1l2m3n4o5p6q",
     "patientId": "PAT-1003",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-24T18:30:00.000Z",
@@ -86,7 +81,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "098e5f6g-7h8i-9j0k-1l2m-3n4o5p6q7r8s",
     "patientId": "PAT-1005",
     "doctorId": "DOC-002",
     "dateTime": "2026-01-02T13:15:00.000Z",
@@ -103,7 +97,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "432i9j0k-1l2m-3n4o-5p6q-7r8s9t0u1v2w",
     "patientId": "PAT-1002",
     "doctorId": "DOC-008",
     "dateTime": "2025-12-25T20:30:00.000Z",
@@ -120,7 +113,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "321h8i9j-0k1l-2m3n-4o5p-6q7r8s9t0u1v",
     "patientId": "PAT-1007",
     "doctorId": "DOC-006",
     "dateTime": "2026-01-05T14:00:00.000Z",
@@ -137,7 +129,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "543j0k1l-2m3n-4o5p-6q7r-8s9t0u1v2w3x",
     "patientId": "PAT-1008",
     "doctorId": "DOC-002",
     "dateTime": "2026-01-10T14:30:00.000Z",
@@ -154,7 +145,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "111a2b3c-4d5e-6f7g-8h9i-0j1k2l3m4n5o",
     "patientId": "PAT-1002",
     "doctorId": "DOC-001",
     "dateTime": "2025-12-31T10:00:00.000Z",
@@ -171,7 +161,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "222b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p",
     "patientId": "PAT-1003",
     "doctorId": "DOC-001",
     "dateTime": "2026-01-03T14:00:00.000Z",
@@ -188,7 +177,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "333c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q",
     "patientId": "PAT-1004",
     "doctorId": "DOC-001",
     "dateTime": "2026-01-08T09:00:00.000Z",
@@ -205,7 +193,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "444d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r",
     "patientId": "PAT-1001",
     "doctorId": "DOC-002",
     "dateTime": "2025-12-31T11:00:00.000Z",
@@ -222,7 +209,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "555e6f7g-8h9i-0j1k-2l3m-4n5o6p7q8r9s",
     "patientId": "PAT-1001",
     "doctorId": "DOC-003",
     "dateTime": "2026-01-04T13:00:00.000Z",
@@ -239,7 +225,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "666f7g8h-9i0j-1k2l-3m4n-5o6p7q8r9s0t",
     "patientId": "PAT-1001",
     "doctorId": "DOC-004",
     "dateTime": "2026-01-09T15:00:00.000Z",
@@ -256,7 +241,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "777g8h9i-0j1k-2l3m-4n5o-6p7q8r9s0t1u",
     "patientId": "PAT-1005",
     "doctorId": "DOC-001",
     "dateTime": "2025-12-15T11:00:00.000Z",
@@ -273,7 +257,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "888h9i0j-1k2l-3m4n-5o6p-7q8r9s0t1u2v",
     "patientId": "PAT-1006",
     "doctorId": "DOC-001",
     "dateTime": "2026-01-15T09:30:00.000Z",
@@ -290,7 +273,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "999i0j1k-2l3m-4n5o-6p7q-8r9s0t1u2v3w",
     "patientId": "PAT-1007",
     "doctorId": "DOC-001",
     "dateTime": "2026-01-20T14:00:00.000Z",
@@ -307,7 +289,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "aaa0j1k2-3l4m-5n6o-7p8q-9r0s1t2u3v4w",
     "patientId": "PAT-1008",
     "doctorId": "DOC-001",
     "dateTime": "2025-12-10T10:00:00.000Z",
@@ -324,7 +305,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "bbb1k2l3-4m5n-6o7p-8q9r-0s1t2u3v4w5x",
     "patientId": "PAT-1001",
     "doctorId": "DOC-005",
     "dateTime": "2025-12-20T16:00:00.000Z",
@@ -341,7 +321,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "ccc2l3m4-5n6o-7p8q-9r0s-1t2u3v4w5x6y",
     "patientId": "PAT-1001",
     "doctorId": "DOC-006",
     "dateTime": "2026-01-12T13:00:00.000Z",
@@ -358,7 +337,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "ddd3m4n5-6o7p-8q9r-0s1t-2u3v4w5x6y7z",
     "patientId": "PAT-1001",
     "doctorId": "DOC-007",
     "dateTime": "2026-01-18T11:00:00.000Z",
@@ -375,7 +353,6 @@
   },
   {
     "awid": "22222222222222222222222222222222",
-    "appointmentId": "eee4n5o6-7p8q-9r0s-1t2u-3v4w5x6y7z8a",
     "patientId": "PAT-1001",
     "doctorId": "DOC-008",
     "dateTime": "2025-12-25T17:00:00.000Z",
